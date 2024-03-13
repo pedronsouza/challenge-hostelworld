@@ -58,9 +58,10 @@ data class DarkColors(
     override val toolbarTextColor: Color = Color(0xffffffff)
 ) : AppColor
 
-data class Dimensions(val defaultScreenPadding: Dp = 14.dp)
-
-
+data class Dimensions(
+    val defaultScreenPadding: Dp = 14.dp,
+    val propertyShowroomImageSize: Dp = 140.dp
+)
 
 val LocalDimensions = compositionLocalOf { Dimensions() }
 val LocalColors = compositionLocalOf { LightColors() }

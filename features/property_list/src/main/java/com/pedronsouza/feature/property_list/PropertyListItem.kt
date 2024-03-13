@@ -1,7 +1,10 @@
 package com.pedronsouza.feature.property_list
 
+import com.pedronsouza.domain.models.RemoteResource
+
 data class PropertyListItem(
     val id: String,
     val name: String,
-    val value: Double
+    val value: Double,
+    val images: List<RemoteResource>
 )
