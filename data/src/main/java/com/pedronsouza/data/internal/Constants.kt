@@ -14,4 +14,7 @@ internal object Constants {
             "Hostelworld/a1517b9da90dd6877385a65f324ffbc3/raw/058e83aa802907cb0032a15ca9054da563\n" +
             "\n" +
             "138541/properties.json"
+
+
+    const val ImagesUrlProtocol = "https"
 }

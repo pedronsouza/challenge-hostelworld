@@ -5,5 +5,6 @@ data class Property(
     val name: String,
     val lowestPriceByNight: Double,
     val rating: Int,
-    val description: String
+    val description: String,
+    val images: List<RemoteResource>
 )

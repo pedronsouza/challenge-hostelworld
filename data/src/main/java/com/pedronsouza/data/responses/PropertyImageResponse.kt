@@ -3,7 +3,7 @@ package com.pedronsouza.data.responses
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ImageResponse(
+data class PropertyImageResponse(
     val prefix: String,
     val suffix: String
 )
