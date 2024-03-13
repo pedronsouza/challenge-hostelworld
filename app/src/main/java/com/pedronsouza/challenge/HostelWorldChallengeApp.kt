@@ -3,6 +3,8 @@ package com.pedronsouza.challenge
 import android.app.Application
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import com.pedronsouza.data.DataModule
+import com.pedronsouza.domain.DomainModule
 import com.pedronsouza.feature.property_list.PropertyListFeatureModule
 import com.pedronsouza.feature.property_list.PropertyListScreen
 import com.pedronsouza.shared.AppTheme
@@ -33,7 +35,11 @@ private fun initDependencies(context: Application) {
         androidContext(context)
 
         modules(
-            listOf(PropertyListFeatureModule)
+            listOf(
+                DataModule,
+                DomainModule,
+                PropertyListFeatureModule
+            )
         )
     }
 }

@@ -49,5 +49,5 @@ abstract class ComponentViewModel<Event : ViewEvent, State : ViewState, Effect :
         viewModelScope.launch { _viewEffect.send(builder()) }
     }
 
-    abstract fun processViewEvents(event: Event)
+    protected abstract fun processViewEvents(event: Event)
 }

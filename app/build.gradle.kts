@@ -49,6 +49,8 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(project(":features:property_list"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
     implementation(project(":shared"))
 
     implementation(libs.core.ktx)

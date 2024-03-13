@@ -17,3 +17,5 @@ rootProject.name = "hostelworld-challenge"
 include(":app")
 include(":features:property_list")
 include(":shared")
+include(":domain")
+include(":data")

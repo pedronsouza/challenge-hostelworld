@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.pedronsouza.feature.property_list"
+    namespace = "com.pedronsouza.data"
     compileSdk = 34
 
     defaultConfig {
@@ -24,38 +24,16 @@ android {
             )
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
-
     kotlinOptions {
         jvmTarget = "1.8"
     }
 }
 
 dependencies {
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(project(":shared"))
     implementation(project(":domain"))
-
-    implementation(libs.timber)
-    implementation(libs.bundles.koin)
-    implementation(libs.core.ktx)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-
-    implementation(libs.bundles.android.lifecycle)
-    implementation(libs.bundles.compose)
-
-    testImplementation(libs.bundles.kotlin.test)
+    implementation(libs.koin.android)
 }
