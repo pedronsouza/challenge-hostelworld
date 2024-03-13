@@ -1,0 +1,6 @@
+.gradle
+buildSrc/build/
+buildSrc/build/libs/buildSrc.jar
+.DS_Store
+.idea/*
+.idea

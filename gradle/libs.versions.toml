@@ -1,0 +1,72 @@
+[versions]
+androidx-activity = "1.8.2"
+androidxlifecycle = "2.7.0"
+agp = "8.2.2"
+core-ktx = "1.12.0"
+compose-bom = "2024.02.02"
+compose-compiler = "1.5.8"
+coroutines = "1.7.3"
+kotlin = "1.9.23"
+lifecycle-runtime-compose = "2.7.0"
+appcompat = "1.6.1"
+material = "1.11.0"
+
+[libraries]
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+
+### Compose Core Related Dependencies
+android-material-composethemeadapter = "com.google.android.material:compose-theme-adapter:1.2.1"
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+compose-material-material = { module = "androidx.compose.material:material" }
+compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-ui = { module = "androidx.compose.ui:ui" }
+compose-material3 = "androidx.compose.material3:material3:1.2.1"
+
+### AndroidX Related Dependencies
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+androidx-lifecycle-commonjava8 = "androidx.lifecycle:lifecycle-common-java8:2.7.0"
+androidx-lifecycle-extensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
+androidx-lifecycle-livedata-ktx = "androidx.lifecycle:lifecycle-livedata-ktx:2.7.0"
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxlifecycle" }
+androidx-lifecycle-viewmodel-compose = "androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0"
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxlifecycle" }
+androidx-lifecycle-viewmodel-savedstate = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "androidxlifecycle" }
+lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle-runtime-compose" }
+
+[bundles]
+compose = [
+    "android-material-composethemeadapter",
+    "androidx-activity-compose",
+    "compose-material3",
+    "compose-material-material",
+    "compose-preview",
+    "compose-ui-ui",
+    "compose-ui-tooling",
+    "lifecycle-runtime-compose",
+]
+
+kotlin-test = [
+    "kotlin-test",
+    "kotlin-test-junit",
+]
+
+android-lifecycle = [
+    "androidx-lifecycle-commonjava8",
+    "androidx-lifecycle-extensions",
+    "androidx-lifecycle-livedata-ktx",
+    "androidx-lifecycle-runtime-ktx",
+    "androidx-lifecycle-viewmodel-compose",
+    "androidx-lifecycle-viewmodel-ktx",
+    "androidx-lifecycle-viewmodel-savedstate"
+]
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
