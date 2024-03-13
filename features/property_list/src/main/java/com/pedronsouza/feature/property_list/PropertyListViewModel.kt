@@ -10,7 +10,7 @@ data class State(
 ) : ViewState
 
 sealed class PropertyListEvent : ViewEvent {
-
+    data object LoadProperties : PropertyListEvent()
 }
 
 sealed class PropertyListEffects : ViewEffect {
@@ -18,6 +18,13 @@ sealed class PropertyListEffects : ViewEffect {
 }
 
 class PropertyListViewModel : ComponentViewModel<PropertyListEvent, State, PropertyListEffects>() {
-    override fun initialViewState(): State { TODO("Not yet implemented") }
-    override fun processViewEvents(event: PropertyListEvent) { TODO("Not yet implemented") }
+    override fun initialViewState() = State(true)
+
+    override fun processViewEvents(event: PropertyListEvent) {
+        when (event) {
+            PropertyListEvent.LoadProperties -> {
+
+            }
+        }
+    }
 }
