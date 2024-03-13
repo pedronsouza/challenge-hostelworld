@@ -24,16 +24,29 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
 }
 
 dependencies {
+    implementation(platform(libs.androidx.compose.bom))
+
     implementation(libs.bundles.android.lifecycle)
     implementation(libs.bundles.kotlin.coroutines)
+    implementation(libs.bundles.compose)
 }

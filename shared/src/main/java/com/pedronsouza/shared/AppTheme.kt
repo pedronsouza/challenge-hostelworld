@@ -1,4 +1,4 @@
-package com.pedronsouza.challenge
+package com.pedronsouza.shared
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
@@ -42,14 +42,20 @@ fun AppTheme(
 
 interface AppColor {
     val defaultScreenBg: Color
+    val toolbarBg: Color
+    val toolbarTextColor: Color
 }
 
 data class LightColors(
-    override val defaultScreenBg: Color = Color(0xFFFFFF)
+    override val defaultScreenBg: Color = Color(0xffffffff),
+    override val toolbarBg: Color = Color(0x96ebebf5),
+    override val toolbarTextColor: Color = Color(0xff000000)
 ) : AppColor
 
 data class DarkColors(
-    override val defaultScreenBg: Color
+    override val defaultScreenBg: Color,
+    override val toolbarBg: Color = Color(0x96ebebf5),
+    override val toolbarTextColor: Color = Color(0xffffffff)
 ) : AppColor
 
 data class Dimensions(val defaultScreenPadding: Dp = 14.dp)

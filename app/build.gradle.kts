@@ -49,12 +49,14 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(project(":features:property_list"))
+    implementation(project(":shared"))
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
 
     implementation(libs.bundles.android.lifecycle)
+    implementation(libs.bundles.koin)
     implementation(libs.bundles.compose)
 
     testImplementation(libs.bundles.kotlin.test)
