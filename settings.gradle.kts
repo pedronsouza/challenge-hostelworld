@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "hostelworld-challenge"
 include(":app")
+include(":features:property_list")
+include(":shared")
