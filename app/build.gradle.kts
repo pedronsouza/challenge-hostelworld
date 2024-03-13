@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(libs.timber)
 
     implementation(libs.bundles.android.lifecycle)
     implementation(libs.bundles.koin)

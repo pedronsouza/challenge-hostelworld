@@ -22,13 +22,15 @@ sealed class PropertyListEvent : ViewEvent {
 }
 
 sealed class PropertyListEffects : ViewEffect {
-    data class ShowErrorToast(val textRef: Int?) : PropertyListEffects()
+    data class ShowErrorToast(val textRef: Int) : PropertyListEffects()
 }
 
 internal class PropertyListViewModel(
     private val loadPropertiesUseCase: LoadPropertiesUseCase,
     private val propertyListMapper: PropertyListItemObjectMapper
 ) : ComponentViewModel<PropertyListEvent, State, PropertyListEffects>() {
+    private val internalLogTag = "${Constants.LOG_TAG}:PropertyListViewModel"
+
     override fun initialViewState() = State(true)
 
     override fun processViewEvents(event: PropertyListEvent) {
@@ -56,7 +58,7 @@ internal class PropertyListViewModel(
                             )
                         }
                     }.onFailure { error ->
-                        Timber.tag(this::class.simpleName.orEmpty()).e(error)
+                        Timber.tag(internalLogTag).e(error)
 
                         triggerEffect {
                             PropertyListEffects.ShowErrorToast(R.string.something_went_wrong)

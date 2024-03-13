@@ -1,7 +1,10 @@
 package com.pedronsouza.challenge
 
 import android.app.Application
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.stringResource
 import com.pedronsouza.data.DataModule
 import com.pedronsouza.domain.DomainModule
@@ -17,12 +20,14 @@ import org.koin.core.logger.Level
 @Composable
 fun HostelWorldChallengeApp(context: Application) {
     initDependencies(context)
+    val snackbarHostState = remember { SnackbarHostState() }
 
     AppTheme {
         ExtendedScaffold(
+            snackbarHostState = snackbarHostState,
             screenTitle = stringResource(id = R.string.app_name)
         ) {
-            PropertyListScreen()
+            PropertyListScreen(snackbarHostState)
         }
     }
 }

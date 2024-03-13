@@ -1,7 +1,7 @@
-package com.pedronsouza.domain.repositories
+package com.pedronsouza.domain.dataSources
 
 import com.pedronsouza.domain.models.Property
 
-interface PropertyRepository {
+interface PropertyDataSource {
     suspend fun fetch(): List<Property>
 }

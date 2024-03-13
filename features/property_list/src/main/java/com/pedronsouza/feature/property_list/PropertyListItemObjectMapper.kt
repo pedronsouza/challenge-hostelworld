@@ -10,7 +10,7 @@ internal class PropertyListItemObjectMapper :
             PropertyListItem(
                 id = item.name,
                 name = item.name,
-                value = item.value
+                value = item.lowestPriceByNight
             )
         }
 }
