@@ -71,7 +71,8 @@ data class Dimensions(
     val defaultSpacingBetweenPropertyCards: Dp = 8.dp,
     val propertyCardNameTextSize: TextUnit = 14.sp,
     val propertyCardDescriptionTextSize: TextUnit = 14.sp,
-    val ratingCardTextSize: TextUnit = 18.sp
+    val ratingCardTextSize: TextUnit = 14.sp,
+    val maxRatingCardTextSize: TextUnit = 12.sp
 )
 
 val LocalDimensions = compositionLocalOf { Dimensions() }

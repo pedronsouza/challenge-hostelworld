@@ -1,21 +1,14 @@
 package com.pedronsouza.shared.components
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.constraintlayout.compose.ConstrainScope
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.pedronsouza.shared.R
 import com.pedronsouza.shared.components.models.PropertyItem
-import com.pedronsouza.shared.components.models.RatingCategory
-
 
 enum class ImageMode {
     SHOWROOM,
@@ -51,58 +44,28 @@ fun PropertyMainInfoCard(
                 ImageCarousel(item.images, modifier = Modifier.constrainAs(image, imageConstraint))
             }
 
-            Column(
+            PropertyContent(
+                item = item,
                 modifier = Modifier
                     .padding(LocalDimensions.current.innerTextContentPropertyCardPadding)
                     .constrainAs(content) {
                         top.linkTo(image.bottom)
                         start.linkTo(parent.start)
                     }
-            ) {
-                Text(
-                    text = item.name,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = LocalDimensions.current.propertyCardNameTextSize
-                )
-
-                Spacer(
-                    modifier = Modifier
-                        .height(LocalDimensions.current.defaultSpacingBetweenPropertyCards)
-                )
-
-                item.description?.let { description ->
-                    Text(
-                        text = description,
-                        fontSize = LocalDimensions.current.propertyCardDescriptionTextSize
-                    )
-                }
-            }
+            )
 
             PropertyRating(
                 ratings = item.rating,
-                modifier = Modifier.constrainAs(rating) {
-                    top.linkTo(image.bottom)
-                    start.linkTo(content.end)
-                }
+                modifier = Modifier
+                    .padding(
+                        end = LocalDimensions.current.innerTextContentPropertyCardPadding,
+                        top = LocalDimensions.current.innerTextContentPropertyCardPadding
+                    )
+                    .constrainAs(rating) {
+                        top.linkTo(image.bottom)
+                        end.linkTo(parent.end)
+                    }
             )
         }
     }
-}
-
-
-@Composable
-private fun PropertyRating(ratings: Map<RatingCategory, Int>, modifier: Modifier) {
-    val overallRating = ratings[RatingCategory.OVERALL]
-    val overallRatingLabel = if (overallRating != -1) {
-        stringResource(id = R.string.no_ratings)
-    } else {
-        overallRating.toString()
-    }
-
-    Text(
-        text = overallRatingLabel,
-        fontWeight = FontWeight.Medium,
-        color = LocalColors.current.ratingTextColor,
-        fontSize = LocalDimensions.current.ratingCardTextSize
-    )
 }

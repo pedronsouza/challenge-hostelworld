@@ -14,7 +14,7 @@ import com.pedronsouza.domain.models.RemoteResource
 import com.pedronsouza.domain.values.HtmlContent
 
 interface PropertyMapper : ObjectMapper<GetPropertiesResponse, List<Property>>
-internal class PropertyObjectMapper :
+internal class PropertyMapperImpl :
     PropertyMapper {
     override fun transform(inputData: GetPropertiesResponse): List<Property> =
         inputData.properties.map { item ->

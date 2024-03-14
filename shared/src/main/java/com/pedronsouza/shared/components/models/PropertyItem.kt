@@ -10,7 +10,7 @@ data class PropertyItem(
     val id: String,
     val name: String,
     val value: Double,
-    val rating: Map<RatingCategory, Int>,
+    val rating: Map<RatingCategory, Double>,
     val description: String?,
     val images: List<String>,
     val address: String,
