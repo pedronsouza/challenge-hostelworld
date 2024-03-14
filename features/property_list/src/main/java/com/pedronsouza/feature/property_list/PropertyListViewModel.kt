@@ -38,7 +38,7 @@ internal class PropertyListViewModel(
             PropertyListEvent.LoadProperties -> {
                 viewModelScope.launch {
                     CoroutineExceptionHandler { _, error ->
-                        Timber.tag(this::class.simpleName.orEmpty()).e(error)
+                        Timber.tag(internalLogTag).e(error)
                         updateState {
                             copy(
                                 isLoading = false
