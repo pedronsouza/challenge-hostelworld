@@ -8,6 +8,7 @@ import com.pedronsouza.shared.components.ViewEffect
 import com.pedronsouza.shared.components.ViewEvent
 import com.pedronsouza.shared.components.ViewState
 import com.pedronsouza.shared.navigation.NavigationItem
+import com.pedronsouza.shared.navigation.RouteFactory
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -35,7 +36,8 @@ sealed class PropertyListEffects : ViewEffect {
 
 internal class PropertyListViewModel(
     private val loadPropertiesUseCase: LoadPropertiesUseCase,
-    private val propertyListMapper: PropertyListItemObjectMapper
+    private val propertyListMapper: PropertyListItemObjectMapper,
+    private val routeFactory: RouteFactory
 ) : ComponentViewModel<PropertyListEvent, State, PropertyListEffects>() {
     private val internalLogTag = "${Constants.LOG_TAG}:PropertyListViewModel"
 
@@ -53,10 +55,7 @@ internal class PropertyListViewModel(
     @OptIn(ExperimentalEncodingApi::class)
     private fun preparePropertyDetailNavigationParameter(item: PropertyListItem) {
         runCatching {
-            NavigationItem.Detail.route.replace(
-                "{${AppScreen.DETAIL.parameterName.orEmpty()}}",
-                Base64.encode(Json.encodeToString(item).toByteArray())
-            )
+            routeFactory.createRoute(AppScreen.DETAIL, Json.encodeToString(item))
         }.onSuccess { url ->
             triggerEffect { PropertyListEffects.NavigateTo(url) }
         }.onFailure {

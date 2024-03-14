@@ -2,6 +2,8 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+
+    kotlin("plugin.serialization") version "1.9.22"
 }
 
 android {
@@ -51,5 +53,6 @@ dependencies {
     implementation(libs.bundles.kotlin.coroutines)
     implementation(libs.bundles.compose)
     implementation(libs.koin.core)
+    implementation(libs.kotlin.serialization.json)
 
 }
