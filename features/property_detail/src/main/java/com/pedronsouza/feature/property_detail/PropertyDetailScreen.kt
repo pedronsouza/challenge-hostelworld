@@ -6,7 +6,7 @@ import com.pedronsouza.domain.models.Property
 
 @Composable
 fun PropertyDetailScreen(
-    propertyId: String,
+    property: Property,
     snackbarHostState: SnackbarHostState
 ) {
 }

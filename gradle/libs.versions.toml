@@ -4,8 +4,8 @@ androidxlifecycle = "2.7.0"
 agp = "8.2.2"
 core-ktx = "1.12.0"
 coil = "2.5.0"
-compose-bom = "2024.02.00"
-compose-navigation = "2.7.4"
+compose-bom = "2024.02.02"
+compose-navigation = "2.7.7"
 compose-compiler = "1.5.8"
 coroutines = "1.7.3"
 koin = "3.5.0"
@@ -19,6 +19,7 @@ retrofit = "2.9.0"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 org-jetbrains-kotlin-jvm = "1.9.22"
+kotlin-serialization = "1.6.2"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -28,7 +29,7 @@ timber = "com.jakewharton.timber:timber:5.0.1"
 
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
-kotlin-serialization-json = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"
+kotlin-serialization-json = {module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
 
 ### Kotlin Coroutines Related Dependencies
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }

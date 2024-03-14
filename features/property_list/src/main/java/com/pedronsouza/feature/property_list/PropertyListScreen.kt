@@ -44,6 +44,10 @@ fun PropertyListScreen(
                         message = context.getString(effect.textRef)
                     )
                 }
+
+                is PropertyListEffects.NavigateTo -> {
+                    navController.navigate(effect.finalRoute)
+                }
             }
         }
     }
@@ -56,12 +60,7 @@ fun PropertyListScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        navController.navigate(
-                            NavigationItem.Detail.route.replace(
-                                "{${AppScreen.DETAIL.parameterName.orEmpty()}}",
-                                item.id
-                            )
-                        )
+                        viewModel.sendEvent(PropertyListEvent.PropertySelected(item))
                     }
             ) {
                 Column(

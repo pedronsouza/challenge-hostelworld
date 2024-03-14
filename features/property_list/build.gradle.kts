@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     id("kotlin-parcelize")
+
+    kotlin("plugin.serialization") version "1.9.22"
 }
 
 android {
@@ -54,6 +56,7 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(libs.kotlin.serialization.json)
 
     implementation(libs.bundles.android.lifecycle)
     implementation(libs.bundles.compose)

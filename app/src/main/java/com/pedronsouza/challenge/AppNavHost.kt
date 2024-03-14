@@ -3,12 +3,14 @@ package com.pedronsouza.challenge
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.pedronsouza.feature.property_detail.PropertyDetailScreen
+import com.pedronsouza.feature.property_list.PropertyListItem
+import com.pedronsouza.feature.property_list.PropertyListItemParamType
 import com.pedronsouza.feature.property_list.PropertyListScreen
+import com.pedronsouza.feature.property_list.toProperty
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.navigation.NavigationItem
 
@@ -30,16 +32,19 @@ fun AppNavHost(
             route = NavigationItem.Detail.route,
             arguments = listOf(
                     navArgument(AppScreen.DETAIL.parameterName.orEmpty()) {
-                    type = NavType.StringType
+                    type = PropertyListItemParamType()
                 }
             )
         ) {stackEntry ->
-            val propertyId = stackEntry.arguments?.getString(AppScreen.DETAIL.parameterName.orEmpty())
+            val propertyItem = stackEntry.arguments?.getParcelable(
+                AppScreen.DETAIL.parameterName.orEmpty(),
+                PropertyListItem::class.java
+            )
 
-            checkNotNull(propertyId)
+            checkNotNull(propertyItem)
 
             PropertyDetailScreen(
-                propertyId = propertyId,
+                property = propertyItem.toProperty(),
                 snackbarHostState = snackbarHostState
             )
         }
