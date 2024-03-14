@@ -5,11 +5,13 @@ import com.pedronsouza.domain.ObjectMapper
 import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.useCases.LoadPropertiesUseCase
 import com.pedronsouza.shared.AppScreen
+import com.pedronsouza.shared.Constants
 import com.pedronsouza.shared.components.ComponentViewModel
 import com.pedronsouza.shared.components.ViewEffect
 import com.pedronsouza.shared.components.ViewEvent
 import com.pedronsouza.shared.components.ViewState
 import com.pedronsouza.shared.components.models.PropertyItem
+import com.pedronsouza.shared.mappers.PropertyListMapper
 import com.pedronsouza.shared.navigation.RouteFactory
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -37,10 +39,10 @@ sealed class PropertyListEffects : ViewEffect {
 
 internal class PropertyListViewModel(
     private val loadPropertiesUseCase: LoadPropertiesUseCase,
-    private val propertyListMapper: ObjectMapper<List<Property>, List<PropertyItem>>,
+    private val propertyListMapper: PropertyListMapper,
     private val routeFactory: RouteFactory
 ) : ComponentViewModel<PropertyListEvent, State, PropertyListEffects>() {
-    private val internalLogTag = "${Constants.LOG_TAG}:PropertyListViewModel"
+    private val logTag = "${Constants.LOG_TAG_FEATURE}:PropertyList"
 
     override fun initialViewState() = State(true)
 
@@ -60,7 +62,8 @@ internal class PropertyListViewModel(
         }.onSuccess { url ->
             triggerEffect { PropertyListEffects.NavigateTo(url) }
         }.onFailure {
-            Timber.tag(internalLogTag).e(it)
+            Timber.tag(logTag).e("preparePropertyDetailNavigationParameter error")
+            Timber.tag(logTag).e(it)
             triggerEffect { PropertyListEffects.ShowErrorToast(R.string.something_went_wrong) }
         }
     }
@@ -68,7 +71,7 @@ internal class PropertyListViewModel(
     private fun loadProperties() {
         viewModelScope.launch {
             CoroutineExceptionHandler { _, error ->
-                Timber.tag(internalLogTag).e(error)
+                Timber.tag(logTag).e(error)
                 updateState {
                     copy(
                         isLoading = false
@@ -82,13 +85,16 @@ internal class PropertyListViewModel(
             }
 
             result.onSuccess { properties ->
+                Timber.tag(logTag).d("Properties Loaded")
+
                 withContext(Dispatchers.IO) {
                     newProperties.plusAssign(
                         propertyListMapper.transform(properties)
                     )
                 }
             }.onFailure { error ->
-                Timber.tag(internalLogTag).e(error)
+                Timber.tag(logTag).e("loadProperties error")
+                Timber.tag(logTag).e(error)
 
                 triggerEffect {
                     PropertyListEffects.ShowErrorToast(R.string.something_went_wrong)

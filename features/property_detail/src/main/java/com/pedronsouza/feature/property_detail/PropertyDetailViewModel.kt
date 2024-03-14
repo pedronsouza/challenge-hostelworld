@@ -1,16 +1,14 @@
 package com.pedronsouza.feature.property_detail
 
 import androidx.lifecycle.viewModelScope
-import com.pedronsouza.domain.ObjectMapper
-import com.pedronsouza.domain.models.Property
+import com.pedronsouza.shared.Constants
 import com.pedronsouza.shared.components.ComponentViewModel
 import com.pedronsouza.shared.components.ViewEffect
 import com.pedronsouza.shared.components.ViewEvent
 import com.pedronsouza.shared.components.ViewState
 import com.pedronsouza.shared.components.models.PropertyItem
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 data class State(
     val isLoading: Boolean = false,
@@ -23,28 +21,27 @@ sealed class PropertyDetailEvent : ViewEvent {
 sealed class PropertyDetailEffect : ViewEffect
 
 class PropertyDetailViewModel(
-    private val property: Property,
-    private val propertyListItemMapper: ObjectMapper<List<Property>, List<PropertyItem>>
+    private val property: PropertyItem
 ) :
     ComponentViewModel<PropertyDetailEvent, State, PropertyDetailEffect>() {
+    private val logTag = "${Constants.LOG_TAG_FEATURE}:PropertyDetail"
+
     override fun initialViewState() = State(isLoading = true)
 
     override fun processViewEvents(event: PropertyDetailEvent) {
         when(event) {
-            is PropertyDetailEvent.PreparePropertyData -> prepareDataForView()
+            is PropertyDetailEvent.PreparePropertyData -> loadProperty()
         }
     }
 
-    private fun prepareDataForView() {
+    private fun loadProperty() {
         viewModelScope.launch {
-            val propertyItem = withContext(Dispatchers.IO) {
-                propertyListItemMapper.transform(listOf(property)).first() // TODO: smell
-            }
+            Timber.tag(logTag).d("Load Property Details\nProperty: $property")
 
             updateState {
                 copy(
                     isLoading = false,
-                    propertyItem = propertyItem
+                    propertyItem = property
                 )
             }
         }

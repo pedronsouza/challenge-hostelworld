@@ -45,6 +45,7 @@ compose-navigation = { module = "androidx.navigation:navigation-compose", versio
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-ui = { module = "androidx.compose.ui:ui" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+androidx-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
 ### Koin dependencies
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -92,6 +93,7 @@ compose = [
     "compose-ui-ui",
     "compose-ui-tooling",
     "compose-navigation",
+    "androidx-constraintlayout-compose",
     "coil-compose",
     "lifecycle-runtime-compose",
 ]

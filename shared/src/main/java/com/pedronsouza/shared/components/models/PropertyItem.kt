@@ -1,9 +1,6 @@
 package com.pedronsouza.shared.components.models
 
 import android.os.Parcelable
-import com.pedronsouza.domain.models.Property
-import com.pedronsouza.domain.models.RemoteResource
-import com.pedronsouza.domain.values.HtmlContent
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
@@ -13,17 +10,9 @@ data class PropertyItem(
     val id: String,
     val name: String,
     val value: Double,
-    val rating: Int,
+    val rating: Map<RatingCategory, Int>,
     val description: String?,
-    val images: List<String>
+    val images: List<String>,
+    val address: String,
+    val location: String
 ) : Parcelable
-
-fun PropertyItem.toProperty() =
-    Property(
-        id = id,
-        name = name,
-        lowestPriceByNight = value,
-        rating = rating,
-        description = HtmlContent(description.orEmpty()),
-        images = images.map { RemoteResource(it) }
-    )

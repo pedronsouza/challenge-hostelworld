@@ -11,13 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun ImageCarousel(images: List<String>) {
+fun ImageCarousel(images: List<String>, modifier: Modifier) {
     LazyRow {
         items(images) {imageUrl ->
             Card {
                 RemoteImage(
                     url = imageUrl,
-                    modifier = Modifier
+                    modifier = modifier
                         .fillMaxWidth()
                         .height(LocalDimensions.current.propertyDetailImageSize)
                 )

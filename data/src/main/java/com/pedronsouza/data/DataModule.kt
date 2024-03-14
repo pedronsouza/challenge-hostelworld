@@ -2,6 +2,7 @@ package com.pedronsouza.data
 
 import com.pedronsouza.data.dataSources.RemotePropertyDataSource
 import com.pedronsouza.data.internal.ServicesFactory
+import com.pedronsouza.data.mappers.PropertyMapper
 import com.pedronsouza.data.mappers.PropertyObjectMapper
 import com.pedronsouza.data.repositories.PropertyRepositoryImpl
 import com.pedronsouza.data.responses.GetPropertiesResponse
@@ -18,5 +19,5 @@ val DataModule = module {
     singleOf(::ServicesFactory)
     factoryOf(::PropertyRepositoryImpl) { bind<PropertyRepository>() }
     factoryOf(::RemotePropertyDataSource) { bind<PropertyDataSource>() }
-    factoryOf(::PropertyObjectMapper) { bind<ObjectMapper<GetPropertiesResponse, List<Property>>>() }
+    factoryOf(::PropertyObjectMapper) { bind<PropertyMapper>() }
 }

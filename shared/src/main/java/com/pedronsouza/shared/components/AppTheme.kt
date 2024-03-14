@@ -46,18 +46,21 @@ interface AppColor {
     val defaultScreenBg: Color
     val toolbarBg: Color
     val toolbarTextColor: Color
+    val ratingTextColor: Color
 }
 
 data class LightColors(
     override val defaultScreenBg: Color = Color(0xffffffff),
     override val toolbarBg: Color = Color(0x96ebebf5),
-    override val toolbarTextColor: Color = Color(0xff000000)
+    override val toolbarTextColor: Color = Color(0xff000000),
+    override val ratingTextColor: Color = Color(0xffff9f0A)
 ) : AppColor
 
 data class DarkColors(
     override val defaultScreenBg: Color,
     override val toolbarBg: Color = Color(0x96ebebf5),
-    override val toolbarTextColor: Color = Color(0xffffffff)
+    override val toolbarTextColor: Color = Color(0xffffffff),
+    override val ratingTextColor: Color = Color(0xffff9f0A)
 ) : AppColor
 
 data class Dimensions(
@@ -67,7 +70,8 @@ data class Dimensions(
     val innerTextContentPropertyCardPadding: Dp = 6.dp,
     val defaultSpacingBetweenPropertyCards: Dp = 8.dp,
     val propertyCardNameTextSize: TextUnit = 14.sp,
-    val propertyCardDescriptionTextSize: TextUnit = 14.sp
+    val propertyCardDescriptionTextSize: TextUnit = 14.sp,
+    val ratingCardTextSize: TextUnit = 18.sp
 )
 
 val LocalDimensions = compositionLocalOf { Dimensions() }

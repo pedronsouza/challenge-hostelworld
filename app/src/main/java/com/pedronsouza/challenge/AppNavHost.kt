@@ -10,7 +10,6 @@ import com.pedronsouza.feature.property_detail.PropertyDetailScreen
 import com.pedronsouza.shared.components.models.PropertyItem
 import com.pedronsouza.feature.property_list.PropertyListItemParamType
 import com.pedronsouza.feature.property_list.PropertyListScreen
-import com.pedronsouza.shared.components.models.toProperty
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.navigation.NavigationItem
 
@@ -44,7 +43,7 @@ fun AppNavHost(
             checkNotNull(propertyItem)
 
             PropertyDetailScreen(
-                property = propertyItem.toProperty(),
+                propertyItem = propertyItem,
                 snackbarHostState = snackbarHostState
             )
         }

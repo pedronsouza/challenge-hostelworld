@@ -13,7 +13,9 @@ import com.pedronsouza.domain.models.Rating
 import com.pedronsouza.domain.models.RemoteResource
 import com.pedronsouza.domain.values.HtmlContent
 
-internal class PropertyObjectMapper : ObjectMapper<GetPropertiesResponse, List<Property>>() {
+interface PropertyMapper : ObjectMapper<GetPropertiesResponse, List<Property>>
+internal class PropertyObjectMapper :
+    PropertyMapper {
     override fun transform(inputData: GetPropertiesResponse): List<Property> =
         inputData.properties.map { item ->
             Property(
@@ -22,7 +24,7 @@ internal class PropertyObjectMapper : ObjectMapper<GetPropertiesResponse, List<P
                 lowestPriceByNight = item.lowestPricePerNight.value,
                 description = HtmlContent(item.overview),
                 images = item.images.toRemoteResource(),
-                rating = item.ratingBackground.toRating(),
+                rating = item.ratingBreakdown.toRating(),
                 addressSegments = listOf(item.address1, item.address2),
                 location = inputData.location.toPropertyLocation()
             )
