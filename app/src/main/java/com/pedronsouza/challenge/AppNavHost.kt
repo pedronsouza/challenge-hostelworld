@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.pedronsouza.feature.property_detail.PropertyDetailScreen
 import com.pedronsouza.feature.property_list.PropertyListScreen
+import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.navigation.NavigationItem
 
 @Composable
@@ -28,12 +29,12 @@ fun AppNavHost(
         composable(
             route = NavigationItem.Detail.route,
             arguments = listOf(
-                navArgument("propertyId") {
+                    navArgument(AppScreen.DETAIL.parameterName.orEmpty()) {
                     type = NavType.StringType
                 }
             )
         ) {stackEntry ->
-            val propertyId = stackEntry.arguments?.getString("propertyId")
+            val propertyId = stackEntry.arguments?.getString(AppScreen.DETAIL.parameterName.orEmpty())
 
             checkNotNull(propertyId)
 

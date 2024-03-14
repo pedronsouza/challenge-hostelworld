@@ -19,8 +19,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.Navigator
 import coil.compose.AsyncImage
+import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.components.LocalDimensions
 import com.pedronsouza.shared.navigation.NavigationItem
 import kotlinx.coroutines.flow.collectLatest
@@ -57,7 +57,10 @@ fun PropertyListScreen(
                     .fillMaxWidth()
                     .clickable {
                         navController.navigate(
-                            NavigationItem.Detail.route.replace("{propertyId}", item.id)
+                            NavigationItem.Detail.route.replace(
+                                "{${AppScreen.DETAIL.parameterName.orEmpty()}}",
+                                item.id
+                            )
                         )
                     }
             ) {

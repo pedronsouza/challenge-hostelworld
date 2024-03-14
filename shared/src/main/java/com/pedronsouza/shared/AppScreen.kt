@@ -1,12 +1,12 @@
 package com.pedronsouza.shared
 
-enum class AppScreen {
+enum class AppScreen(val parameterName: String? = null) {
     HOME,
-    DETAIL;
+    DETAIL("propertyId");
 
     override fun toString(): String =
         when(this) {
             HOME -> "/home"
-            DETAIL -> "/property_detail/{propertyId}"
+            DETAIL -> "/property_detail/{$parameterName}"
         }
 }
