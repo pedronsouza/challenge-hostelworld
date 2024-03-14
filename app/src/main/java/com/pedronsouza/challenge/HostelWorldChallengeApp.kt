@@ -16,6 +16,7 @@ import com.pedronsouza.shared.components.AppTheme
 import com.pedronsouza.shared.components.ExtendedScaffold
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.compose.KoinContext
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.logger.Level
 
@@ -26,14 +27,16 @@ fun HostelWorldChallengeApp(context: Application) {
     val navHostController = rememberNavController()
 
     AppTheme {
-        ExtendedScaffold(
-            snackbarHostState = snackbarHostState,
-            screenTitle = stringResource(id = R.string.app_name)
-        ) { _ ->
-            AppNavHost(
-                navController = navHostController,
+        KoinContext {
+            ExtendedScaffold(
                 snackbarHostState = snackbarHostState,
-            )
+                screenTitle = stringResource(id = R.string.app_name)
+            ) { _ ->
+                AppNavHost(
+                    navController = navHostController,
+                    snackbarHostState = snackbarHostState,
+                )
+            }
         }
     }
 }

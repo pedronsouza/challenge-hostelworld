@@ -63,6 +63,7 @@ data class DarkColors(
 data class Dimensions(
     val defaultScreenPadding: Dp = 14.dp,
     val propertyShowroomImageSize: Dp = 140.dp,
+    val propertyDetailImageSize: Dp = 180.dp,
     val innerTextContentPropertyCardPadding: Dp = 6.dp,
     val defaultSpacingBetweenPropertyCards: Dp = 8.dp,
     val propertyCardNameTextSize: TextUnit = 14.sp,

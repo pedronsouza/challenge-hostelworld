@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.SnackbarHostState
@@ -49,19 +52,23 @@ fun PropertyDetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-                    val pagerState = rememberPagerState(
-                        pageCount = { propertyItem.images.size }
-                    )
 
-                    HorizontalPager(state = pagerState) {
-                        AsyncImage(
-                            model = property.images.first().toString(),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(LocalDimensions.current.propertyShowroomImageSize)
-                        )
+                    LazyRow {
+                        items(propertyItem.images) {image ->
+                            AsyncImage(
+                                model = image,
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(LocalDimensions.current.propertyDetailImageSize)
+                            )
+
+                            Spacer(
+                                modifier = Modifier.width(LocalDimensions.current.defaultScreenPadding)
+                            )
+                        }
+
                     }
 
 
@@ -86,8 +93,8 @@ fun PropertyDetailScreen(
                                 .height(LocalDimensions.current.defaultSpacingBetweenPropertyCards)
                         )
 
-                        property.description.let { description ->
-
+                        propertyItem.description?.let { description ->
+                            Text(text = description)
                         }
                     }
                 }
