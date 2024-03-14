@@ -8,6 +8,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.rememberNavController
 import com.pedronsouza.data.DataModule
 import com.pedronsouza.domain.DomainModule
+import com.pedronsouza.feature.property_detail.FeaturePropertyDetailModule
 import com.pedronsouza.feature.property_list.PropertyListFeatureModule
 import com.pedronsouza.feature.property_list.PropertyListScreen
 import com.pedronsouza.shared.SharedModule
@@ -49,7 +50,8 @@ private fun initDependencies(context: Application) {
                 SharedModule,
                 DataModule,
                 DomainModule,
-                PropertyListFeatureModule
+                PropertyListFeatureModule,
+                FeaturePropertyDetailModule
             )
         )
     }
