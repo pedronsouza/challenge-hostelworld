@@ -10,7 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.pedronsouza.shared.components.models.PropertyItem
 
 @Composable
-fun PropertyContent(item: PropertyItem, modifier: Modifier) {
+fun PropertyContent(item: PropertyItem, cardMode: CardMode, modifier: Modifier) {
     Column(
         modifier = modifier
     ) {
@@ -26,10 +26,19 @@ fun PropertyContent(item: PropertyItem, modifier: Modifier) {
         )
 
         item.description?.let { description ->
-            ExpandableText(
-                text = description,
-                fontSize = LocalDimensions.current.propertyCardDescriptionTextSize
-            )
+            when (cardMode) {
+                CardMode.SHOWROOM ->
+                    ExpandableText(
+                        text = description,
+                        fontSize = LocalDimensions.current.propertyCardDescriptionTextSize
+                    )
+                CardMode.CAROUSEL ->
+                    Text(
+                        text = description,
+                        fontSize = LocalDimensions.current.propertyCardDescriptionTextSize
+                    )
+            }
+
         }
     }
 }

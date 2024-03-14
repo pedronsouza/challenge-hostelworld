@@ -10,7 +10,7 @@ import androidx.constraintlayout.compose.ConstrainScope
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.pedronsouza.shared.components.models.PropertyItem
 
-enum class ImageMode {
+enum class CardMode {
     SHOWROOM,
     CAROUSEL
 }
@@ -18,7 +18,7 @@ enum class ImageMode {
 @Composable
 fun PropertyMainInfoCard(
     item: PropertyItem,
-    imageMode: ImageMode = ImageMode.SHOWROOM
+    cardMode: CardMode = CardMode.SHOWROOM
 ) {
     Column(
         modifier = Modifier
@@ -32,7 +32,7 @@ fun PropertyMainInfoCard(
                 start.linkTo(parent.start)
             }
 
-            if (imageMode == ImageMode.SHOWROOM) {
+            if (cardMode == CardMode.SHOWROOM) {
                 RemoteImage(
                     url = item.images.first().toString(),
                     modifier = Modifier
@@ -46,6 +46,7 @@ fun PropertyMainInfoCard(
 
             PropertyContent(
                 item = item,
+                cardMode = cardMode,
                 modifier = Modifier
                     .padding(LocalDimensions.current.innerTextContentPropertyCardPadding)
                     .constrainAs(content) {

@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.pedronsouza.shared.components.ImageMode
+import com.pedronsouza.shared.components.CardMode
 import com.pedronsouza.shared.components.LocalDimensions
 import com.pedronsouza.shared.components.PropertyMainInfoCard
 import com.pedronsouza.shared.components.models.PropertyItem
@@ -43,7 +43,7 @@ fun PropertyDetailScreen(
                 ) {
                     PropertyMainInfoCard(
                         item = propertyItem,
-                        imageMode = ImageMode.CAROUSEL
+                        cardMode = CardMode.CAROUSEL
                     )
                 }
             }
