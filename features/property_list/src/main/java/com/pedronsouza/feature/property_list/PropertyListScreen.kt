@@ -1,5 +1,6 @@
 package com.pedronsouza.feature.property_list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -50,6 +51,9 @@ fun PropertyListScreen(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clickable {
+                        viewModel.sendEvent(PropertyListEvent.PropertySelected(item))
+                    }
             ) {
                 Column(
                     modifier = Modifier

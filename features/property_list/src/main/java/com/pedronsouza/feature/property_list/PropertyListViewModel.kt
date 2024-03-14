@@ -19,6 +19,7 @@ data class State(
 
 sealed class PropertyListEvent : ViewEvent {
     data object LoadProperties : PropertyListEvent()
+    data class PropertySelected(val property: PropertyListItem) : PropertyListEvent()
 }
 
 sealed class PropertyListEffects : ViewEffect {
@@ -35,44 +36,51 @@ internal class PropertyListViewModel(
 
     override fun processViewEvents(event: PropertyListEvent) {
         when (event) {
-            PropertyListEvent.LoadProperties -> {
-                viewModelScope.launch {
-                    CoroutineExceptionHandler { _, error ->
-                        Timber.tag(internalLogTag).e(error)
-                        updateState {
-                            copy(
-                                isLoading = false
-                            )
-                        }
-                    }
+            PropertyListEvent.LoadProperties -> loadProperties()
+            is PropertyListEvent.PropertySelected -> onPropertySelected(event.property)
+        }
+    }
 
-                    val newProperties = mutableListOf<PropertyListItem>()
-                    val result = withContext(Dispatchers.IO) {
-                        loadPropertiesUseCase.execute()
-                    }
-
-                    result.onSuccess { properties ->
-                        withContext(Dispatchers.IO) {
-                            newProperties.plusAssign(
-                                propertyListMapper.transform(properties)
-                            )
-                        }
-                    }.onFailure { error ->
-                        Timber.tag(internalLogTag).e(error)
-
-                        triggerEffect {
-                            PropertyListEffects.ShowErrorToast(R.string.something_went_wrong)
-                        }
-                    }
-
-                    updateState {
-                        copy(
-                            properties = newProperties,
-                            isLoading = false
-                        )
-                    }
+    private fun loadProperties() {
+        viewModelScope.launch {
+            CoroutineExceptionHandler { _, error ->
+                Timber.tag(internalLogTag).e(error)
+                updateState {
+                    copy(
+                        isLoading = false
+                    )
                 }
             }
+
+            val newProperties = mutableListOf<PropertyListItem>()
+            val result = withContext(Dispatchers.IO) {
+                loadPropertiesUseCase.execute()
+            }
+
+            result.onSuccess { properties ->
+                withContext(Dispatchers.IO) {
+                    newProperties.plusAssign(
+                        propertyListMapper.transform(properties)
+                    )
+                }
+            }.onFailure { error ->
+                Timber.tag(internalLogTag).e(error)
+
+                triggerEffect {
+                    PropertyListEffects.ShowErrorToast(R.string.something_went_wrong)
+                }
+            }
+
+            updateState {
+                copy(
+                    properties = newProperties,
+                    isLoading = false
+                )
+            }
         }
+    }
+
+    private fun onPropertySelected(property: PropertyListItem) {
+
     }
 }
