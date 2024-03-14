@@ -1,8 +1,11 @@
 package com.pedronsouza.feature.property_detail
 
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,17 +38,14 @@ fun PropertyDetailScreen(
     if (!state.value.isLoading) {
         state.value.propertyItem?.let { propertyItem ->
             Column(
-                modifier = Modifier.padding(LocalDimensions.current.defaultScreenPadding)
+                modifier = Modifier
+                    .padding(LocalDimensions.current.defaultScreenPadding)
+                    .verticalScroll(rememberScrollState())
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    PropertyMainInfoCard(
-                        item = propertyItem,
-                        cardMode = CardMode.CAROUSEL
-                    )
-                }
+                PropertyMainInfoCard(
+                    item = propertyItem,
+                    cardMode = CardMode.CAROUSEL
+                )
             }
         }
     }
