@@ -10,5 +10,8 @@ data class PropertyResponse(
     val overallRating: PropertyRatingResponse,
     val lowestPricePerNight: CurrencyResponse,
     val overview: String,
-    @SerialName("imagesGallery") val images: List<PropertyImageResponse>
+    @SerialName("imagesGallery") val images: List<PropertyImageResponse>,
+    val ratingBackground: PropertyRatingBreakdownResponse,
+    val address1: String,
+    val address2: String
 )

@@ -6,7 +6,9 @@ data class Property(
     val id: String,
     val name: String,
     val lowestPriceByNight: Double,
-    val rating: Int,
+    val rating: Rating,
     val description: HtmlContent,
-    val images: List<RemoteResource>
+    val addressSegments: List<String>,
+    val images: List<RemoteResource>,
+    val location: PropertyLocation
 )
