@@ -5,6 +5,7 @@ import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.compose.rememberNavController
 import com.pedronsouza.data.DataModule
 import com.pedronsouza.domain.DomainModule
 import com.pedronsouza.feature.property_list.PropertyListFeatureModule
@@ -21,14 +22,16 @@ import org.koin.core.logger.Level
 fun HostelWorldChallengeApp(context: Application) {
     initDependencies(context)
     val snackbarHostState = remember { SnackbarHostState() }
+    val navHostController = rememberNavController()
 
     AppTheme {
         ExtendedScaffold(
             snackbarHostState = snackbarHostState,
             screenTitle = stringResource(id = R.string.app_name)
         ) { _ ->
-            PropertyListScreen(
-                snackbarHostState = snackbarHostState
+            AppNavHost(
+                navController = navHostController,
+                snackbarHostState = snackbarHostState,
             )
         }
     }

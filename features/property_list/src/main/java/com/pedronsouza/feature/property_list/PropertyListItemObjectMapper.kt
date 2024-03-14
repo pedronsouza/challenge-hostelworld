@@ -16,7 +16,8 @@ internal class PropertyListItemObjectMapper(
                 name = item.name,
                 value = item.lowestPriceByNight,
                 images = item.images,
-                description = parser.parse(item.description)
+                description = parser.parse(item.description),
+                rating = item.rating
             )
         }
 }

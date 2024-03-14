@@ -7,6 +7,6 @@ enum class AppScreen {
     override fun toString(): String =
         when(this) {
             HOME -> "/home"
-            DETAIL -> "/property_detail/{property}"
+            DETAIL -> "/property_detail/{propertyId}"
         }
 }

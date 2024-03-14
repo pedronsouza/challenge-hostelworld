@@ -49,6 +49,7 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(project(":features:property_list"))
+    implementation(project(":features:property_detail"))
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":shared"))

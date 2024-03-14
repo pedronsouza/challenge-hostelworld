@@ -2,11 +2,10 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
-    id("kotlin-parcelize")
 }
 
 android {
-    namespace = "com.pedronsouza.feature.property_list"
+    namespace = "com.pedronsouza.feature.property_detail"
     compileSdk = 34
 
     defaultConfig {
@@ -25,7 +24,6 @@ android {
             )
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8

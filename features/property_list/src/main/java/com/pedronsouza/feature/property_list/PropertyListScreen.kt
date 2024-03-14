@@ -18,14 +18,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.Navigator
 import coil.compose.AsyncImage
 import com.pedronsouza.shared.components.LocalDimensions
+import com.pedronsouza.shared.navigation.NavigationItem
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun PropertyListScreen(
     snackbarHostState: SnackbarHostState,
+    navController: NavController
 ) {
     val viewModel: PropertyListViewModel = koinViewModel<PropertyListViewModel>()
     val state = viewModel.viewState.collectAsStateWithLifecycle()
@@ -52,7 +56,9 @@ fun PropertyListScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        viewModel.sendEvent(PropertyListEvent.PropertySelected(item))
+                        navController.navigate(
+                            NavigationItem.Detail.route.replace("{propertyId}", item.id)
+                        )
                     }
             ) {
                 Column(

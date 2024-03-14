@@ -19,7 +19,6 @@ data class State(
 
 sealed class PropertyListEvent : ViewEvent {
     data object LoadProperties : PropertyListEvent()
-    data class PropertySelected(val property: PropertyListItem) : PropertyListEvent()
 }
 
 sealed class PropertyListEffects : ViewEffect {
@@ -37,7 +36,6 @@ internal class PropertyListViewModel(
     override fun processViewEvents(event: PropertyListEvent) {
         when (event) {
             PropertyListEvent.LoadProperties -> loadProperties()
-            is PropertyListEvent.PropertySelected -> onPropertySelected(event.property)
         }
     }
 
@@ -78,9 +76,5 @@ internal class PropertyListViewModel(
                 )
             }
         }
-    }
-
-    private fun onPropertySelected(property: PropertyListItem) {
-
     }
 }
