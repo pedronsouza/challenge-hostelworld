@@ -45,8 +45,11 @@ android {
 
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
+    implementation(project(":domain"))
 
     implementation(libs.bundles.android.lifecycle)
     implementation(libs.bundles.kotlin.coroutines)
     implementation(libs.bundles.compose)
+    implementation(libs.koin.core)
+
 }

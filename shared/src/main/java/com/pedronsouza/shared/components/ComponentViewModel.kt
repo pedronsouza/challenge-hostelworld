@@ -1,4 +1,4 @@
-package com.pedronsouza.shared
+package com.pedronsouza.shared.components
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

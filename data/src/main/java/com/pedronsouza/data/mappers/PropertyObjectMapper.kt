@@ -6,6 +6,7 @@ import com.pedronsouza.data.responses.PropertyResponse
 import com.pedronsouza.domain.ObjectMapper
 import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.models.RemoteResource
+import com.pedronsouza.domain.values.HtmlContent
 
 class PropertyObjectMapper : ObjectMapper<List<PropertyResponse>, List<Property>>() {
     override fun transform(inputData: List<PropertyResponse>): List<Property> =
@@ -15,7 +16,7 @@ class PropertyObjectMapper : ObjectMapper<List<PropertyResponse>, List<Property>
                 name = item.name,
                 lowestPriceByNight = item.lowestPricePerNight.value,
                 rating = item.overallRating.overall,
-                description = item.overview,
+                description = HtmlContent(item.overview),
                 images = item.images.toRemoteResource()
             )
         }

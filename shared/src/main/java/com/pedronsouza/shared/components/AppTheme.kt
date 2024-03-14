@@ -1,4 +1,4 @@
-package com.pedronsouza.shared
+package com.pedronsouza.shared.components
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
@@ -9,7 +9,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.google.android.material.composethemeadapter.createMdcTheme
 
 @Composable
@@ -60,7 +62,11 @@ data class DarkColors(
 
 data class Dimensions(
     val defaultScreenPadding: Dp = 14.dp,
-    val propertyShowroomImageSize: Dp = 140.dp
+    val propertyShowroomImageSize: Dp = 140.dp,
+    val innerTextContentPropertyCardPadding: Dp = 6.dp,
+    val defaultSpacingBetweenPropertyCards: Dp = 8.dp,
+    val propertyCardNameTextSize: TextUnit = 14.sp,
+    val propertyCardDescriptionTextSize: TextUnit = 14.sp
 )
 
 val LocalDimensions = compositionLocalOf { Dimensions() }

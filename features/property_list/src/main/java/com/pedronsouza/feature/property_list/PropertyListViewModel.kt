@@ -2,10 +2,10 @@ package com.pedronsouza.feature.property_list
 
 import androidx.lifecycle.viewModelScope
 import com.pedronsouza.domain.useCases.LoadPropertiesUseCase
-import com.pedronsouza.shared.ComponentViewModel
-import com.pedronsouza.shared.ViewEffect
-import com.pedronsouza.shared.ViewEvent
-import com.pedronsouza.shared.ViewState
+import com.pedronsouza.shared.components.ComponentViewModel
+import com.pedronsouza.shared.components.ViewEffect
+import com.pedronsouza.shared.components.ViewEvent
+import com.pedronsouza.shared.components.ViewState
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

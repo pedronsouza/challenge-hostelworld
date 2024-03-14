@@ -6,5 +6,6 @@ data class PropertyListItem(
     val id: String,
     val name: String,
     val value: Double,
+    val description: String?,
     val images: List<RemoteResource>
 )

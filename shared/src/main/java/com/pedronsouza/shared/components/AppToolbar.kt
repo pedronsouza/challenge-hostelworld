@@ -1,4 +1,4 @@
-package com.pedronsouza.shared
+package com.pedronsouza.shared.components
 
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
