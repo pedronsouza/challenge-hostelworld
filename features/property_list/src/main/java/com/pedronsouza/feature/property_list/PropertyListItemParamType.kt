@@ -3,9 +3,9 @@ package com.pedronsouza.feature.property_list
 import android.os.Build
 import android.os.Bundle
 import androidx.navigation.NavType
+import com.pedronsouza.shared.components.models.PropertyListItem
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 class PropertyListItemParamType : NavType<PropertyListItem>(isNullableAllowed = false) {

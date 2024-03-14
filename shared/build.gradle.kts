@@ -2,7 +2,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
-
+    id("kotlin-parcelize")
     kotlin("plugin.serialization") version "1.9.22"
 }
 

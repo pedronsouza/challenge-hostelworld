@@ -1,15 +1,18 @@
 package com.pedronsouza.feature.property_list
 
 import androidx.lifecycle.viewModelScope
+import com.pedronsouza.domain.ContentParser
+import com.pedronsouza.domain.ObjectMapper
+import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.useCases.LoadPropertiesUseCase
+import com.pedronsouza.domain.values.HtmlContent
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.components.ComponentViewModel
 import com.pedronsouza.shared.components.ViewEffect
 import com.pedronsouza.shared.components.ViewEvent
 import com.pedronsouza.shared.components.ViewState
-import com.pedronsouza.shared.navigation.NavigationItem
+import com.pedronsouza.shared.components.models.PropertyListItem
 import com.pedronsouza.shared.navigation.RouteFactory
-import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +39,7 @@ sealed class PropertyListEffects : ViewEffect {
 
 internal class PropertyListViewModel(
     private val loadPropertiesUseCase: LoadPropertiesUseCase,
-    private val propertyListMapper: PropertyListItemObjectMapper,
+    private val propertyListMapper: ObjectMapper<List<Property>, List<PropertyListItem>>,
     private val routeFactory: RouteFactory
 ) : ComponentViewModel<PropertyListEvent, State, PropertyListEffects>() {
     private val internalLogTag = "${Constants.LOG_TAG}:PropertyListViewModel"

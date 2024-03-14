@@ -20,9 +20,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.components.LocalDimensions
-import com.pedronsouza.shared.navigation.NavigationItem
+import com.pedronsouza.shared.components.models.PropertyListItem
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 

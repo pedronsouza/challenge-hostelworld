@@ -7,10 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.pedronsouza.feature.property_detail.PropertyDetailScreen
-import com.pedronsouza.feature.property_list.PropertyListItem
+import com.pedronsouza.shared.components.models.PropertyListItem
 import com.pedronsouza.feature.property_list.PropertyListItemParamType
 import com.pedronsouza.feature.property_list.PropertyListScreen
-import com.pedronsouza.feature.property_list.toProperty
+import com.pedronsouza.shared.components.models.toProperty
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.navigation.NavigationItem
 

@@ -1,4 +1,4 @@
-package com.pedronsouza.feature.property_list
+package com.pedronsouza.shared.components.models
 
 import android.os.Parcelable
 import com.pedronsouza.domain.models.Property
