@@ -4,15 +4,15 @@ import com.pedronsouza.domain.ContentParser
 import com.pedronsouza.domain.ObjectMapper
 import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.values.HtmlContent
-import com.pedronsouza.shared.components.models.PropertyListItem
+import com.pedronsouza.shared.components.models.PropertyItem
 
 internal class PropertyListItemObjectMapper(
     private val parser: ContentParser<HtmlContent, String>
 ) :
-    ObjectMapper<List<Property>, List<PropertyListItem>>() {
+    ObjectMapper<List<Property>, List<PropertyItem>>() {
     override fun transform(inputData: List<Property>) =
         inputData.map { item ->
-            PropertyListItem(
+            PropertyItem(
                 id = item.name,
                 name = item.name,
                 value = item.lowestPriceByNight,

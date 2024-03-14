@@ -1,17 +1,15 @@
 package com.pedronsouza.feature.property_list
 
 import androidx.lifecycle.viewModelScope
-import com.pedronsouza.domain.ContentParser
 import com.pedronsouza.domain.ObjectMapper
 import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.useCases.LoadPropertiesUseCase
-import com.pedronsouza.domain.values.HtmlContent
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.components.ComponentViewModel
 import com.pedronsouza.shared.components.ViewEffect
 import com.pedronsouza.shared.components.ViewEvent
 import com.pedronsouza.shared.components.ViewState
-import com.pedronsouza.shared.components.models.PropertyListItem
+import com.pedronsouza.shared.components.models.PropertyItem
 import com.pedronsouza.shared.navigation.RouteFactory
 import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -24,12 +22,12 @@ import timber.log.Timber
 
 data class State(
     val isLoading: Boolean = false,
-    val properties: List<PropertyListItem> = emptyList()
+    val properties: List<PropertyItem> = emptyList()
 ) : ViewState
 
 sealed class PropertyListEvent : ViewEvent {
     data object LoadProperties : PropertyListEvent()
-    data class PropertySelected(val item: PropertyListItem) : PropertyListEvent()
+    data class PropertySelected(val item: PropertyItem) : PropertyListEvent()
 }
 
 sealed class PropertyListEffects : ViewEffect {
@@ -39,7 +37,7 @@ sealed class PropertyListEffects : ViewEffect {
 
 internal class PropertyListViewModel(
     private val loadPropertiesUseCase: LoadPropertiesUseCase,
-    private val propertyListMapper: ObjectMapper<List<Property>, List<PropertyListItem>>,
+    private val propertyListMapper: ObjectMapper<List<Property>, List<PropertyItem>>,
     private val routeFactory: RouteFactory
 ) : ComponentViewModel<PropertyListEvent, State, PropertyListEffects>() {
     private val internalLogTag = "${Constants.LOG_TAG}:PropertyListViewModel"
@@ -56,7 +54,7 @@ internal class PropertyListViewModel(
     }
 
     @OptIn(ExperimentalEncodingApi::class)
-    private fun preparePropertyDetailNavigationParameter(item: PropertyListItem) {
+    private fun preparePropertyDetailNavigationParameter(item: PropertyItem) {
         runCatching {
             routeFactory.createRoute(AppScreen.DETAIL, Json.encodeToString(item))
         }.onSuccess { url ->
@@ -78,7 +76,7 @@ internal class PropertyListViewModel(
                 }
             }
 
-            val newProperties = mutableListOf<PropertyListItem>()
+            val newProperties = mutableListOf<PropertyItem>()
             val result = withContext(Dispatchers.IO) {
                 loadPropertiesUseCase.execute()
             }

@@ -7,14 +7,14 @@ import com.pedronsouza.shared.components.ComponentViewModel
 import com.pedronsouza.shared.components.ViewEffect
 import com.pedronsouza.shared.components.ViewEvent
 import com.pedronsouza.shared.components.ViewState
-import com.pedronsouza.shared.components.models.PropertyListItem
+import com.pedronsouza.shared.components.models.PropertyItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 data class State(
     val isLoading: Boolean = false,
-    val propertyItem: PropertyListItem? = null
+    val propertyItem: PropertyItem? = null
 ) : ViewState
 
 sealed class PropertyDetailEvent : ViewEvent {
@@ -24,7 +24,7 @@ sealed class PropertyDetailEffect : ViewEffect
 
 class PropertyDetailViewModel(
     private val property: Property,
-    private val propertyListItemMapper: ObjectMapper<List<Property>, List<PropertyListItem>>
+    private val propertyListItemMapper: ObjectMapper<List<Property>, List<PropertyItem>>
 ) :
     ComponentViewModel<PropertyDetailEvent, State, PropertyDetailEffect>() {
     override fun initialViewState() = State(isLoading = true)

@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 
 @Parcelize
 @Serializable
-data class PropertyListItem(
+data class PropertyItem(
     val id: String,
     val name: String,
     val value: Double,
@@ -18,7 +18,7 @@ data class PropertyListItem(
     val images: List<String>
 ) : Parcelable
 
-fun PropertyListItem.toProperty() =
+fun PropertyItem.toProperty() =
     Property(
         id = id,
         name = name,

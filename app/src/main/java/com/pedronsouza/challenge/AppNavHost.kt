@@ -7,7 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.pedronsouza.feature.property_detail.PropertyDetailScreen
-import com.pedronsouza.shared.components.models.PropertyListItem
+import com.pedronsouza.shared.components.models.PropertyItem
 import com.pedronsouza.feature.property_list.PropertyListItemParamType
 import com.pedronsouza.feature.property_list.PropertyListScreen
 import com.pedronsouza.shared.components.models.toProperty
@@ -38,7 +38,7 @@ fun AppNavHost(
         ) {stackEntry ->
             val propertyItem = stackEntry.arguments?.getParcelable(
                 AppScreen.DETAIL.parameterName.orEmpty(),
-                PropertyListItem::class.java
+                PropertyItem::class.java
             )
 
             checkNotNull(propertyItem)

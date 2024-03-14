@@ -1,24 +1,17 @@
 package com.pedronsouza.feature.property_detail
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.pedronsouza.domain.models.Property
+import com.pedronsouza.shared.components.ImageMode
 import com.pedronsouza.shared.components.LocalDimensions
+import com.pedronsouza.shared.components.PropertyMainInfoCard
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -48,51 +41,10 @@ fun PropertyDetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                 ) {
-
-                    LazyRow {
-                        items(propertyItem.images) {image ->
-                            AsyncImage(
-                                model = image,
-                                contentDescription = null,
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(LocalDimensions.current.propertyDetailImageSize)
-                            )
-
-                            Spacer(
-                                modifier = Modifier.width(LocalDimensions.current.defaultScreenPadding)
-                            )
-                        }
-
-                    }
-
-
-                    Column(
-                        modifier = Modifier.padding(
-                            LocalDimensions.current.innerTextContentPropertyCardPadding
-                        )
-                    ) {
-                        Spacer(
-                            modifier = Modifier
-                                .height(LocalDimensions.current.defaultSpacingBetweenPropertyCards)
-                        )
-
-                        Text(
-                            text = property.name,
-                            fontWeight = FontWeight.Medium,
-                            fontSize = LocalDimensions.current.propertyCardNameTextSize
-                        )
-
-                        Spacer(
-                            modifier = Modifier
-                                .height(LocalDimensions.current.defaultSpacingBetweenPropertyCards)
-                        )
-
-                        propertyItem.description?.let { description ->
-                            Text(text = description)
-                        }
-                    }
+                    PropertyMainInfoCard(
+                        item = propertyItem,
+                        imageMode = ImageMode.CAROUSEL
+                    )
                 }
             }
         }
