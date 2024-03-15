@@ -12,7 +12,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import com.pedronsouza.shared.components.models.PropertyItem
+import com.pedronsouza.shared.fakes.FakePropertyItem
 
 @Composable
 fun PropertyContent(item: PropertyItem, cardMode: CardMode, modifier: Modifier) {
@@ -60,4 +62,24 @@ fun PropertyContent(item: PropertyItem, cardMode: CardMode, modifier: Modifier) 
 
         }
     }
+}
+
+@Preview
+@Composable
+fun previewPropertyContentCarousel() {
+    PropertyContent(
+        item = FakePropertyItem ,
+        cardMode = CardMode.CAROUSEL,
+        modifier = Modifier
+    )
+}
+
+@Preview
+@Composable
+fun previewPropertyContent() {
+    PropertyContent(
+        item = FakePropertyItem ,
+        cardMode = CardMode.CAROUSEL,
+        modifier = Modifier
+    )
 }

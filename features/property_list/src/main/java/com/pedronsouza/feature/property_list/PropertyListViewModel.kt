@@ -81,7 +81,7 @@ internal class PropertyListViewModel(
                 }
             }
 
-            val newProperties = viewState.value.properties.toMutableList()
+            val newProperties = mutableListOf<PropertyItem>()
             var newError = viewState.value.error
             val result = withContext(Dispatchers.IO) {
                 loadPropertiesUseCase.execute()

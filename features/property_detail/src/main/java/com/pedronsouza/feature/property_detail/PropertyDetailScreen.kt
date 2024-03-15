@@ -1,11 +1,9 @@
 package com.pedronsouza.feature.property_detail
 
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Card
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -37,7 +35,7 @@ fun PropertyDetailScreen(
 
     if (!state.value.isLoading) {
         state.value.propertyItem?.let { propertyItem ->
-            Column(
+            Card(
                 modifier = Modifier
                     .padding(LocalDimensions.current.defaultScreenPadding)
                     .verticalScroll(rememberScrollState())
