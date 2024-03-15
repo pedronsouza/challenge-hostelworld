@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.SnackbarHostState
@@ -52,6 +53,7 @@ import com.pedronsouza.shared.navigation.RouteFactory
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
+import org.koin.core.module.Module
 import org.koin.dsl.module
 
 @Composable
@@ -90,7 +92,7 @@ fun PropertyListScreen(
             val error = state.value.error
             checkNotNull(error)
 
-            ErrorView(error)
+            ErrorView(error, viewModel)
         }
 
         else ->
@@ -133,7 +135,7 @@ fun PropertyList(
 }
 
 @Composable
-fun ErrorView(error: Throwable) {
+internal fun ErrorView(error: Throwable, viewModel: PropertyListViewModel) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -154,6 +156,14 @@ fun ErrorView(error: Throwable) {
                 id = R.string.something_went_wrong
             ) + error.message?.let { ": $it" }.orEmpty()
         )
+
+        Button(
+            onClick = {
+                viewModel.sendEvent(PropertyListEvent.LoadProperties)
+            }
+        ) {
+            Text(text = "Retry")
+        }
     }
 }
 
@@ -203,7 +213,8 @@ fun LoadingView() {
                             .constrainAs(content) {
                                 top.linkTo(image.bottom)
                                 start.linkTo(image.start)
-                            }.background(
+                            }
+                            .background(
                                 shimmerBrush(
                                     targetValue = 1300f,
                                     showShimmer = showShimmer.value
@@ -222,7 +233,8 @@ fun LoadingView() {
                                 top.linkTo(content.bottom)
                                 start.linkTo(parent.start)
                                 end.linkTo(parent.end)
-                            }.background(
+                            }
+                            .background(
                                 shimmerBrush(
                                     targetValue = 1300f,
                                     showShimmer = showShimmer.value
@@ -234,12 +246,53 @@ fun LoadingView() {
         }
     }
 }
+@Composable
+private fun PreviewKoinApplication(content: @Composable () -> Unit) {
+    KoinApplication(
+        moduleList = {
+            listOf(
+                module {
+                    factory {
+                        PropertyListViewModel(
+                            loadPropertiesUseCase = object : LoadPropertiesUseCase {
+                                override suspend fun execute(): Result<List<Property>> {
+                                    return Result.success(listOf(FakeProperty))
+                                }
+                            },
 
+                            propertyListMapper = object : PropertyListMapper {
+                                override fun transform(inputData: List<Property>): List<PropertyItem> {
+                                    return listOf(FakePropertyItem)
+                                }
+                            },
+
+                            routeFactory = object : RouteFactory {
+                                override fun createRoute(
+                                    screen: AppScreen,
+                                    parameter: String?
+                                ): String {
+                                    return "fake_route"
+                                }
+
+                            }
+                        )
+                    }
+                }
+            )
+         },
+        content = content
+    )
+}
 
 @Preview
 @Composable
 fun previewErrorView() {
-    ErrorView(error = IllegalArgumentException("Error message here"))
+    PreviewKoinApplication {
+        ErrorView(
+            error = IllegalArgumentException("Error message here"),
+            viewModel = koinViewModel()
+        )
+    }
 }
 
 @Preview
@@ -254,37 +307,7 @@ fun previewPropertyListScreen() {
     val snackbarHostState = remember { SnackbarHostState() }
     val navHostController = rememberNavController()
 
-    KoinApplication(moduleList = {
-        listOf(
-            module {
-                factory {
-                    PropertyListViewModel(
-                        loadPropertiesUseCase = object : LoadPropertiesUseCase {
-                            override suspend fun execute(): Result<List<Property>> {
-                                return Result.success(listOf(FakeProperty))
-                            }
-                        },
-
-                        propertyListMapper = object : PropertyListMapper {
-                            override fun transform(inputData: List<Property>): List<PropertyItem> {
-                                return listOf(FakePropertyItem)
-                            }
-                        },
-
-                        routeFactory = object : RouteFactory {
-                            override fun createRoute(
-                                screen: AppScreen,
-                                parameter: String?
-                            ): String {
-                                return "fake_route"
-                            }
-
-                        }
-                    )
-                }
-            }
-        )
-    }) {
+    PreviewKoinApplication {
         PropertyListScreen(
             snackbarHostState = snackbarHostState,
             navController = navHostController

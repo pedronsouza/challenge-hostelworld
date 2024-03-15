@@ -25,7 +25,7 @@ abstract class ComponentViewModel<Event : ViewEvent, State : ViewState, Effect :
     private val _viewEffect = Channel<Effect>()
     val viewEffect = _viewEffect.receiveAsFlow()
 
-    abstract fun initialViewState(): State
+    protected abstract fun initialViewState(): State
 
     init {
         listenToEvents()

@@ -45,7 +45,11 @@ internal class PropertyListViewModel(
 ) : ComponentViewModel<PropertyListEvent, State, PropertyListEffects>() {
     private val logTag = "${Constants.LOG_TAG_FEATURE}:PropertyList"
 
-    override fun initialViewState() = State(true)
+    override fun initialViewState() = State(
+        isLoading = true,
+        properties = emptyList(),
+        error = null
+    )
 
     override fun processViewEvents(event: PropertyListEvent) {
         when (event) {
@@ -80,6 +84,8 @@ internal class PropertyListViewModel(
                     )
                 }
             }
+
+            updateState { initialViewState() }
 
             val newProperties = mutableListOf<PropertyItem>()
             var newError = viewState.value.error
