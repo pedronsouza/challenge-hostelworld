@@ -12,10 +12,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 fun ExtendedScaffold(
     snackbarHostState: SnackbarHostState,
     screenTitle: MutableState<String>,
+    navigationMode: MutableState<NavigationMode>,
     content: @Composable (PaddingValues) -> Unit,
 ) {
     Scaffold(
-        topBar = { AppToolbar(screenTitle) },
+        topBar = { AppToolbar(screenTitle, navigationMode) },
         snackbarHost = { SnackbarHost(snackbarHostState) },
         content = content
     )

@@ -16,6 +16,7 @@ import com.pedronsouza.feature.property_list.PropertyListScreen
 import com.pedronsouza.shared.SharedModule
 import com.pedronsouza.shared.components.AppTheme
 import com.pedronsouza.shared.components.ExtendedScaffold
+import com.pedronsouza.shared.components.NavigationMode
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -29,17 +30,20 @@ fun HostelWorldChallengeApp(context: Application) {
     val snackbarHostState = remember { SnackbarHostState() }
     val navHostController = rememberNavController()
     val appBarTitle = remember { mutableStateOf("") }
+    val navigationMode = remember { mutableStateOf(NavigationMode.NONE) }
 
     AppTheme {
         KoinContext {
             ExtendedScaffold(
                 snackbarHostState = snackbarHostState,
-                screenTitle = appBarTitle
+                screenTitle = appBarTitle,
+                navigationMode = navigationMode
             ) { _ ->
                 AppNavHost(
                     navController = navHostController,
                     snackbarHostState = snackbarHostState,
-                    appBarTitle = appBarTitle
+                    appBarTitle = appBarTitle,
+                    navigationMode = navigationMode
                 )
             }
         }

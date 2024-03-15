@@ -12,6 +12,7 @@ import com.pedronsouza.shared.components.models.PropertyItem
 import com.pedronsouza.feature.property_list.PropertyListItemParamType
 import com.pedronsouza.feature.property_list.PropertyListScreen
 import com.pedronsouza.shared.AppScreen
+import com.pedronsouza.shared.components.NavigationMode
 import com.pedronsouza.shared.navigation.NavigationItem
 import kotlinx.coroutines.flow.MutableStateFlow
 
@@ -20,7 +21,8 @@ fun AppNavHost(
     navController: NavHostController,
     startDestination: String = NavigationItem.Home.route,
     snackbarHostState: SnackbarHostState,
-    appBarTitle: MutableState<String>
+    appBarTitle: MutableState<String>,
+    navigationMode: MutableState<NavigationMode>
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
         composable(NavigationItem.Home.route) {
@@ -48,7 +50,8 @@ fun AppNavHost(
 
             PropertyDetailScreen(
                 propertyItem = propertyItem,
-                appBarTitle = appBarTitle
+                appBarTitle = appBarTitle,
+                navigationMode = navigationMode
             )
         }
     }
