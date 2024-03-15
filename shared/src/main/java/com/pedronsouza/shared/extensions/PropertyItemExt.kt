@@ -8,6 +8,7 @@ internal fun PropertyItem.priceFormatted() =
         DecimalFormat("#,###.00").run {
             isDecimalSeparatorAlwaysShown = false
             format(value)
+
         }
     } catch (e: ArithmeticException) {
         value.toString()

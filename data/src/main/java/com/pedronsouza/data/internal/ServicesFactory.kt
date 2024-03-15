@@ -1,6 +1,7 @@
 package com.pedronsouza.data.internal
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.pedronsouza.data.api.CurrencyApi
 import com.pedronsouza.data.api.PropertyApi
 import kotlin.reflect.KClass
 import okhttp3.MediaType.Companion.toMediaType
@@ -11,6 +12,7 @@ import retrofit2.create
 
 internal class ServicesFactory {
     private lateinit var propertyApi: PropertyApi
+    private lateinit var currencyApi: CurrencyApi
     private val retrofitInstance: Retrofit
 
     init {
@@ -28,7 +30,8 @@ internal class ServicesFactory {
             .build()
     }
 
-    fun getOrCreate(type: KClass<*>) =
+    @Suppress("UNCHECKED_CAST")
+    fun <T>getOrCreate(type: KClass<*>): T =
         when (type) {
             PropertyApi::class -> {
                 if (!::propertyApi.isInitialized) {
@@ -38,6 +41,16 @@ internal class ServicesFactory {
                 propertyApi
             }
 
+            CurrencyApi::class -> {
+                if (!::currencyApi.isInitialized) {
+                    currencyApi = retrofitInstance.create()
+                }
+
+                currencyApi
+            }
+
             else -> throw IllegalArgumentException("No API found for type $type")
+        }.run {
+            this as T
         }
 }

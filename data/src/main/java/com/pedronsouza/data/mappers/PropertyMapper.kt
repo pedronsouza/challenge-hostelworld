@@ -5,7 +5,7 @@ import com.pedronsouza.data.responses.GetPropertiesResponse
 import com.pedronsouza.data.responses.PropertyImageResponse
 import com.pedronsouza.data.responses.PropertyLocationResponse
 import com.pedronsouza.data.responses.PropertyRatingBreakdownResponse
-import com.pedronsouza.domain.ObjectMapper
+import com.pedronsouza.domain.mappers.ObjectMapper
 import com.pedronsouza.domain.models.City
 import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.models.PropertyLocation

@@ -1,7 +1,7 @@
 package com.pedronsouza.shared.mappers
 
 import com.pedronsouza.domain.ContentParser
-import com.pedronsouza.domain.ObjectMapper
+import com.pedronsouza.domain.mappers.ObjectMapper
 import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.values.HtmlContent
 import com.pedronsouza.shared.components.models.PropertyItem

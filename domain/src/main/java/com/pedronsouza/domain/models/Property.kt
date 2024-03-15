@@ -6,6 +6,7 @@ data class Property(
     val id: String,
     val name: String,
     val lowestPriceByNight: Double,
+    val lowestPriceByNightWithRateApplied: Double = -1.0,
     val rating: Rating,
     val description: HtmlContent,
     val addressSegments: List<String>,
