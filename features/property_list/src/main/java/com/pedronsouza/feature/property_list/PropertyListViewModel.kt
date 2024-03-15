@@ -1,8 +1,6 @@
 package com.pedronsouza.feature.property_list
 
 import androidx.lifecycle.viewModelScope
-import com.pedronsouza.domain.ObjectMapper
-import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.useCases.LoadPropertiesUseCase
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.Constants

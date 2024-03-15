@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pedronsouza.shared.components.CardMode
 import com.pedronsouza.shared.components.LocalDimensions
-import com.pedronsouza.shared.components.PropertyMainInfoCard
+import com.pedronsouza.shared.components.PropertyCard
 import com.pedronsouza.shared.components.models.PropertyItem
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -40,7 +40,7 @@ fun PropertyDetailScreen(
                     .padding(LocalDimensions.current.defaultScreenPadding)
                     .verticalScroll(rememberScrollState())
             ) {
-                PropertyMainInfoCard(
+                PropertyCard(
                     item = propertyItem,
                     cardMode = CardMode.CAROUSEL
                 )

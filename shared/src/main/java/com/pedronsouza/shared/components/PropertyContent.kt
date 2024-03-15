@@ -4,16 +4,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.pedronsouza.shared.components.models.PropertyItem
+import com.pedronsouza.shared.extensions.priceFormatted
 import com.pedronsouza.shared.fakes.FakePropertyItem
 
 @Composable
@@ -27,18 +25,21 @@ fun PropertyContent(item: PropertyItem, cardMode: CardMode, modifier: Modifier) 
             fontSize = LocalDimensions.current.propertyCardNameTextSize
         )
 
-        Row {
-            Icon(
-                painter = rememberVectorPainter(image = Icons.Outlined.LocationOn),
-                contentDescription = null,
-                tint = LocalColors.current.darkGray
-            )
+        Spacer(
+            modifier = Modifier
+                .height(LocalDimensions.current.defaultSpacingBetweenPropertyCards / 10)
+        )
 
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(
                 text = item.location,
                 color = LocalColors.current.darkGray,
                 fontSize = LocalDimensions.current.propertyCardNameTextSize
             )
+
+            Text(text = item.priceFormatted())
         }
 
         Spacer(

@@ -21,7 +21,7 @@ internal class ServicesFactory {
             .build()
 
         retrofitInstance = Retrofit.Builder()
-            .baseUrl("https://127.0.0.1")
+            .baseUrl("https://gist.githubusercontent.com/PedroTrabulo-Hostelworld/")
             .client(okHttpClient)
             .addCallAdapterFactory(SuspendResultCallAdapterFactory())
             .addConverterFactory(DataJsonConfig.asConverterFactory("application/json".toMediaType()))

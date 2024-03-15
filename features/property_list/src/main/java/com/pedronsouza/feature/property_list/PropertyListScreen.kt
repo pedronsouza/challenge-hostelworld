@@ -44,7 +44,7 @@ import com.pedronsouza.domain.useCases.LoadPropertiesUseCase
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.components.LocalColors
 import com.pedronsouza.shared.components.LocalDimensions
-import com.pedronsouza.shared.components.PropertyMainInfoCard
+import com.pedronsouza.shared.components.PropertyCard
 import com.pedronsouza.shared.components.brushes.shimmerBrush
 import com.pedronsouza.shared.components.models.PropertyItem
 import com.pedronsouza.shared.fakes.FakeProperty
@@ -54,7 +54,6 @@ import com.pedronsouza.shared.navigation.RouteFactory
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
-import org.koin.core.module.Module
 import org.koin.dsl.module
 
 @Composable
@@ -137,7 +136,7 @@ fun PropertyList(
                         onPropertySelected.invoke(item)
                     }
             ) {
-                PropertyMainInfoCard(item)
+                PropertyCard(item)
             }
 
             Spacer(
@@ -301,7 +300,7 @@ private fun PreviewKoinApplication(content: @Composable () -> Unit) {
 
 @Preview
 @Composable
-fun previewPropertyList() {
+fun previewPropertyListScreen() {
     val snackbarHostState = remember { SnackbarHostState() }
     val navHostController = rememberNavController()
 

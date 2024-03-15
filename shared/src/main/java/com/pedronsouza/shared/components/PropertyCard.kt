@@ -2,7 +2,6 @@ package com.pedronsouza.shared.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -25,7 +24,7 @@ enum class CardMode {
 }
 
 @Composable
-fun PropertyMainInfoCard(
+fun PropertyCard(
     item: PropertyItem,
     cardMode: CardMode = CardMode.SHOWROOM
 ) {
@@ -35,7 +34,7 @@ fun PropertyMainInfoCard(
             .fillMaxWidth()
     ) {
         ConstraintLayout {
-            val (image, content, featured, rating) = createRefs()
+            val (image, content, featured, rating, pricing) = createRefs()
 
             val imageConstraint: ConstrainScope.() -> Unit = {
                 top.linkTo(parent.top)
@@ -114,7 +113,7 @@ fun FeaturedProperty(modifier: Modifier) {
 @Preview
 @Composable
 fun previewPropertyMainInfoCardShowRoom() {
-    PropertyMainInfoCard(
+    PropertyCard(
         item = FakePropertyItem.copy(isFeatured = false)
     )
 }
@@ -122,7 +121,7 @@ fun previewPropertyMainInfoCardShowRoom() {
 @Preview
 @Composable
 fun previewPropertyMainInfoCardCarousel() {
-    PropertyMainInfoCard(
+    PropertyCard(
         item = FakePropertyItem,
         cardMode = CardMode.CAROUSEL
     )
