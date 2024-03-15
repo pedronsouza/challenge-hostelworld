@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -65,7 +66,7 @@ fun PropertyListScreen(
     val state = viewModel.viewState.collectAsStateWithLifecycle()
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = state.value.isLoading) {
+    LaunchedEffect(key1 = true) {
         if (state.value.isLoading) {
             viewModel.sendEvent(PropertyListEvent.LoadProperties)
         }
@@ -86,6 +87,7 @@ fun PropertyListScreen(
     }
 
     when {
+        LocalInspectionMode.current -> PropertyListForPreview()
         state.value.isLoading -> LoadingView()
 
         !state.value.isLoading && state.value.error != null -> {
@@ -105,6 +107,18 @@ fun PropertyListScreen(
     }
 
 
+}
+
+@Composable
+private fun PropertyListForPreview() {
+    PropertyList(
+        properties = mutableListOf<PropertyItem>().apply {
+            for (i in 0..10) {
+                plusAssign(FakePropertyItem)
+            }
+        },
+        onPropertySelected = { }
+    )
 }
 
 @Composable
@@ -130,6 +144,76 @@ fun PropertyList(
                 modifier = Modifier
                     .height(LocalDimensions.current.defaultSpacingBetweenPropertyCards)
             )
+        }
+    }
+}
+
+@Composable
+fun LoadingView() {
+    val showShimmer = remember { mutableStateOf(true) }
+
+    DefaultRootLazyColumn(userScrollEnabled = false) {
+        items(10) {
+            ConstraintLayout(
+                modifier = Modifier.padding(LocalDimensions.current.defaultScreenPadding)
+            ) {
+                val (image, content, rating) = createRefs()
+
+                val imageConstraint: ConstrainScope.() -> Unit = {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(LocalDimensions.current.propertyShowroomImageSize)
+                        .constrainAs(image, imageConstraint)
+                        .background(
+                            shimmerBrush(
+                                targetValue = 1300f,
+                                showShimmer = showShimmer.value
+                            )
+                        )
+                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(80.dp)
+                        .padding(LocalDimensions.current.innerTextContentPropertyCardPadding)
+                        .constrainAs(content) {
+                            top.linkTo(image.bottom)
+                            start.linkTo(image.start)
+                        }
+                        .background(
+                            shimmerBrush(
+                                targetValue = 1300f,
+                                showShimmer = showShimmer.value
+                            )
+                        )
+                )
+
+                Box(
+                    modifier = Modifier
+                        .width(260.dp)
+                        .height(64.dp)
+                        .padding(
+                            LocalDimensions.current.innerTextContentPropertyCardPadding
+                        )
+                        .constrainAs(rating) {
+                            top.linkTo(content.bottom)
+                            start.linkTo(parent.start)
+                            end.linkTo(parent.end)
+                        }
+                        .background(
+                            shimmerBrush(
+                                targetValue = 1300f,
+                                showShimmer = showShimmer.value
+                            )
+                        )
+                )
+            }
         }
     }
 }
@@ -176,77 +260,6 @@ private fun DefaultRootLazyColumn(
 }
 
 @Composable
-fun LoadingView() {
-    val showShimmer = remember { mutableStateOf(true) }
-    
-    DefaultRootLazyColumn(userScrollEnabled = false) {
-        items(10) {
-            Card(elevation = 8.dp) {
-                ConstraintLayout(
-                    modifier = Modifier.padding(LocalDimensions.current.defaultScreenPadding)
-                ) {
-                    val (image, content, rating) = createRefs()
-
-                    val imageConstraint: ConstrainScope.() -> Unit = {
-                        top.linkTo(parent.top)
-                        start.linkTo(parent.start)
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(LocalDimensions.current.propertyShowroomImageSize)
-                            .constrainAs(image, imageConstraint)
-                            .background(
-                                shimmerBrush(
-                                    targetValue = 1300f,
-                                    showShimmer = showShimmer.value
-                                )
-                            )
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(80.dp)
-                            .padding(LocalDimensions.current.innerTextContentPropertyCardPadding)
-                            .constrainAs(content) {
-                                top.linkTo(image.bottom)
-                                start.linkTo(image.start)
-                            }
-                            .background(
-                                shimmerBrush(
-                                    targetValue = 1300f,
-                                    showShimmer = showShimmer.value
-                                )
-                            )
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .width(260.dp)
-                            .height(64.dp)
-                            .padding(
-                                LocalDimensions.current.innerTextContentPropertyCardPadding
-                            )
-                            .constrainAs(rating) {
-                                top.linkTo(content.bottom)
-                                start.linkTo(parent.start)
-                                end.linkTo(parent.end)
-                            }
-                            .background(
-                                shimmerBrush(
-                                    targetValue = 1300f,
-                                    showShimmer = showShimmer.value
-                                )
-                            )
-                    )
-                }
-            }
-        }
-    }
-}
-@Composable
 private fun PreviewKoinApplication(content: @Composable () -> Unit) {
     KoinApplication(
         moduleList = {
@@ -275,22 +288,27 @@ private fun PreviewKoinApplication(content: @Composable () -> Unit) {
                                 }
 
                             }
-                        )
+                        ).apply {
+                            sendEvent(PropertyListEvent.LoadProperties)
+                        }
                     }
                 }
             )
-         },
+        },
         content = content
     )
 }
 
 @Preview
 @Composable
-fun previewErrorView() {
+fun previewPropertyList() {
+    val snackbarHostState = remember { SnackbarHostState() }
+    val navHostController = rememberNavController()
+
     PreviewKoinApplication {
-        ErrorView(
-            error = IllegalArgumentException("Error message here"),
-            viewModel = koinViewModel()
+        PropertyListScreen(
+            snackbarHostState = snackbarHostState,
+            navController = navHostController
         )
     }
 }
@@ -303,14 +321,11 @@ fun previewLoadingView() {
 
 @Preview
 @Composable
-fun previewPropertyListScreen() {
-    val snackbarHostState = remember { SnackbarHostState() }
-    val navHostController = rememberNavController()
-
+fun previewErrorView() {
     PreviewKoinApplication {
-        PropertyListScreen(
-            snackbarHostState = snackbarHostState,
-            navController = navHostController
+        ErrorView(
+            error = IllegalArgumentException("Error message here"),
+            viewModel = koinViewModel()
         )
     }
 }

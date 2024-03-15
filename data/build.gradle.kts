@@ -7,10 +7,10 @@ plugins {
 
 android {
     namespace = "com.pedronsouza.data"
-    compileSdk = 34
+    compileSdk = Android.compileSdk
 
     defaultConfig {
-        minSdk = 24
+        minSdk = Android.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")

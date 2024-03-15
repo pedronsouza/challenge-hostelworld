@@ -83,7 +83,8 @@ data class Dimensions(
     val ratingCardTextSize: TextUnit = 12.sp,
     val maxRatingCardTextSize: TextUnit = 12.sp,
     val featurePropertyTopMargin: Dp = 16.dp,
-    val featurePropertyLabelMargin: Dp = 4.dp
+    val featurePropertyLabelMargin: Dp = 4.dp,
+    val defaultCardElevation: Dp = 8.dp
 )
 
 val LocalDimensions = compositionLocalOf { Dimensions() }

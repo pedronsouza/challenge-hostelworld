@@ -2,7 +2,7 @@
 
 object Android {
     const val compileSdk = 34
-    const val minSdk = 34
+    const val minSdk = 26
     const val packageName = "com.pedronsouza.challenge"
     const val instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 }
@@ -12,6 +12,6 @@ object KotlinOptions {
 }
 
 object ChallengeBuildConfig {
-    const val compileSdk = 34
-    const val minSdk = 34
+    const val compileSdk = 26
+    const val minSdk = 26
 }
