@@ -45,6 +45,7 @@ import com.pedronsouza.domain.useCases.LoadPropertiesUseCase
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.components.LocalColors
 import com.pedronsouza.shared.components.LocalDimensions
+import com.pedronsouza.shared.components.NavigationMode
 import com.pedronsouza.shared.components.PropertyCard
 import com.pedronsouza.shared.components.brushes.shimmerBrush
 import com.pedronsouza.shared.components.models.PropertyItem
@@ -52,7 +53,6 @@ import com.pedronsouza.shared.fakes.FakeProperty
 import com.pedronsouza.shared.fakes.FakePropertyItem
 import com.pedronsouza.shared.mappers.PropertyListMapper
 import com.pedronsouza.shared.navigation.RouteFactory
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
@@ -62,7 +62,8 @@ import org.koin.dsl.module
 fun PropertyListScreen(
     snackbarHostState: SnackbarHostState,
     navController: NavController,
-    appBarTitle: MutableState<String>
+    appBarTitle: MutableState<String>,
+    navigationMode: MutableState<NavigationMode>
 ) {
     val viewModel: PropertyListViewModel = koinViewModel<PropertyListViewModel>()
     val state = viewModel.viewState.collectAsStateWithLifecycle()
@@ -71,6 +72,7 @@ fun PropertyListScreen(
 
     LaunchedEffect(key1 = true) {
         appBarTitle.value = screenTitle
+        navigationMode.value = NavigationMode.NONE
 
         if (state.value.isLoading) {
             viewModel.sendEvent(PropertyListEvent.LoadProperties)
@@ -314,7 +316,8 @@ fun previewPropertyListScreen() {
         PropertyListScreen(
             snackbarHostState = snackbarHostState,
             navController = navHostController,
-            appBarTitle = remember { mutableStateOf("") }
+            appBarTitle = remember { mutableStateOf("") },
+            navigationMode = remember { mutableStateOf(NavigationMode.NONE) }
         )
     }
 }

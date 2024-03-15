@@ -37,7 +37,8 @@ fun HostelWorldChallengeApp(context: Application) {
             ExtendedScaffold(
                 snackbarHostState = snackbarHostState,
                 screenTitle = appBarTitle,
-                navigationMode = navigationMode
+                navigationMode = navigationMode,
+                navHostController = navHostController
             ) { _ ->
                 AppNavHost(
                     navController = navHostController,

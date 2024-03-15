@@ -19,9 +19,9 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun AppToolbar(
     title: MutableState<String>,
-    navigationMode: MutableState<NavigationMode>
+    navigationMode: MutableState<NavigationMode>,
+    navHostController: NavHostController
 ) {
-    val navHostController = rememberNavController()
     val navigationIcon: @Composable (() -> Unit)? = when (navigationMode.value) {
         NavigationMode.NONE -> null
         NavigationMode.BACK -> BackIcon(navHostController)
@@ -40,7 +40,11 @@ fun AppToolbar(
 private fun BackIcon(
     navHostController: NavHostController
 ): @Composable () -> Unit = {
-    IconButton(onClick = {  }) {
+    IconButton(
+        onClick = {
+            navHostController.popBackStack()
+        }
+    ) {
         Icon(
             painter = rememberVectorPainter(image = Icons.AutoMirrored.Filled.ArrowBack),
             contentDescription = null
@@ -60,9 +64,12 @@ fun previewAppToolbarNoNavigation() {
         title = remember {
             mutableStateOf("Home")
         },
+
         navigationMode =  remember {
             mutableStateOf(NavigationMode.NONE)
-        }
+        },
+
+        navHostController = rememberNavController()
     )
 }
 
@@ -73,8 +80,11 @@ fun previewAppToolbarNavigation() {
         title = remember {
             mutableStateOf("DETAILS")
         },
+
         navigationMode =  remember {
             mutableStateOf(NavigationMode.BACK)
-        }
+        },
+
+        navHostController = rememberNavController()
     )
 }

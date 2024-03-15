@@ -77,7 +77,7 @@ fun previewPropertyDetailScreen() {
         PropertyDetailScreen(
             propertyItem = FakePropertyItem,
             appBarTitle = remember { mutableStateOf("") },
-            navigationMode = remember { mutableStateOf(NavigationMode.NONE) }
+            navigationMode = remember { mutableStateOf(NavigationMode.BACK) }
         )
     }
 }

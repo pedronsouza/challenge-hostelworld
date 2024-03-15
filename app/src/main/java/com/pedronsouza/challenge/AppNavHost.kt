@@ -1,5 +1,6 @@
 package com.pedronsouza.challenge
 
+import android.os.Build
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -14,7 +15,6 @@ import com.pedronsouza.feature.property_list.PropertyListScreen
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.components.NavigationMode
 import com.pedronsouza.shared.navigation.NavigationItem
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun AppNavHost(
@@ -28,8 +28,9 @@ fun AppNavHost(
         composable(NavigationItem.Home.route) {
             PropertyListScreen(
                 snackbarHostState = snackbarHostState,
-                navController,
-                appBarTitle
+                navController = navController,
+                appBarTitle = appBarTitle,
+                navigationMode = navigationMode
             )
         }
 
@@ -41,10 +42,14 @@ fun AppNavHost(
                 }
             )
         ) {stackEntry ->
-            val propertyItem = stackEntry.arguments?.getParcelable(
-                AppScreen.DETAIL.parameterName.orEmpty(),
-                PropertyItem::class.java
-            )
+            val propertyItem = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                stackEntry.arguments?.getParcelable(
+                    AppScreen.DETAIL.parameterName.orEmpty(),
+                    PropertyItem::class.java
+                )
+            } else {
+                stackEntry.arguments?.getParcelable(AppScreen.DETAIL.parameterName.orEmpty())
+            }
 
             checkNotNull(propertyItem)
 
