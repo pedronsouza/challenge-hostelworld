@@ -14,5 +14,6 @@ data class PropertyItem(
     val description: String?,
     val images: List<String>,
     val address: String,
-    val location: String
+    val location: String,
+    val isFeatured: Boolean
 ) : Parcelable

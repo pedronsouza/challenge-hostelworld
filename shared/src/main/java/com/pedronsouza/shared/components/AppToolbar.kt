@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 fun AppToolbar(title: String) {
     TopAppBar(
         contentColor = LocalColors.current.toolbarTextColor,
-        backgroundColor = LocalColors.current.toolbarBg,
+        backgroundColor = LocalColors.current.lightGray,
         elevation = 0.dp,
         title = { Text(title) }
     )

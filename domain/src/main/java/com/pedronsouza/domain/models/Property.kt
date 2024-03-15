@@ -10,5 +10,6 @@ data class Property(
     val description: HtmlContent,
     val addressSegments: List<String>,
     val images: List<RemoteResource>,
-    val location: PropertyLocation
+    val location: PropertyLocation,
+    val isFeatured: Boolean
 )

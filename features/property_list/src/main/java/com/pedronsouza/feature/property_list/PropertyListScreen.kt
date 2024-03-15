@@ -1,18 +1,26 @@
 package com.pedronsouza.feature.property_list
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.SnackbarHostState
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pedronsouza.shared.components.LocalDimensions
@@ -47,15 +55,42 @@ fun PropertyListScreen(
         }
     }
 
+    when {
+        state.value.isLoading -> LoadingView()
+
+        !state.value.isLoading && state.value.error != null -> {
+            val error = state.value.error
+            checkNotNull(error)
+
+            ErrorView(error)
+        }
+
+        else ->
+            PropertyList(
+                properties = state.value.properties,
+                onPropertySelected = {
+                    viewModel.sendEvent(PropertyListEvent.PropertySelected(it))
+                }
+            )
+    }
+
+
+}
+
+@Composable
+fun PropertyList(
+    properties: List<PropertyItem>,
+    onPropertySelected: (PropertyItem) -> Unit
+) {
     LazyColumn(
         modifier = Modifier.padding(LocalDimensions.current.defaultScreenPadding)
     ) {
-        items(state.value.properties) { item: PropertyItem ->
+        items(properties) { item: PropertyItem ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
-                        viewModel.sendEvent(PropertyListEvent.PropertySelected(item))
+                        onPropertySelected.invoke(item)
                     }
             ) {
                 PropertyMainInfoCard(item)
@@ -67,4 +102,21 @@ fun PropertyListScreen(
             )
         }
     }
+}
+
+@Composable
+fun ErrorView(error: Throwable) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        Icon(
+            painter = rememberVectorPainter(image = Icons.Outlined.Warning),
+            contentDescription = null
+        )
+
+        Text(text = stringResource(id = R.string.something_went_wrong) + ": ${error.message}")
+    }
+}
+
+@Composable
+fun LoadingView() {
+
 }

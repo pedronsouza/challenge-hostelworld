@@ -29,7 +29,8 @@ internal class PropertyListMapperImpl(
                     RatingCategory.LOCATION to calculateRating(item.rating.location)
                 ),
                 address = item.addressSegments.joinToString { "," },
-                location = "${item.location.city.name}, ${item.location.city.country}"
+                location = "${item.location.city.name}, ${item.location.city.country}",
+                isFeatured = item.isFeatured
             )
         }
 

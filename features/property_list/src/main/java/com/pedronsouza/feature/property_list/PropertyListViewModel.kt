@@ -24,7 +24,8 @@ import timber.log.Timber
 
 data class State(
     val isLoading: Boolean = false,
-    val properties: List<PropertyItem> = emptyList()
+    val properties: List<PropertyItem> = emptyList(),
+    val error: Throwable? = null
 ) : ViewState
 
 sealed class PropertyListEvent : ViewEvent {
@@ -74,12 +75,14 @@ internal class PropertyListViewModel(
                 Timber.tag(logTag).e(error)
                 updateState {
                     copy(
-                        isLoading = false
+                        isLoading = false,
+                        error = error
                     )
                 }
             }
 
-            val newProperties = mutableListOf<PropertyItem>()
+            val newProperties = viewState.value.properties.toMutableList()
+            var newError = viewState.value.error
             val result = withContext(Dispatchers.IO) {
                 loadPropertiesUseCase.execute()
             }
@@ -96,6 +99,8 @@ internal class PropertyListViewModel(
                 Timber.tag(logTag).e("loadProperties error")
                 Timber.tag(logTag).e(error)
 
+                newError = error
+
                 triggerEffect {
                     PropertyListEffects.ShowErrorToast(R.string.something_went_wrong)
                 }
@@ -104,7 +109,8 @@ internal class PropertyListViewModel(
             updateState {
                 copy(
                     properties = newProperties,
-                    isLoading = false
+                    isLoading = false,
+                    error = newError
                 )
             }
         }

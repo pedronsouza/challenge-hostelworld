@@ -43,22 +43,28 @@ fun AppTheme(
 }
 
 interface AppColor {
-    val defaultScreenBg: Color
-    val toolbarBg: Color
+    val white: Color
+    val lightGray: Color
     val toolbarTextColor: Color
     val ratingTextColor: Color
+    val darkGray: Color
+    val purple: Color
 }
 
 data class LightColors(
-    override val defaultScreenBg: Color = Color(0xffffffff),
-    override val toolbarBg: Color = Color(0x96ebebf5),
+    override val white: Color = Color(0xffffffff),
+    override val lightGray: Color = Color(0x96ebebf5),
+    override val darkGray: Color = Color(0xff3a3a3c),
+    override val purple: Color = Color(0xffbf5af2),
     override val toolbarTextColor: Color = Color(0xff000000),
     override val ratingTextColor: Color = Color(0xffff9f0A)
 ) : AppColor
 
 data class DarkColors(
-    override val defaultScreenBg: Color,
-    override val toolbarBg: Color = Color(0x96ebebf5),
+    override val white: Color,
+    override val lightGray: Color = Color(0x96ebebf5),
+    override val darkGray: Color = Color(0xff3a3a3c),
+    override val purple: Color = Color(0xffbf5af2),
     override val toolbarTextColor: Color = Color(0xffffffff),
     override val ratingTextColor: Color = Color(0xffff9f0A)
 ) : AppColor
@@ -72,7 +78,9 @@ data class Dimensions(
     val propertyCardNameTextSize: TextUnit = 14.sp,
     val propertyCardDescriptionTextSize: TextUnit = 14.sp,
     val ratingCardTextSize: TextUnit = 14.sp,
-    val maxRatingCardTextSize: TextUnit = 12.sp
+    val maxRatingCardTextSize: TextUnit = 12.sp,
+    val featurePropertyTopMargin: Dp = 16.dp,
+    val featurePropertyLabelMargin: Dp = 4.dp
 )
 
 val LocalDimensions = compositionLocalOf { Dimensions() }

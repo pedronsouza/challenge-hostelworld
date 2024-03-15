@@ -13,5 +13,6 @@ data class PropertyResponse(
     @SerialName("imagesGallery") val images: List<PropertyImageResponse>,
     val ratingBreakdown: PropertyRatingBreakdownResponse,
     val address1: String,
-    val address2: String
+    val address2: String,
+    val isFeatured: Boolean
 )

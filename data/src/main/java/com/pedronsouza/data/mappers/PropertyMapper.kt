@@ -26,7 +26,8 @@ internal class PropertyMapperImpl :
                 images = item.images.toRemoteResource(),
                 rating = item.ratingBreakdown.toRating(),
                 addressSegments = listOf(item.address1, item.address2),
-                location = inputData.location.toPropertyLocation()
+                location = inputData.location.toPropertyLocation(),
+                isFeatured = item.isFeatured
             )
         }
 
@@ -53,7 +54,7 @@ internal class PropertyMapperImpl :
     private fun List<PropertyImageResponse>.toRemoteResource() =
         map { imageResponse ->
             RemoteResource(
-                url = "$ImagesUrlProtocol://${imageResponse.prefix}${imageResponse.suffix}"
+                url = "$ImagesUrlProtocol://${imageResponse.prefix + imageResponse.suffix}"
             )
         }
 }

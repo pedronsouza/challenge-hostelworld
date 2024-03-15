@@ -38,6 +38,6 @@ internal class ServicesFactory {
                 propertyApi
             }
 
-            else -> throw IllegalArgumentException("No API founded for type $type")
+            else -> throw IllegalArgumentException("No API found for type $type")
         }
 }
