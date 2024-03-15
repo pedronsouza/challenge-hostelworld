@@ -2,6 +2,7 @@ package com.pedronsouza.challenge
 
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,18 +13,21 @@ import com.pedronsouza.feature.property_list.PropertyListItemParamType
 import com.pedronsouza.feature.property_list.PropertyListScreen
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.navigation.NavigationItem
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun AppNavHost(
     navController: NavHostController,
     startDestination: String = NavigationItem.Home.route,
-    snackbarHostState: SnackbarHostState
+    snackbarHostState: SnackbarHostState,
+    appBarTitle: MutableState<String>
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
         composable(NavigationItem.Home.route) {
             PropertyListScreen(
                 snackbarHostState = snackbarHostState,
-                navController
+                navController,
+                appBarTitle
             )
         }
 
@@ -44,7 +48,7 @@ fun AppNavHost(
 
             PropertyDetailScreen(
                 propertyItem = propertyItem,
-                snackbarHostState = snackbarHostState
+                appBarTitle = appBarTitle
             )
         }
     }

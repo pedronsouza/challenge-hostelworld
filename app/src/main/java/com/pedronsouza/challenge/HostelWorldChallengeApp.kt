@@ -3,6 +3,8 @@ package com.pedronsouza.challenge
 import android.app.Application
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.rememberNavController
@@ -14,6 +16,7 @@ import com.pedronsouza.feature.property_list.PropertyListScreen
 import com.pedronsouza.shared.SharedModule
 import com.pedronsouza.shared.components.AppTheme
 import com.pedronsouza.shared.components.ExtendedScaffold
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.compose.KoinContext
@@ -25,16 +28,18 @@ fun HostelWorldChallengeApp(context: Application) {
     initDependencies(context)
     val snackbarHostState = remember { SnackbarHostState() }
     val navHostController = rememberNavController()
+    val appBarTitle = remember { mutableStateOf("") }
 
     AppTheme {
         KoinContext {
             ExtendedScaffold(
                 snackbarHostState = snackbarHostState,
-                screenTitle = stringResource(id = R.string.app_name)
+                screenTitle = appBarTitle
             ) { _ ->
                 AppNavHost(
                     navController = navHostController,
                     snackbarHostState = snackbarHostState,
+                    appBarTitle = appBarTitle
                 )
             }
         }

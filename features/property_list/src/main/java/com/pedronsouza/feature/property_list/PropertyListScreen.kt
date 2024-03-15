@@ -24,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -51,6 +52,7 @@ import com.pedronsouza.shared.fakes.FakeProperty
 import com.pedronsouza.shared.fakes.FakePropertyItem
 import com.pedronsouza.shared.mappers.PropertyListMapper
 import com.pedronsouza.shared.navigation.RouteFactory
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
@@ -59,13 +61,17 @@ import org.koin.dsl.module
 @Composable
 fun PropertyListScreen(
     snackbarHostState: SnackbarHostState,
-    navController: NavController
+    navController: NavController,
+    appBarTitle: MutableState<String>
 ) {
     val viewModel: PropertyListViewModel = koinViewModel<PropertyListViewModel>()
     val state = viewModel.viewState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val screenTitle = stringResource(id = R.string.property_list_screen_title)
 
     LaunchedEffect(key1 = true) {
+        appBarTitle.value = screenTitle
+
         if (state.value.isLoading) {
             viewModel.sendEvent(PropertyListEvent.LoadProperties)
         }
@@ -307,7 +313,8 @@ fun previewPropertyListScreen() {
     PreviewKoinApplication {
         PropertyListScreen(
             snackbarHostState = snackbarHostState,
-            navController = navHostController
+            navController = navHostController,
+            appBarTitle = remember { mutableStateOf("") }
         )
     }
 }
