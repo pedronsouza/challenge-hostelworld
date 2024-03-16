@@ -78,6 +78,8 @@ retrofit-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+turbine = "app.cash.turbine:turbine:0.13.0"
+androidx-arch-core-testing = "androidx.arch.core:core-testing:2.2.0"
 
 [bundles]
 okhttp = [

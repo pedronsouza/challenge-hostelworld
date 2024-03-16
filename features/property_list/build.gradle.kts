@@ -44,6 +44,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -60,4 +65,9 @@ dependencies {
 
     implementation(libs.bundles.android.lifecycle)
     implementation(libs.bundles.compose)
+    implementation(libs.kotlin.coroutines.core)
+    implementation(libs.kotlin.coroutines.android)
+
+    testImplementation(libs.bundles.unit.test)
+    testImplementation(libs.turbine)
 }

@@ -7,5 +7,5 @@ plugins {
 dependencies {
     implementation(libs.koin.core)
     implementation(libs.kotlin.coroutines.core)
-    implementation(libs.bundles.unit.test)
+    testImplementation(libs.bundles.unit.test)
 }

@@ -77,11 +77,22 @@ internal class PropertyListViewModel(
     }
 
     private fun switchCurrency(newCurrency: AppCurrency) {
-        saveSelectedCurrencyUseCase.execute(newCurrency)
+        var selectedCurrency = viewState.value.selectedCurrency
+
+        saveSelectedCurrencyUseCase
+            .execute(newCurrency)
+            .onSuccess {
+                Timber.tag(logTag).d("Currency switched: $newCurrency")
+                selectedCurrency = newCurrency
+            }.onFailure { error ->
+                Timber.tag(logTag).e("Fails to switch currency")
+                Timber.tag(logTag).e(error)
+            }
 
         updateState {
             initialViewState().copy(
-                availableCurrencies = availableCurrencies
+                availableCurrencies = availableCurrencies,
+                selectedCurrency = selectedCurrency
             )
         }
 
