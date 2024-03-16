@@ -8,10 +8,12 @@ import com.pedronsouza.data.mappers.GetCurrencyResponseMapperImpl
 import com.pedronsouza.data.mappers.PropertyMapper
 import com.pedronsouza.data.mappers.PropertyMapperImpl
 import com.pedronsouza.data.repositories.CurrencyRepositoryImpl
+import com.pedronsouza.data.repositories.NetworkStatsRepositoryImpl
 import com.pedronsouza.data.repositories.PropertyRepositoryImpl
 import com.pedronsouza.domain.dataSources.LocalCurrencyDataSource
 import com.pedronsouza.domain.dataSources.PropertyDataSource
 import com.pedronsouza.domain.repositories.CurrencyRepository
+import com.pedronsouza.domain.repositories.NetworkStatsRepository
 import com.pedronsouza.domain.repositories.PropertyRepository
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.factoryOf
@@ -26,4 +28,5 @@ val DataModule = module {
     factoryOf(::CurrencyRepositoryImpl) { bind<CurrencyRepository>() }
     singleOf(::LocalCurrencyDataSourceImpl) { bind<LocalCurrencyDataSource>() }
     factoryOf(::GetCurrencyResponseMapperImpl) { bind<GetCurrencyResponseMapper>() }
+    factoryOf(::NetworkStatsRepositoryImpl) { bind<NetworkStatsRepository>() }
 }

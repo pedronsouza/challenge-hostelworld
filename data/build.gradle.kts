@@ -40,4 +40,5 @@ dependencies {
     implementation(libs.bundles.retrofit)
     implementation(libs.kotlin.serialization.json)
     implementation(libs.bundles.okhttp)
+    implementation(libs.timber)
 }

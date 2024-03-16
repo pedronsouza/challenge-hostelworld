@@ -2,7 +2,10 @@ package com.pedronsouza.data.internal
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.pedronsouza.data.api.CurrencyApi
+import com.pedronsouza.data.api.NetworkStatsApi
 import com.pedronsouza.data.api.PropertyApi
+import com.pedronsouza.data.api.interceptors.NetworkStatMonitorInterceptor
+import com.pedronsouza.domain.useCases.TrackNetworkResponsesUseCase
 import kotlin.reflect.KClass
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -13,6 +16,8 @@ import retrofit2.create
 internal class ServicesFactory {
     private lateinit var propertyApi: PropertyApi
     private lateinit var currencyApi: CurrencyApi
+    private lateinit var networkStatsApi: NetworkStatsApi
+
     private val retrofitInstance: Retrofit
 
     init {
@@ -20,6 +25,7 @@ internal class ServicesFactory {
             .addInterceptor(
                 HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
             )
+            .addInterceptor(NetworkStatMonitorInterceptor())
             .build()
 
         retrofitInstance = Retrofit.Builder()
@@ -47,6 +53,14 @@ internal class ServicesFactory {
                 }
 
                 currencyApi
+            }
+
+            NetworkStatsApi::class -> {
+                if (!::networkStatsApi.isInitialized) {
+                    networkStatsApi = retrofitInstance.create()
+                }
+
+                networkStatsApi
             }
 
             else -> throw IllegalArgumentException("No API found for type $type")

@@ -15,4 +15,5 @@ val SharedModule = module {
     factoryOf(::HtmlToTexContentParser) { bind<ContentParser<HtmlContent, String>>() }
     factoryOf(::RouteFactoryImpl) { bind<RouteFactory>() }
     factoryOf(::PropertyListMapperImpl) { bind<PropertyListMapper>() }
+    factoryOf(::PropertyListMapperImpl) { bind<PropertyListMapper>() }
 }
