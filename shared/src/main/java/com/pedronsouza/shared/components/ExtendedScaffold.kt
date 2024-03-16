@@ -1,6 +1,7 @@
 package com.pedronsouza.shared.components
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarHost
 import androidx.compose.material.SnackbarHostState

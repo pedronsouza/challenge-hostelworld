@@ -1,10 +1,12 @@
 package com.pedronsouza.feature.property_list
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,22 +19,29 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.outlined.Warning
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstrainScope
@@ -41,11 +50,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.pedronsouza.domain.models.Property
+import com.pedronsouza.domain.useCases.GetAvailableCurrenciesUseCase
+import com.pedronsouza.domain.useCases.GetSelectedCurrencyUseCase
 import com.pedronsouza.domain.useCases.LoadPropertiesUseCase
+import com.pedronsouza.domain.useCases.SaveSelectedCurrencyUseCase
+import com.pedronsouza.domain.values.AppCurrency
+import com.pedronsouza.domain.values.displayName
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.components.LocalColors
 import com.pedronsouza.shared.components.LocalDimensions
-import com.pedronsouza.shared.components.NavigationMode
 import com.pedronsouza.shared.components.PropertyCard
 import com.pedronsouza.shared.components.brushes.shimmerBrush
 import com.pedronsouza.shared.components.models.PropertyItem
@@ -54,26 +67,25 @@ import com.pedronsouza.shared.fakes.FakePropertyItem
 import com.pedronsouza.shared.mappers.PropertyListMapper
 import com.pedronsouza.shared.navigation.RouteFactory
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
 import org.koin.dsl.module
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PropertyListScreen(
     snackbarHostState: SnackbarHostState,
-    navController: NavController,
-    appBarTitle: MutableState<String>,
-    navigationMode: MutableState<NavigationMode>
+    navController: NavController
 ) {
     val viewModel: PropertyListViewModel = koinViewModel<PropertyListViewModel>()
     val state = viewModel.viewState.collectAsStateWithLifecycle()
     val context = LocalContext.current
-    val screenTitle = stringResource(id = R.string.property_list_screen_title)
+    val modalBottomSheetState =
+        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val screenScope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = true) {
-        appBarTitle.value = screenTitle
-        navigationMode.value = NavigationMode.NONE
-
         if (state.value.isLoading) {
             viewModel.sendEvent(PropertyListEvent.LoadProperties)
         }
@@ -104,16 +116,76 @@ fun PropertyListScreen(
             ErrorView(error, viewModel)
         }
 
-        else ->
-            PropertyList(
-                properties = state.value.properties,
-                onPropertySelected = {
-                    viewModel.sendEvent(PropertyListEvent.PropertySelected(it))
-                }
-            )
+        else -> {
+            val selectedCurrency = state.value.selectedCurrency
+            checkNotNull(selectedCurrency)
+            assert(state.value.availableCurrencies.isNotEmpty())
+
+            ModalBottomSheetLayout(
+                sheetContent = {
+                    SheetContent(
+                        availableCurrencies = state.value.availableCurrencies,
+                        selectedCurrency = selectedCurrency,
+                        onCurrencySelected = { currency ->
+                            screenScope.launch {
+                                modalBottomSheetState.hide()
+                                viewModel.sendEvent(PropertyListEvent.SwitchCurrency(currency))
+                            }
+                        }
+                    )
+                },
+                sheetState = modalBottomSheetState
+            ) {
+                PropertyList(
+                    properties = state.value.properties,
+                    onPropertySelected = {
+                        viewModel.sendEvent(PropertyListEvent.PropertySelected(it))
+                    },
+                    selectedCurrency = selectedCurrency,
+                    onSwitchCurrencyClicked = {
+                        screenScope.launch {
+                            modalBottomSheetState.show()
+                        }
+                    }
+                )
+            }
+        }
     }
+}
 
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun SheetContent(
+    availableCurrencies: List<AppCurrency>,
+    selectedCurrency: AppCurrency,
+    onCurrencySelected: (AppCurrency) -> Unit
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(LocalColors.current.lightGray)
+    ) {
+        items(availableCurrencies) { currency ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onCurrencySelected.invoke(currency)
+                    }
+                    .padding(12.dp)
+            ) {
+                Text(text = currency.toString(), fontWeight = FontWeight.Bold)
+                Text(text = currency.displayName, modifier = Modifier.padding(start = 6.dp))
 
+                if (selectedCurrency == currency) {
+                    Icon(
+                        painter = rememberVectorPainter(image = Icons.Filled.Done),
+                        contentDescription = null
+                    )
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -124,22 +196,48 @@ private fun PropertyListForPreview() {
                 plusAssign(FakePropertyItem)
             }
         },
-        onPropertySelected = { }
+        selectedCurrency = AppCurrency("EUR"),
+        onPropertySelected = { },
+        onSwitchCurrencyClicked = { }
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PropertyList(
     properties: List<PropertyItem>,
-    onPropertySelected: (PropertyItem) -> Unit
+    selectedCurrency: AppCurrency,
+    onPropertySelected: (PropertyItem) -> Unit,
+    onSwitchCurrencyClicked: () -> Unit
 ) {
-    LazyColumn(
-        modifier = Modifier.padding(LocalDimensions.current.defaultScreenPadding)
-    ) {
+    LazyColumn {
+        stickyHeader {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(LocalColors.current.lightGray)
+            ) {
+
+                Text(
+                    text = "Prices Currency: ${selectedCurrency.displayName}",
+                    modifier = Modifier
+                        .padding(12.dp)
+                        .weight(1.0f)
+                )
+
+                TextButton(
+                    onClick = onSwitchCurrencyClicked
+                ) {
+                    Text(text = "Switch")
+                }
+            }
+        }
         items(properties) { item: PropertyItem ->
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(LocalDimensions.current.defaultScreenPadding)
                     .clickable {
                         onPropertySelected.invoke(item)
                     }
@@ -280,6 +378,26 @@ private fun PreviewKoinApplication(content: @Composable () -> Unit) {
                                 }
                             },
 
+                            getSelectedCurrencyUseCase = object : GetSelectedCurrencyUseCase {
+                                override suspend fun execute(): Result<AppCurrency> {
+                                    return Result.success(AppCurrency("EUR"))
+                                }
+                            },
+
+                            getAvailableCurrenciesUseCase = object: GetAvailableCurrenciesUseCase {
+                                override suspend fun execute(): Result<List<AppCurrency>> {
+                                    return Result.success(emptyList())
+                                }
+
+                            },
+
+                            saveSelectedCurrencyUseCase = object: SaveSelectedCurrencyUseCase {
+                                override fun execute(currency: AppCurrency): Result<Unit> {
+                                    return Result.success(Unit)
+                                }
+
+                            },
+
                             propertyListMapper = object : PropertyListMapper {
                                 override fun transform(inputData: List<Property>): List<PropertyItem> {
                                     return listOf(FakePropertyItem)
@@ -315,9 +433,7 @@ fun previewPropertyListScreen() {
     PreviewKoinApplication {
         PropertyListScreen(
             snackbarHostState = snackbarHostState,
-            navController = navHostController,
-            appBarTitle = remember { mutableStateOf("") },
-            navigationMode = remember { mutableStateOf(NavigationMode.NONE) }
+            navController = navHostController
         )
     }
 }

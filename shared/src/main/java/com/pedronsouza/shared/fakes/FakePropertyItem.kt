@@ -12,7 +12,7 @@ import com.pedronsouza.shared.components.models.RatingCategory
 val FakePropertyItem = PropertyItem(
     id = "test-id",
     name = "Lorem ipsum dolor sit amet, consectetur ",
-    value = 58.99,
+    lowestPriceByNight = 58.99,
     images = listOf(
         "https://res.cloudinary.com/test-hostelworld-com/image/upload/f_auto,q_auto/v1/propertyimages/1/100/qzseav8zdfqpugqjpvlj",
     ),
@@ -28,13 +28,14 @@ val FakePropertyItem = PropertyItem(
     ),
     address = "29 Bachelors Walk, Dublin 1",
     location = "Dublin, Ireland",
-    isFeatured = true
+    isFeatured = true,
+    displayPrice = "58,99 €"
 )
 
 val FakeProperty = Property(
     id = FakePropertyItem.id,
     name = FakePropertyItem.name,
-    lowestPriceByNight = FakePropertyItem.value,
+    lowestPriceByNight = FakePropertyItem.lowestPriceByNight,
     rating = Rating(
         security = 83,
         overall = 83,

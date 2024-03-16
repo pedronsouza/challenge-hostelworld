@@ -50,6 +50,7 @@ interface AppColor {
     val ratingTextColor: Color
     val darkGray: Color
     val purple: Color
+    val lightGreen: Color
 }
 
 data class LightColors(
@@ -59,7 +60,8 @@ data class LightColors(
     override val darkGray: Color = Color(0xff3a3a3c),
     override val purple: Color = Color(0xffbf5af2),
     override val toolbarTextColor: Color = Color(0xff000000),
-    override val ratingTextColor: Color = Color(0xffff9f0A)
+    override val ratingTextColor: Color = Color(0xffff9f0A),
+    override val lightGreen: Color = Color(0xff32d74b)
 ) : AppColor
 
 data class DarkColors(
@@ -69,7 +71,8 @@ data class DarkColors(
     override val darkGray: Color = Color(0xff3a3a3c),
     override val purple: Color = Color(0xffbf5af2),
     override val toolbarTextColor: Color = Color(0xffffffff),
-    override val ratingTextColor: Color = Color(0xffff9f0A)
+    override val ratingTextColor: Color = Color(0xffff9f0A),
+    override val lightGreen: Color = Color(0xff32d74b)
 ) : AppColor
 
 data class Dimensions(

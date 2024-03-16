@@ -5,8 +5,7 @@ import com.pedronsouza.domain.models.Currency
 import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.repositories.CurrencyRepository
 import com.pedronsouza.domain.repositories.PropertyRepository
-import com.pedronsouza.domain.values.SelectedCurrency
-import java.security.PrivateKey
+import com.pedronsouza.domain.values.AppCurrency
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -16,7 +15,7 @@ interface LoadPropertiesUseCase {
     suspend fun execute(): Result<List<Property>>
 }
 
-class LoadPropertiesUseCaseImpl(
+internal class LoadPropertiesUseCaseImpl(
     private val propertyRepository: PropertyRepository,
     private val currencyRepository: CurrencyRepository,
 ) : LoadPropertiesUseCase {
@@ -34,7 +33,7 @@ class LoadPropertiesUseCaseImpl(
 
             val properties = results[0] as List<Property>
             val currencies = results[1] as List<Currency>
-            val selectedCurrency = results[2] as SelectedCurrency
+            val selectedCurrency = results[2] as AppCurrency
 
             properties.map { property ->
                 PropertyPriceCalculator.prepareValueWithCurrencyRateApplied(

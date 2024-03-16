@@ -9,7 +9,8 @@ import kotlinx.serialization.Serializable
 data class PropertyItem(
     val id: String,
     val name: String,
-    val value: Double,
+    val lowestPriceByNight: Double,
+    val displayPrice: String,
     val rating: Map<RatingCategory, Double>,
     val description: String?,
     val images: List<String>,

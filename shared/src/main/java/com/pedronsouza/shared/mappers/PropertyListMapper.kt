@@ -1,22 +1,26 @@
 package com.pedronsouza.shared.mappers
 
 import com.pedronsouza.domain.ContentParser
+import com.pedronsouza.domain.dataSources.LocalCurrencyDataSource
 import com.pedronsouza.domain.mappers.ObjectMapper
 import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.values.HtmlContent
 import com.pedronsouza.shared.components.models.PropertyItem
 import com.pedronsouza.shared.components.models.RatingCategory
+import com.pedronsouza.shared.extensions.priceFormatted
 
 interface PropertyListMapper : ObjectMapper<List<Property>, List<PropertyItem>>
 internal class PropertyListMapperImpl(
-    private val parser: ContentParser<HtmlContent, String>
+    private val parser: ContentParser<HtmlContent, String>,
+    private val currencyLocalCache: LocalCurrencyDataSource
 ) : PropertyListMapper {
     override fun transform(inputData: List<Property>) =
         inputData.map { item ->
             PropertyItem(
                 id = item.name,
                 name = item.name,
-                value = item.lowestPriceByNight,
+                lowestPriceByNight = item.lowestPriceByNight,
+                displayPrice = item.priceFormatted(currencyLocalCache.getSelectedCurrency()),
                 images = item.images.map { it.toString() },
                 description = parser.parse(item.description),
                 rating = mapOf(

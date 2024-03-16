@@ -1,12 +1,12 @@
 package com.pedronsouza.data.repositories
 
 import com.pedronsouza.data.api.CurrencyApi
-import com.pedronsouza.data.cache.LocalCurrencyDataSource
 import com.pedronsouza.data.internal.ServicesFactory
 import com.pedronsouza.data.mappers.GetCurrencyResponseMapper
+import com.pedronsouza.domain.dataSources.LocalCurrencyDataSource
 import com.pedronsouza.domain.models.Currency
 import com.pedronsouza.domain.repositories.CurrencyRepository
-import com.pedronsouza.domain.values.SelectedCurrency
+import com.pedronsouza.domain.values.AppCurrency
 
 internal class CurrencyRepositoryImpl(
     private val servicesFactory: ServicesFactory,
@@ -27,6 +27,10 @@ internal class CurrencyRepositoryImpl(
         return cache.getCurrencies()
     }
 
-    override fun getSelectedCurrency(): SelectedCurrency =
+    override fun getSelectedCurrency(): AppCurrency =
         cache.getSelectedCurrency()
+
+    override fun setSelectedCurrency(newCurrency: AppCurrency) {
+        cache.setSelectedCurrency(newCurrency)
+    }
 }

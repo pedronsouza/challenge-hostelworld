@@ -1,63 +1,88 @@
 package com.pedronsouza.shared.components
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstrainScope
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.pedronsouza.shared.components.models.PropertyItem
-import com.pedronsouza.shared.extensions.priceFormatted
 import com.pedronsouza.shared.fakes.FakePropertyItem
 
 @Composable
 fun PropertyContent(item: PropertyItem, cardMode: CardMode, modifier: Modifier) {
-    Column(
-        modifier = modifier
-    ) {
+    ConstraintLayout(modifier = modifier) {
+        val (name, displayPrice, location, descriptionText) = createRefs()
+
         Text(
             text = item.name,
             fontWeight = FontWeight.Medium,
-            fontSize = LocalDimensions.current.propertyCardNameTextSize
+            fontSize = LocalDimensions.current.propertyCardNameTextSize,
+            textAlign = TextAlign.Start,
+            modifier = Modifier.constrainAs(name) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+                end.linkTo(displayPrice.start)
+                width = Dimension.fillToConstraints
+            }
         )
 
-        Spacer(
-            modifier = Modifier
-                .height(LocalDimensions.current.defaultSpacingBetweenPropertyCards / 10)
+        Text(
+            text = item.location,
+            textAlign = TextAlign.Start,
+            color = LocalColors.current.darkGray,
+            fontSize = LocalDimensions.current.propertyCardNameTextSize,
+            modifier = Modifier.constrainAs(location) {
+                top.linkTo(name.bottom)
+                start.linkTo(parent.start)
+                end.linkTo(displayPrice.start)
+                width = Dimension.fillToConstraints
+            }
         )
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = item.location,
-                color = LocalColors.current.darkGray,
-                fontSize = LocalDimensions.current.propertyCardNameTextSize
-            )
-
-            Text(text = item.priceFormatted())
-        }
-
-        Spacer(
-            modifier = Modifier
-                .height(LocalDimensions.current.defaultSpacingBetweenPropertyCards)
+        Text(
+            text = item.displayPrice,
+            textAlign = TextAlign.Center,
+            color = LocalColors.current.lightGreen,
+            fontWeight = FontWeight.Medium,
+            fontSize = 22.sp,
+            modifier = Modifier.constrainAs(displayPrice) {
+                top.linkTo(parent.top)
+                end.linkTo(parent.end)
+                bottom.linkTo(location.bottom)
+            }.padding(start = LocalDimensions.current.defaultSpacingBetweenPropertyCards)
         )
-
+        
         item.description?.let { description ->
+            val constraintScopeForDescription: ConstrainScope.() -> Unit = {
+                top.linkTo(location.bottom)
+                start.linkTo(parent.start)
+            }
             when (cardMode) {
                 CardMode.SHOWROOM ->
                     ExpandableText(
                         text = description,
-                        fontSize = LocalDimensions.current.propertyCardDescriptionTextSize
+                        fontSize = LocalDimensions.current.propertyCardDescriptionTextSize,
+                        textAlign = TextAlign.Justify,
+                        modifier = Modifier.constrainAs(
+                            ref = descriptionText,
+                            constrainBlock = constraintScopeForDescription
+                        )
                     )
                 CardMode.CAROUSEL ->
                     Text(
                         text = description,
-                        fontSize = LocalDimensions.current.propertyCardDescriptionTextSize
+                        textAlign = TextAlign.Justify,
+                        fontSize = LocalDimensions.current.propertyCardDescriptionTextSize,
+                        modifier = Modifier.constrainAs(
+                            ref = descriptionText,
+                            constrainBlock = constraintScopeForDescription
+                        )
                     )
             }
 

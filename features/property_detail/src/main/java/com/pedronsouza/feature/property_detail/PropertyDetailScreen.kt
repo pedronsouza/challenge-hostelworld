@@ -25,9 +25,7 @@ import org.koin.dsl.module
 
 @Composable
 fun PropertyDetailScreen(
-    propertyItem: PropertyItem,
-    appBarTitle: MutableState<String>,
-    navigationMode: MutableState<NavigationMode>
+    propertyItem: PropertyItem
 ) {
     val viewModel: PropertyDetailViewModel = koinViewModel(
         parameters = {
@@ -38,9 +36,6 @@ fun PropertyDetailScreen(
     val state = viewModel.viewState.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = false) {
-        appBarTitle.value = propertyItem.name
-        navigationMode.value = NavigationMode.BACK
-
         viewModel.sendEvent(PropertyDetailEvent.PreparePropertyData)
     }
 
@@ -75,9 +70,7 @@ fun previewPropertyDetailScreen() {
         }
     ) {
         PropertyDetailScreen(
-            propertyItem = FakePropertyItem,
-            appBarTitle = remember { mutableStateOf("") },
-            navigationMode = remember { mutableStateOf(NavigationMode.BACK) }
+            propertyItem = FakePropertyItem
         )
     }
 }

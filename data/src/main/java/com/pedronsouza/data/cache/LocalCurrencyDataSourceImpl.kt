@@ -1,19 +1,13 @@
 package com.pedronsouza.data.cache
 
 import com.pedronsouza.data.internal.Constants
+import com.pedronsouza.domain.dataSources.LocalCurrencyDataSource
 import com.pedronsouza.domain.models.Currency
-import com.pedronsouza.domain.repositories.CurrencyRepository
-import com.pedronsouza.domain.values.SelectedCurrency
-
-internal interface LocalCurrencyDataSource : CurrencyRepository {
-    fun isWarmed(): Boolean
-    fun addToCache(list: List<Currency>)
-    fun setSelectedCurrency(newCurrency: SelectedCurrency)
-}
+import com.pedronsouza.domain.values.AppCurrency
 
 internal class LocalCurrencyDataSourceImpl : LocalCurrencyDataSource {
     private val currencyCache = mutableListOf<Currency>()
-    private var selectedCurrency: SelectedCurrency = SelectedCurrency(Constants.DefaultCurrencyCode)
+    private var selectedCurrency: AppCurrency = AppCurrency(Constants.DefaultCurrencyCode)
 
     override fun isWarmed() = currencyCache.isNotEmpty()
 
@@ -24,7 +18,7 @@ internal class LocalCurrencyDataSourceImpl : LocalCurrencyDataSource {
 
     override fun getSelectedCurrency() = selectedCurrency
 
-    override fun setSelectedCurrency(newCurrency: SelectedCurrency) {
+    override fun setSelectedCurrency(newCurrency: AppCurrency) {
         selectedCurrency = newCurrency
     }
 }
