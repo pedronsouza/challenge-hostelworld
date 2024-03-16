@@ -7,6 +7,7 @@ import com.pedronsouza.domain.repositories.CurrencyRepository
 import com.pedronsouza.domain.repositories.PropertyRepository
 import com.pedronsouza.domain.values.AppCurrency
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -18,15 +19,16 @@ interface LoadPropertiesUseCase {
 internal class LoadPropertiesUseCaseImpl(
     private val propertyRepository: PropertyRepository,
     private val currencyRepository: CurrencyRepository,
+    private val instanceScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 ) : LoadPropertiesUseCase {
-    private val instanceScope = CoroutineScope(Dispatchers.IO)
+
 
     override suspend fun execute() =
         runCatching {
             val deferredResults = listOf(
-                instanceScope.async { propertyRepository.fetch() },
-                instanceScope.async { currencyRepository.getCurrencies() },
-                instanceScope.async { currencyRepository.getSelectedCurrency() }
+                instanceScope.async(start = CoroutineStart.LAZY) { propertyRepository.fetch() },
+                instanceScope.async(start = CoroutineStart.LAZY) { currencyRepository.getCurrencies() },
+                instanceScope.async(start = CoroutineStart.LAZY) { currencyRepository.getSelectedCurrency() }
             )
 
             val results = deferredResults.awaitAll()

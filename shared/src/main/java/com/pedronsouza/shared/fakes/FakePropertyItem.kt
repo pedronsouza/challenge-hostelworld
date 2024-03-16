@@ -1,11 +1,5 @@
 package com.pedronsouza.shared.fakes
 
-import com.pedronsouza.domain.models.City
-import com.pedronsouza.domain.models.Property
-import com.pedronsouza.domain.models.PropertyLocation
-import com.pedronsouza.domain.models.Rating
-import com.pedronsouza.domain.models.RemoteResource
-import com.pedronsouza.domain.values.HtmlContent
 import com.pedronsouza.shared.components.models.PropertyItem
 import com.pedronsouza.shared.components.models.RatingCategory
 
@@ -32,28 +26,3 @@ val FakePropertyItem = PropertyItem(
     displayPrice = "58,99 €"
 )
 
-val FakeProperty = Property(
-    id = FakePropertyItem.id,
-    name = FakePropertyItem.name,
-    lowestPriceByNight = FakePropertyItem.lowestPriceByNight,
-    rating = Rating(
-        security = 83,
-        overall = 83,
-        facilities = 83,
-        average = 83,
-        clean = 83,
-        staff = 83,
-        location = 83
-    ),
-    description = HtmlContent(FakePropertyItem.description.orEmpty()),
-    addressSegments = FakePropertyItem.address.split(", "),
-    images = FakePropertyItem.images.map { RemoteResource(it) },
-    location = PropertyLocation(
-        city = City(
-            id = "test-location",
-            name = FakePropertyItem.location.split(", ").get(0).orEmpty(),
-            country = FakePropertyItem.location.split(", ").get(1).orEmpty()
-        )
-    ),
-    isFeatured = false
-)

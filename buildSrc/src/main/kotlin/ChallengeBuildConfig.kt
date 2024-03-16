@@ -9,6 +9,7 @@ object Android {
 
 object KotlinOptions {
     const val jvmTarget = "1.8"
+    const val kotlinTestVersion = "1.1.1"
 }
 
 object ChallengeBuildConfig {

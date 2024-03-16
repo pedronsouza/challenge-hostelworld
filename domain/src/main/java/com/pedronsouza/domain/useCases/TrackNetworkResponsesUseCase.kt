@@ -11,6 +11,6 @@ internal class TrackNetworkResponsesUseCaseImpl(
 ) : TrackNetworkResponsesUseCase {
     override suspend fun execute(requestIdentifier: String, totalElapseTime: Long): Result<Unit> =
         runCatching {
-            networkStatsRepository.execute(requestIdentifier, totalElapseTime)
+            networkStatsRepository.sendNetworkStats(requestIdentifier, totalElapseTime)
         }
 }

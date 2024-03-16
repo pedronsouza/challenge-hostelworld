@@ -60,6 +60,4 @@ dependencies {
 
     implementation(libs.bundles.android.lifecycle)
     implementation(libs.bundles.compose)
-
-    testImplementation(libs.bundles.kotlin.test)
 }

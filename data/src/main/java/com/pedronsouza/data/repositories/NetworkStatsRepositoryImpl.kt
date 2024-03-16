@@ -9,7 +9,7 @@ internal class NetworkStatsRepositoryImpl(
 ) : NetworkStatsRepository {
     private val api: NetworkStatsApi by lazy { servicesFactory.getOrCreate(NetworkStatsApi::class) }
 
-    override suspend fun execute(requestIdentifier: String, totalElapseTime: Long) {
+    override suspend fun sendNetworkStats(requestIdentifier: String, totalElapseTime: Long) {
         api.trackNetworkStats(requestIdentifier, totalElapseTime)
     }
 }

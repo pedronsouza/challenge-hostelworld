@@ -7,4 +7,5 @@ interface CurrencyRepository {
     suspend fun getCurrencies(): List<Currency>
     fun getSelectedCurrency(): AppCurrency
     fun setSelectedCurrency(newCurrency: AppCurrency)
+    fun getAvailableCurrencies(): List<AppCurrency>
 }

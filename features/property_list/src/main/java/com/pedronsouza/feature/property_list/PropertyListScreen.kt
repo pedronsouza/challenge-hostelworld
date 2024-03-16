@@ -62,7 +62,7 @@ import com.pedronsouza.shared.components.LocalDimensions
 import com.pedronsouza.shared.components.PropertyCard
 import com.pedronsouza.shared.components.brushes.shimmerBrush
 import com.pedronsouza.shared.components.models.PropertyItem
-import com.pedronsouza.shared.fakes.FakeProperty
+import com.pedronsouza.domain.mappers.FakeProperty
 import com.pedronsouza.shared.fakes.FakePropertyItem
 import com.pedronsouza.shared.mappers.PropertyListMapper
 import com.pedronsouza.shared.navigation.RouteFactory

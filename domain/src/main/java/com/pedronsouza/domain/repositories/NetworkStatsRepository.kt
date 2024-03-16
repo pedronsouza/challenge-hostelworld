@@ -1,5 +1,5 @@
 package com.pedronsouza.domain.repositories
 
 interface NetworkStatsRepository {
-    suspend fun execute(requestIdentifier: String, totalElapseTime: Long)
+    suspend fun sendNetworkStats(requestIdentifier: String, totalElapseTime: Long)
 }

@@ -5,7 +5,6 @@ import com.pedronsouza.data.api.CurrencyApi
 import com.pedronsouza.data.api.NetworkStatsApi
 import com.pedronsouza.data.api.PropertyApi
 import com.pedronsouza.data.api.interceptors.NetworkStatMonitorInterceptor
-import com.pedronsouza.domain.useCases.TrackNetworkResponsesUseCase
 import kotlin.reflect.KClass
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient

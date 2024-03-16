@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
+
+    id("io.kotlintest") version KotlinOptions.kotlinTestVersion
 }
 
 android {
@@ -41,4 +43,7 @@ dependencies {
     implementation(libs.kotlin.serialization.json)
     implementation(libs.bundles.okhttp)
     implementation(libs.timber)
+
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.kotlin.coroutines.test)
 }

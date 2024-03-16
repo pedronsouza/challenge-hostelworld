@@ -110,9 +110,11 @@ kotlin-coroutines = [
     "kotlin-coroutines-core",
 ]
 
-kotlin-test = [
+unit-test = [
     "kotlin-test",
-    "kotlin-test-junit",
+    "kotlin-coroutines-test",
+    "okhttp-mockwebserver",
+    "koin-test"
 ]
 
 retrofit = [
