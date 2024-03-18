@@ -2,17 +2,14 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
-    alias(libs.plugins.kotlinSerialization)
-
-    id("io.kotlintest") version KotlinOptions.kotlinTestVersion
 }
 
 android {
-    namespace = "com.pedronsouza.data"
-    compileSdk = Android.compileSdk
+    namespace = "com.pedronsouza.shared_test"
+    compileSdk = 34
 
     defaultConfig {
-        minSdk = Android.minSdk
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -31,20 +28,31 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
 }
 
 dependencies {
+    implementation(platform(libs.androidx.compose.bom))
     implementation(project(":domain"))
-    implementation(libs.koin.android)
-    implementation(libs.bundles.retrofit)
-    implementation(libs.kotlin.serialization.json)
-    implementation(libs.bundles.okhttp)
-    implementation(libs.timber)
 
-    testImplementation(libs.bundles.unit.test)
-    testImplementation(libs.turbine)
-    testImplementation(project(":shared-test"))
+    implementation(libs.bundles.android.lifecycle)
+    implementation(libs.bundles.kotlin.coroutines)
+    implementation(libs.bundles.compose)
+    implementation(libs.koin.core)
+    implementation(libs.kotlin.serialization.json)
+
+    implementation(libs.bundles.unit.test)
+    implementation(libs.bundles.compose.ui.test)
+    implementation(libs.turbine)
 }

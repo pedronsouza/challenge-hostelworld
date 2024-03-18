@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,7 +30,7 @@ fun PropertyContent(item: PropertyItem, cardMode: CardMode, modifier: Modifier) 
                 start.linkTo(parent.start)
                 end.linkTo(displayPrice.start)
                 width = Dimension.fillToConstraints
-            }
+            }.testTag("property_list_card_name_${item.id}")
         )
 
         Text(
@@ -42,7 +43,7 @@ fun PropertyContent(item: PropertyItem, cardMode: CardMode, modifier: Modifier) 
                 start.linkTo(parent.start)
                 end.linkTo(displayPrice.start)
                 width = Dimension.fillToConstraints
-            }
+            }.testTag("property_list_card_location_${item.id}")
         )
 
         Text(
@@ -55,7 +56,10 @@ fun PropertyContent(item: PropertyItem, cardMode: CardMode, modifier: Modifier) 
                 top.linkTo(parent.top)
                 end.linkTo(parent.end)
                 bottom.linkTo(location.bottom)
-            }.padding(start = LocalDimensions.current.defaultSpacingBetweenPropertyCards)
+            }.padding(
+                start = LocalDimensions.current.defaultSpacingBetweenPropertyCards
+            ).testTag("property_list_card_displayPrice_${item.id}")
+
         )
         
         item.description?.let { description ->
@@ -72,7 +76,7 @@ fun PropertyContent(item: PropertyItem, cardMode: CardMode, modifier: Modifier) 
                         modifier = Modifier.constrainAs(
                             ref = descriptionText,
                             constrainBlock = constraintScopeForDescription
-                        )
+                        ).testTag("property_list_card_description_${item.id}")
                     )
                 CardMode.CAROUSEL ->
                     Text(
@@ -82,7 +86,7 @@ fun PropertyContent(item: PropertyItem, cardMode: CardMode, modifier: Modifier) 
                         modifier = Modifier.constrainAs(
                             ref = descriptionText,
                             constrainBlock = constraintScopeForDescription
-                        )
+                        ).testTag("property_list_card_description_${item.id}")
                     )
             }
 

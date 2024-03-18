@@ -1,6 +1,6 @@
 package com.pedronsouza.feature.property_list
 
-import MainDispatcherRule
+import com.pedronsouza.shared_test.MainDispatcherRule
 import app.cash.turbine.test
 import com.pedronsouza.domain.mappers.FakeProperty
 import com.pedronsouza.domain.models.Property

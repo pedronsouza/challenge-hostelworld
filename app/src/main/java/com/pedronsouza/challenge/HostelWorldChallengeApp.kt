@@ -1,10 +1,7 @@
 package com.pedronsouza.challenge
 
 import android.app.Application
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,7 +20,6 @@ import org.koin.compose.KoinContext
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.logger.Level
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HostelWorldChallengeApp(context: Application) {
     initDependencies(context)

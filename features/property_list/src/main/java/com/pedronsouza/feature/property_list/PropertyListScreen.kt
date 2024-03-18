@@ -23,7 +23,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
@@ -32,14 +31,15 @@ import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,8 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstrainScope
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.pedronsouza.domain.mappers.FakeProperty
 import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.useCases.GetAvailableCurrenciesUseCase
 import com.pedronsouza.domain.useCases.GetSelectedCurrencyUseCase
@@ -62,10 +61,11 @@ import com.pedronsouza.shared.components.LocalDimensions
 import com.pedronsouza.shared.components.PropertyCard
 import com.pedronsouza.shared.components.brushes.shimmerBrush
 import com.pedronsouza.shared.components.models.PropertyItem
-import com.pedronsouza.domain.mappers.FakeProperty
 import com.pedronsouza.shared.fakes.FakePropertyItem
 import com.pedronsouza.shared.mappers.PropertyListMapper
 import com.pedronsouza.shared.navigation.RouteFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
@@ -75,39 +75,35 @@ import org.koin.dsl.module
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun PropertyListScreen(
-    snackbarHostState: SnackbarHostState,
-    navController: NavController
+    onShowSnackBarMessage: (String) -> Unit,
+    onNavigateTo: (String) -> Unit,
+    appScope: CoroutineScope
 ) {
     val viewModel: PropertyListViewModel = koinViewModel<PropertyListViewModel>()
     val state = viewModel.viewState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val modalBottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
-    val screenScope = rememberCoroutineScope()
 
-    LaunchedEffect(key1 = true) {
+
+    LaunchedEffect(key1 = Unit) {
         if (state.value.isLoading) {
             viewModel.sendEvent(PropertyListEvent.LoadProperties)
         }
 
         viewModel.viewEffect.collectLatest { effect ->
             when (effect) {
-                is PropertyListEffects.ShowErrorToast -> {
-                    snackbarHostState.showSnackbar(
-                        message = context.getString(effect.textRef)
-                    )
-                }
-
-                is PropertyListEffects.NavigateTo -> {
-                    navController.navigate(effect.finalRoute)
-                }
+                is PropertyListEffects.ShowErrorToast ->
+                    onShowSnackBarMessage(context.getString(effect.textRef))
+                is PropertyListEffects.NavigateTo ->
+                    onNavigateTo(effect.finalRoute)
             }
         }
     }
 
     when {
         LocalInspectionMode.current -> PropertyListForPreview()
-        state.value.isLoading -> LoadingView()
+        state.value.isLoading -> Unit
 
         !state.value.isLoading && state.value.error != null -> {
             val error = state.value.error
@@ -127,7 +123,7 @@ fun PropertyListScreen(
                         availableCurrencies = state.value.availableCurrencies,
                         selectedCurrency = selectedCurrency,
                         onCurrencySelected = { currency ->
-                            screenScope.launch {
+                            appScope.launch {
                                 modalBottomSheetState.hide()
                                 viewModel.sendEvent(PropertyListEvent.SwitchCurrency(currency))
                             }
@@ -143,7 +139,7 @@ fun PropertyListScreen(
                     },
                     selectedCurrency = selectedCurrency,
                     onSwitchCurrencyClicked = {
-                        screenScope.launch {
+                        appScope.launch {
                             modalBottomSheetState.show()
                         }
                     }
@@ -233,6 +229,7 @@ fun PropertyList(
                 }
             }
         }
+
         items(properties) { item: PropertyItem ->
             Card(
                 modifier = Modifier
@@ -241,6 +238,7 @@ fun PropertyList(
                     .clickable {
                         onPropertySelected.invoke(item)
                     }
+                    .testTag("property_list_card_${item.id}")
             ) {
                 PropertyCard(item)
             }
@@ -427,13 +425,11 @@ private fun PreviewKoinApplication(content: @Composable () -> Unit) {
 @Preview
 @Composable
 fun previewPropertyListScreen() {
-    val snackbarHostState = remember { SnackbarHostState() }
-    val navHostController = rememberNavController()
-
     PreviewKoinApplication {
         PropertyListScreen(
-            snackbarHostState = snackbarHostState,
-            navController = navHostController
+            onShowSnackBarMessage = { },
+            onNavigateTo = { },
+            appScope = CoroutineScope(Dispatchers.IO)
         )
     }
 }

@@ -70,4 +70,8 @@ dependencies {
 
     testImplementation(libs.bundles.unit.test)
     testImplementation(libs.turbine)
+    testImplementation(project(":shared-test"))
+
+    androidTestImplementation(libs.bundles.compose.ui.test)
+    androidTestImplementation(project(":shared-test"))
 }

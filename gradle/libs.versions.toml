@@ -3,7 +3,7 @@ androidx-activity = "1.8.2"
 androidxlifecycle = "2.7.0"
 agp = "8.2.2"
 core-ktx = "1.12.0"
-coil = "2.5.0"
+coil = "2.6.0"
 compose-bom = "2024.02.02"
 compose-navigation = "2.7.7"
 compose-compiler = "1.5.8"
@@ -20,6 +20,7 @@ androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 org-jetbrains-kotlin-jvm = "1.9.22"
 kotlin-serialization = "1.6.2"
+ui-test = "1.6.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -45,6 +46,7 @@ compose-navigation = { module = "androidx.navigation:navigation-compose", versio
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-ui = { module = "androidx.compose.ui:ui" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+coil-compose-test = { module = "io.coil-kt:coil-test", version.ref = "coil" }
 androidx-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
 ### Koin dependencies
@@ -74,12 +76,15 @@ okhttp-mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.
 retrofit-kotlin-serialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0"
 retrofit-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
+
 ### Test Dependencies
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 turbine = "app.cash.turbine:turbine:0.13.0"
-androidx-arch-core-testing = "androidx.arch.core:core-testing:2.2.0"
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "ui-test" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "ui-test" }
+
 
 [bundles]
 okhttp = [
@@ -98,6 +103,12 @@ compose = [
     "androidx-constraintlayout-compose",
     "coil-compose",
     "lifecycle-runtime-compose",
+]
+
+compose-ui-test = [
+    "compose-ui-test-junit4",
+    "compose-ui-test-manifest",
+    "coil-compose-test"
 ]
 
 koin = [

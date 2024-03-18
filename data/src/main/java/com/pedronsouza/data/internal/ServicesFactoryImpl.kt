@@ -12,14 +12,15 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.create
 
-internal class ServicesFactory {
+interface ServicesFactory {
+    fun <T>getOrCreate(type: KClass<*>): T
+}
+internal class ServicesFactoryImpl : ServicesFactory {
     private lateinit var propertyApi: PropertyApi
     private lateinit var currencyApi: CurrencyApi
     private lateinit var networkStatsApi: NetworkStatsApi
 
-    private val retrofitInstance: Retrofit
-
-    init {
+    private val retrofitInstance: Retrofit by lazy {
         val okHttpClient: OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(
                 HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) }
@@ -27,7 +28,7 @@ internal class ServicesFactory {
             .addInterceptor(NetworkStatMonitorInterceptor())
             .build()
 
-        retrofitInstance = Retrofit.Builder()
+        Retrofit.Builder()
             .baseUrl("https://gist.githubusercontent.com/PedroTrabulo-Hostelworld/")
             .client(okHttpClient)
             .addCallAdapterFactory(SuspendResultCallAdapterFactory())
@@ -36,7 +37,7 @@ internal class ServicesFactory {
     }
 
     @Suppress("UNCHECKED_CAST")
-    fun <T>getOrCreate(type: KClass<*>): T =
+    override fun <T>getOrCreate(type: KClass<*>): T =
         when (type) {
             PropertyApi::class -> {
                 if (!::propertyApi.isInitialized) {

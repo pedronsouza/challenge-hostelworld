@@ -3,6 +3,7 @@ package com.pedronsouza.data
 import com.pedronsouza.data.cache.LocalCurrencyDataSourceImpl
 import com.pedronsouza.data.dataSources.RemotePropertyDataSource
 import com.pedronsouza.data.internal.ServicesFactory
+import com.pedronsouza.data.internal.ServicesFactoryImpl
 import com.pedronsouza.data.mappers.GetCurrencyResponseMapper
 import com.pedronsouza.data.mappers.GetCurrencyResponseMapperImpl
 import com.pedronsouza.data.mappers.PropertyMapper
@@ -21,7 +22,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val DataModule = module {
-    singleOf(::ServicesFactory)
+    singleOf(::ServicesFactoryImpl) { bind<ServicesFactory>() }
     factoryOf(::PropertyRepositoryImpl) { bind<PropertyRepository>() }
     factoryOf(::RemotePropertyDataSource) { bind<PropertyDataSource>() }
     factoryOf(::PropertyMapperImpl) { bind<PropertyMapper>() }
