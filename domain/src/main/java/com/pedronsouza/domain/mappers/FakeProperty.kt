@@ -34,5 +34,5 @@ val FakeProperty = Property(
             country = "Ireland"
         )
     ),
-    isFeatured = false
+    isFeatured = true
 )

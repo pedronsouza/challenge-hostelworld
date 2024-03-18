@@ -55,4 +55,6 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.kotlin.serialization.json)
 
+    testImplementation(libs.bundles.unit.test)
+    testImplementation(project(":shared-test"))
 }

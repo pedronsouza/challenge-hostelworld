@@ -19,12 +19,17 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class PropertyListViewModelTest {
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
     @get:Rule
-    val instantTaskExecutorRule = MainDispatcherRule()
+    val mainDispatcherRule = MainDispatcherRule(testDispatcher)
 
     private val loadPropertiesUseCase = object : LoadPropertiesUseCase {
         override suspend fun execute(): Result<List<Property>> =
@@ -56,7 +61,7 @@ class PropertyListViewModelTest {
 
     @Test
     fun `Given all dependencies are working properly When the LoadProperties event is received THEN it post the expected success State`() {
-        runTest {
+        runTest(testDispatcher) {
             val subject =
                 PropertyListViewModel(
                     loadPropertiesUseCase = loadPropertiesUseCase,
@@ -100,7 +105,7 @@ class PropertyListViewModelTest {
         )
 
 
-        runTest {
+        runTest(testDispatcher) {
             subject.sendEvent(PropertyListEvent.LoadProperties)
             subject.viewState.test {
                 assertTrue(awaitItem().isLoading)
@@ -130,7 +135,7 @@ class PropertyListViewModelTest {
         )
 
 
-        runTest {
+        runTest(testDispatcher) {
             subject.sendEvent(PropertyListEvent.LoadProperties)
             subject.viewState.test {
                 assertTrue(awaitItem().isLoading)
@@ -161,7 +166,7 @@ class PropertyListViewModelTest {
         )
 
 
-        runTest {
+        runTest(testDispatcher) {
             subject.sendEvent(PropertyListEvent.LoadProperties)
             subject.viewState.test {
                 assertTrue(awaitItem().isLoading)
@@ -190,7 +195,7 @@ class PropertyListViewModelTest {
             routeFactory = routeFactory
         )
 
-        runTest {
+        runTest(testDispatcher) {
             val expectedCurrency = AppCurrency("USD")
 
             subject.sendEvent(PropertyListEvent.SwitchCurrency(AppCurrency("USD")))
@@ -221,7 +226,7 @@ class PropertyListViewModelTest {
             }
         )
 
-        runTest {
+        runTest(testDispatcher) {
             val expectedProperty = FakePropertyItem
 
             subject.sendEvent(PropertyListEvent.PropertySelected(expectedProperty))
@@ -254,7 +259,7 @@ class PropertyListViewModelTest {
             }
         )
 
-        runTest {
+        runTest(testDispatcher) {
             val expectedProperty = FakePropertyItem
 
             subject.sendEvent(PropertyListEvent.PropertySelected(expectedProperty))

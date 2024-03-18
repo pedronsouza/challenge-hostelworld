@@ -44,7 +44,7 @@ class PropertyMapperImplTest {
                 ),
                 address1 = FakeProperty.addressSegments.first(),
                 address2 = FakeProperty.addressSegments.last(),
-                isFeatured = false,
+                isFeatured = FakeProperty.isFeatured,
                 lowestPricePerNight = CurrencyResponse(
                     FakeProperty.lowestPriceByNight,
                     "EUR"

@@ -13,12 +13,12 @@ val FakePropertyItem = PropertyItem(
     description = FakeProperty.description.toString(),
     rating = mapOf(
         RatingCategory.OVERALL to 8.3,
-        RatingCategory.SECURITY to 7.5,
-        RatingCategory.FACILITIES to 1.2,
-        RatingCategory.AVERAGE to 9.1,
-        RatingCategory.CLEAN to 6.7,
-        RatingCategory.STAFF to 12.1,
-        RatingCategory.LOCATION to 5.3
+        RatingCategory.SECURITY to 8.3,
+        RatingCategory.FACILITIES to 8.3,
+        RatingCategory.AVERAGE to 8.3,
+        RatingCategory.CLEAN to 8.3,
+        RatingCategory.STAFF to 8.3,
+        RatingCategory.LOCATION to 8.3
     ),
     address = FakeProperty.addressSegments.joinToString { ", " },
     location = "${FakeProperty.location.city.name}, ${FakeProperty.location.city.country}",

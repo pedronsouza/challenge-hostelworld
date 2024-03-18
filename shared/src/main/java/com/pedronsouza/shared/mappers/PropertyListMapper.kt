@@ -17,7 +17,7 @@ internal class PropertyListMapperImpl(
     override fun transform(inputData: List<Property>) =
         inputData.map { item ->
             PropertyItem(
-                id = item.name,
+                id = item.id,
                 name = item.name,
                 lowestPriceByNight = item.lowestPriceByNight,
                 displayPrice = item.priceFormatted(currencyLocalCache.getSelectedCurrency()),
