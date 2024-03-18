@@ -2,6 +2,7 @@
 androidx-activity = "1.8.2"
 androidxlifecycle = "2.7.0"
 agp = "8.2.2"
+accompanist = "0.34.0"
 core-ktx = "1.12.0"
 coil = "2.6.0"
 compose-bom = "2024.02.02"
@@ -13,11 +14,8 @@ kotlin = "1.9.22"
 lifecycle-runtime-compose = "2.7.0"
 appcompat = "1.6.1"
 material = "1.11.0"
-junit = "4.13.2"
 okhttp = "4.12.0"
 retrofit = "2.9.0"
-androidx-test-ext-junit = "1.1.5"
-espresso-core = "3.5.1"
 org-jetbrains-kotlin-jvm = "1.9.22"
 kotlin-serialization = "1.6.2"
 ui-test = "1.6.0"
@@ -29,7 +27,6 @@ material = { group = "com.google.android.material", name = "material", version.r
 timber = "com.jakewharton.timber:timber:5.0.1"
 
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlin-serialization-json = {module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization" }
 
 ### Kotlin Coroutines Related Dependencies
@@ -38,7 +35,7 @@ kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-co
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 
 ### Compose Core Related Dependencies
-android-material-composethemeadapter = "com.google.android.material:compose-theme-adapter:1.2.1"
+accompanist-themeadapter-material = { module = "com.google.accompanist:accompanist-themeadapter-material", version.ref = "accompanist"}
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 compose-material-material = { module = "androidx.compose.material:material" }
 compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
@@ -46,7 +43,6 @@ compose-navigation = { module = "androidx.navigation:navigation-compose", versio
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-ui = { module = "androidx.compose.ui:ui" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
-coil-compose-test = { module = "io.coil-kt:coil-test", version.ref = "coil" }
 androidx-constraintlayout-compose = "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
 ### Koin dependencies
@@ -70,17 +66,12 @@ lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-com
 ### OkHttp Related Dependencies
 okhttp-loggingInterceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 okhttp-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
-okhttp-mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
 
 ### Retrofit Related Dependencies
 retrofit-kotlin-serialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0"
 retrofit-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
-
 ### Test Dependencies
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 turbine = "app.cash.turbine:turbine:0.13.0"
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "ui-test" }
 compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "ui-test" }
@@ -93,7 +84,7 @@ okhttp = [
 ]
 
 compose = [
-    "android-material-composethemeadapter",
+    "accompanist-themeadapter-material",
     "androidx-activity-compose",
     "compose-material-material",
     "compose-preview",
@@ -107,8 +98,7 @@ compose = [
 
 compose-ui-test = [
     "compose-ui-test-junit4",
-    "compose-ui-test-manifest",
-    "coil-compose-test"
+    "compose-ui-test-manifest"
 ]
 
 koin = [
@@ -126,7 +116,6 @@ kotlin-coroutines = [
 unit-test = [
     "kotlin-test",
     "kotlin-coroutines-test",
-    "okhttp-mockwebserver",
     "koin-test"
 ]
 

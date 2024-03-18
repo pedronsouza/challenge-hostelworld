@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.android.material.composethemeadapter.createMdcTheme
+import com.google.accompanist.themeadapter.material.createMdcTheme
 
 @Composable
 fun AppTheme(
@@ -28,7 +28,7 @@ fun AppTheme(
 
     CompositionLocalProvider(
         // Colors
-        LocalColors provides LightColors(),
+        LocalColors provides Colors(isDarkMode),
 
         // Dimensions
         LocalDimensions provides Dimensions(),
@@ -42,38 +42,17 @@ fun AppTheme(
     }
 }
 
-interface AppColor {
-    val white: Color
-    val lightGray: Color
-    val mediumGray: Color
-    val toolbarTextColor: Color
-    val ratingTextColor: Color
-    val darkGray: Color
-    val purple: Color
-    val lightGreen: Color
-}
-
-data class LightColors(
-    override val white: Color = Color(0xffffffff),
-    override val lightGray: Color = Color(0x96ebebf5),
-    override val mediumGray: Color = Color(0xffaeaeb2),
-    override val darkGray: Color = Color(0xff3a3a3c),
-    override val purple: Color = Color(0xffbf5af2),
-    override val toolbarTextColor: Color = Color(0xff000000),
-    override val ratingTextColor: Color = Color(0xffff9f0A),
-    override val lightGreen: Color = Color(0xff32d74b)
-) : AppColor
-
-data class DarkColors(
-    override val white: Color,
-    override val lightGray: Color = Color(0x96ebebf5),
-    override val mediumGray: Color = Color(0xffaeaeb2),
-    override val darkGray: Color = Color(0xff3a3a3c),
-    override val purple: Color = Color(0xffbf5af2),
-    override val toolbarTextColor: Color = Color(0xffffffff),
-    override val ratingTextColor: Color = Color(0xffff9f0A),
-    override val lightGreen: Color = Color(0xff32d74b)
-) : AppColor
+data class Colors(
+    private val isDarkMode: Boolean = false,
+    val white: Color = Color(0xffffffff),
+    val lightGray: Color = Color(0x96ebebf5),
+    val mediumGray: Color = Color(0xffaeaeb2),
+    val darkGray: Color = Color(0xff3a3a3c),
+    val purple: Color = Color(0xffbf5af2),
+    val toolbarTextColor: Color = Color(0xff000000),
+    val ratingTextColor: Color = Color(0xffff9f0A),
+    val lightGreen: Color = Color(0xff32d74b)
+)
 
 data class Dimensions(
     val defaultScreenPadding: Dp = 14.dp,
@@ -91,4 +70,4 @@ data class Dimensions(
 )
 
 val LocalDimensions = compositionLocalOf { Dimensions() }
-val LocalColors = compositionLocalOf { LightColors() }
+val LocalColors = compositionLocalOf { Colors() }

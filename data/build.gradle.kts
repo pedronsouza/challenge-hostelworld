@@ -3,8 +3,6 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
-
-    id("io.kotlintest") version KotlinOptions.kotlinTestVersion
 }
 
 android {
