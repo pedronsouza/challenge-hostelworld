@@ -151,22 +151,21 @@ class PropertyListViewModelTest {
 
     @Test
     fun `Given getAvailableCurrenciesUseCase throws an error When the LoadProperties event is received THEN it should post state of error`() {
-        val exception = IllegalAccessError()
-        val subject = PropertyListViewModel(
-            loadPropertiesUseCase = loadPropertiesUseCase,
-            getSelectedCurrencyUseCase = getSelectedCurrencyUseCase,
-            getAvailableCurrenciesUseCase = object: GetAvailableCurrenciesUseCase {
-                override suspend fun execute(): Result<List<AppCurrency>> =
-                    Result.failure(exception)
-
-            },
-            saveSelectedCurrencyUseCase = saveSelectedCurrencyUseCase,
-            propertyListMapper = propertyListMapper,
-            routeFactory = routeFactory
-        )
-
-
         runTest(testDispatcher) {
+            val exception = IllegalAccessError()
+            val subject = PropertyListViewModel(
+                loadPropertiesUseCase = loadPropertiesUseCase,
+                getSelectedCurrencyUseCase = getSelectedCurrencyUseCase,
+                getAvailableCurrenciesUseCase = object: GetAvailableCurrenciesUseCase {
+                    override suspend fun execute(): Result<List<AppCurrency>> =
+                        Result.failure(exception)
+
+                },
+                saveSelectedCurrencyUseCase = saveSelectedCurrencyUseCase,
+                propertyListMapper = propertyListMapper,
+                routeFactory = routeFactory
+            )
+
             subject.sendEvent(PropertyListEvent.LoadProperties)
             subject.viewState.test {
                 assertTrue(awaitItem().isLoading)
