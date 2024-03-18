@@ -1,6 +1,8 @@
 package com.pedronsouza.data
 
 import com.pedronsouza.data.cache.LocalCurrencyDataSourceImpl
+import com.pedronsouza.data.dataSources.NetworkMonitorDataSource
+import com.pedronsouza.data.dataSources.RemoteNetworkMonitorDataSource
 import com.pedronsouza.data.dataSources.RemotePropertyDataSource
 import com.pedronsouza.data.internal.ServicesFactory
 import com.pedronsouza.data.internal.ServicesFactoryImpl
@@ -30,4 +32,6 @@ val DataModule = module {
     singleOf(::LocalCurrencyDataSourceImpl) { bind<LocalCurrencyDataSource>() }
     factoryOf(::GetCurrencyResponseMapperImpl) { bind<GetCurrencyResponseMapper>() }
     factoryOf(::NetworkStatsRepositoryImpl) { bind<NetworkStatsRepository>() }
+    factoryOf(::RemoteNetworkMonitorDataSource) { bind<NetworkMonitorDataSource>() }
+
 }

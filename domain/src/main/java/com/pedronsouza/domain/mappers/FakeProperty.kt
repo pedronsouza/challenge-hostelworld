@@ -21,10 +21,10 @@ val FakeProperty = Property(
         location = 83
     ),
     description = HtmlContent("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."),
-    addressSegments = listOf("29 Bachelors Walk, Dublin 1"),
+    addressSegments = listOf("29 Bachelors Walk", "Dublin 1"),
     images = listOf(
         RemoteResource(
-            "https://res.cloudinary.com/test-hostelworld-com/image/upload/f_auto,q_auto/v1/propertyimages/1/100/qzseav8zdfqpugqjpvlj"
+            "http://test-url#endofurl"
         ),
     ),
     location = PropertyLocation(

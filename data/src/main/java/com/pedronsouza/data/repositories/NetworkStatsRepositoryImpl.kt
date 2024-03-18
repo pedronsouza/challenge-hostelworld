@@ -1,15 +1,13 @@
 package com.pedronsouza.data.repositories
 
-import com.pedronsouza.data.api.NetworkStatsApi
-import com.pedronsouza.data.internal.ServicesFactory
+import com.pedronsouza.data.dataSources.NetworkMonitorDataSource
 import com.pedronsouza.domain.repositories.NetworkStatsRepository
 
 internal class NetworkStatsRepositoryImpl(
-    private val servicesFactory: ServicesFactory
+    private val dataSource: NetworkMonitorDataSource
 ) : NetworkStatsRepository {
-    private val api: NetworkStatsApi by lazy { servicesFactory.getOrCreate(NetworkStatsApi::class) }
 
     override suspend fun sendNetworkStats(requestIdentifier: String, totalElapseTime: Long) {
-        api.trackNetworkStats(requestIdentifier, totalElapseTime)
+        dataSource.sendNetworkStats(requestIdentifier, totalElapseTime)
     }
 }
