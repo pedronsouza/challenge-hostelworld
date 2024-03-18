@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="no_ratings">No ratings</string>
-    <string name="expand_button">...Show more</string>
+    <string name="expand_button">\u2026 Show more</string>
     <string name="retract_button">Show less</string>
 </resources>
