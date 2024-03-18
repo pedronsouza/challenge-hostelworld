@@ -73,9 +73,6 @@ retrofit-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = 
 
 ### Test Dependencies
 turbine = "app.cash.turbine:turbine:0.13.0"
-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "ui-test" }
-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "ui-test" }
-
 
 [bundles]
 okhttp = [
@@ -94,11 +91,6 @@ compose = [
     "androidx-constraintlayout-compose",
     "coil-compose",
     "lifecycle-runtime-compose",
-]
-
-compose-ui-test = [
-    "compose-ui-test-junit4",
-    "compose-ui-test-manifest"
 ]
 
 koin = [

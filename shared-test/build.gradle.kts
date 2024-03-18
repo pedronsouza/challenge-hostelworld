@@ -53,6 +53,5 @@ dependencies {
     implementation(libs.kotlin.serialization.json)
 
     implementation(libs.bundles.unit.test)
-    implementation(libs.bundles.compose.ui.test)
     implementation(libs.turbine)
 }
