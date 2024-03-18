@@ -103,7 +103,7 @@ fun PropertyListScreen(
 
     when {
         LocalInspectionMode.current -> PropertyListForPreview()
-        state.value.isLoading -> Unit
+        state.value.isLoading -> LoadingView()
 
         !state.value.isLoading && state.value.error != null -> {
             val error = state.value.error
@@ -253,8 +253,6 @@ fun PropertyList(
 
 @Composable
 fun LoadingView() {
-    val showShimmer = remember { mutableStateOf(true) }
-
     DefaultRootLazyColumn(userScrollEnabled = false) {
         items(10) {
             ConstraintLayout(
@@ -275,7 +273,7 @@ fun LoadingView() {
                         .background(
                             shimmerBrush(
                                 targetValue = 1300f,
-                                showShimmer = showShimmer.value
+                                showShimmer = true
                             )
                         )
                 )
@@ -292,7 +290,7 @@ fun LoadingView() {
                         .background(
                             shimmerBrush(
                                 targetValue = 1300f,
-                                showShimmer = showShimmer.value
+                                showShimmer = true
                             )
                         )
                 )
@@ -312,7 +310,7 @@ fun LoadingView() {
                         .background(
                             shimmerBrush(
                                 targetValue = 1300f,
-                                showShimmer = showShimmer.value
+                                showShimmer = true
                             )
                         )
                 )

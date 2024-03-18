@@ -17,7 +17,7 @@ interface ViewEffect
 
 abstract class ComponentViewModel<Event : ViewEvent, State : ViewState, Effect : ViewEffect> : ViewModel() {
     private val _viewEvent: MutableSharedFlow<Event> = MutableSharedFlow()
-    val viewEvent = _viewEvent.asSharedFlow()
+    private val viewEvent = _viewEvent.asSharedFlow()
 
     private val _viewState: MutableStateFlow<State> by lazy { MutableStateFlow(initialViewState()) }
     val viewState by lazy { _viewState.asStateFlow() }

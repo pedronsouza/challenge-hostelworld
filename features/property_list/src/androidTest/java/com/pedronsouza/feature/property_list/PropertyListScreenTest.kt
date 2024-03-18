@@ -1,7 +1,7 @@
 package com.pedronsouza.feature.property_list
 
-import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.pedronsouza.domain.mappers.FakeProperty
 import com.pedronsouza.domain.models.Property
@@ -18,9 +18,9 @@ import com.pedronsouza.shared.navigation.RouteFactory
 import com.pedronsouza.shared_test.CoilRule
 import com.pedronsouza.shared_test.MainDispatcherRule
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
@@ -29,16 +29,16 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalTestApi::class)
+@OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(AndroidJUnit4::class)
 class PropertyListScreenTest {
     private val testDispatcher = UnconfinedTestDispatcher()
 
     @get:Rule
-    val composeTestRule = createComposeRule(testDispatcher)
+    val composeTestRule = createComposeRule()
 
     @get:Rule
-    val mainCoroutineRule = MainDispatcherRule(testDispatcher)
+    val mainCoroutineRule = MainDispatcherRule()
 
     @get:Rule
     val coilRule = CoilRule()
@@ -88,7 +88,7 @@ class PropertyListScreenTest {
 
     @Test
     fun testPropertyListScreen() {
-        composeTestRule.setContent() {
+        composeTestRule.setContent {
             loadViewModel(
                 viewModel = PropertyListViewModel(
                     loadPropertiesUseCase = loadPropertiesUseCase,
@@ -103,28 +103,28 @@ class PropertyListScreenTest {
             PropertyListScreen(
                 onShowSnackBarMessage = { },
                 onNavigateTo = { },
-                appScope = CoroutineScope(Dispatchers.Unconfined)
+                appScope = CoroutineScope(testDispatcher)
             )
         }
 
-//        runTest(testDispatcher) {
-//            val item = FakeProperty
-//            composeTestRule.onNodeWithTag(
-//                testTag = "property_list_card_description_${item.id}"
-//            ).assertDoesNotExist()
-//
-//            composeTestRule
-//                .onNodeWithTag(
-//                    testTag = "property_list_card_displayPrice_${item.id}"
-//                ).assertExists()
-//
-//            composeTestRule.onNodeWithTag(
-//                testTag = "property_list_card_location_${item.id}"
-//            ).assertExists()
-//
-//            composeTestRule.onNodeWithTag(
-//                testTag = "property_list_card_name_${item.id}"
-//            ).assertExists()
-//        }
+        runTest(testDispatcher) {
+            val item = FakeProperty
+            composeTestRule.onNodeWithTag(
+                testTag = "property_list_card_description_${item.id}"
+            ).assertDoesNotExist()
+
+            composeTestRule
+                .onNodeWithTag(
+                    testTag = "property_list_card_displayPrice_${item.id}"
+                ).assertExists()
+
+            composeTestRule.onNodeWithTag(
+                testTag = "property_list_card_location_${item.id}"
+            ).assertExists()
+
+            composeTestRule.onNodeWithTag(
+                testTag = "property_list_card_name_${item.id}"
+            ).assertExists()
+        }
     }
 }
