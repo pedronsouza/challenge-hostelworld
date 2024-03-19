@@ -48,7 +48,7 @@ class CurrencyRepositoryImplTest {
             override fun isWarmed() = false
             override suspend fun getCurrencies(): List<Currency> = newCurrencies
             override fun getSelectedCurrency(): AppCurrency = AppCurrency("EUR")
-            override fun setSelectedCurrency(newCurrency: AppCurrency) = Unit
+            override fun setSelectedCurrency(newCurrency: AppCurrency, clearCache: Boolean) = Unit
         }
 
         val mapper = object: GetCurrencyResponseMapper {
@@ -76,7 +76,7 @@ class CurrencyRepositoryImplTest {
             override fun isWarmed() = true
             override suspend fun getCurrencies(): List<Currency> = expectedCacheList
             override fun getSelectedCurrency(): AppCurrency = AppCurrency("TSR")
-            override fun setSelectedCurrency(newCurrency: AppCurrency) = Unit
+            override fun setSelectedCurrency(newCurrency: AppCurrency, clearCache: Boolean) = Unit
         }
 
         val mapper = object: GetCurrencyResponseMapper {
@@ -107,7 +107,7 @@ class CurrencyRepositoryImplTest {
             override fun isWarmed() = false
             override suspend fun getCurrencies(): List<Currency> = newCurrencies
             override fun getSelectedCurrency(): AppCurrency = AppCurrency("EUR")
-            override fun setSelectedCurrency(newCurrency: AppCurrency) = Unit
+            override fun setSelectedCurrency(newCurrency: AppCurrency, clearCache: Boolean) = Unit
         }
 
         val mapper = object: GetCurrencyResponseMapper {
@@ -138,7 +138,7 @@ class CurrencyRepositoryImplTest {
     @Test
     fun `Given a valid instance When requesting for the selected currency Then should return what is saved in memory`() {
         val localCurrencyDataSource = LocalCurrencyDataSourceImpl().apply {
-            setSelectedCurrency(AppCurrency("EUR"))
+            setSelectedCurrency(AppCurrency("EUR"), false)
         }
 
         val mapper = object: GetCurrencyResponseMapper {
@@ -158,7 +158,7 @@ class CurrencyRepositoryImplTest {
     @Test
     fun `Given a valid instance When set a new currency Then should replace what is saved in memory`() {
         val localCurrencyDataSource = LocalCurrencyDataSourceImpl().apply {
-            setSelectedCurrency(AppCurrency("EUR"))
+            setSelectedCurrency(AppCurrency("EUR"), false)
         }
 
         val mapper = object: GetCurrencyResponseMapper {
@@ -172,7 +172,7 @@ class CurrencyRepositoryImplTest {
             mapper
         )
 
-        subject.setSelectedCurrency(AppCurrency("TST"))
+        subject.setSelectedCurrency(AppCurrency("TST"), false)
 
         assertEquals(AppCurrency("TST"), subject.getSelectedCurrency())
     }

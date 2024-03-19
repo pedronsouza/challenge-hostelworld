@@ -7,7 +7,7 @@ import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.useCases.GetAvailableCurrenciesUseCase
 import com.pedronsouza.domain.useCases.GetSelectedCurrencyUseCase
 import com.pedronsouza.domain.useCases.LoadPropertiesUseCase
-import com.pedronsouza.domain.useCases.SaveSelectedCurrencyUseCase
+import com.pedronsouza.domain.useCases.SwitchSelectedCurrencyUseCase
 import com.pedronsouza.domain.values.AppCurrency
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.components.models.PropertyItem
@@ -47,7 +47,7 @@ class PropertyListViewModelTest {
 
     }
 
-    private val saveSelectedCurrencyUseCase = object: SaveSelectedCurrencyUseCase {
+    private val switchSelectedCurrencyUseCase = object: SwitchSelectedCurrencyUseCase {
         override fun execute(currency: AppCurrency): Result<Unit> =
             Result.success(Unit)
     }
@@ -67,7 +67,7 @@ class PropertyListViewModelTest {
                     loadPropertiesUseCase = loadPropertiesUseCase,
                     getSelectedCurrencyUseCase = getSelectedCurrencyUseCase,
                     getAvailableCurrenciesUseCase = getAvailableCurrenciesUseCase,
-                    saveSelectedCurrencyUseCase = saveSelectedCurrencyUseCase,
+                    switchSelectedCurrencyUseCase = switchSelectedCurrencyUseCase,
                     propertyListMapper = propertyListMapper,
                     routeFactory = routeFactory
                 )
@@ -99,7 +99,7 @@ class PropertyListViewModelTest {
             },
             getSelectedCurrencyUseCase = getSelectedCurrencyUseCase,
             getAvailableCurrenciesUseCase = getAvailableCurrenciesUseCase,
-            saveSelectedCurrencyUseCase = saveSelectedCurrencyUseCase,
+            switchSelectedCurrencyUseCase = switchSelectedCurrencyUseCase,
             propertyListMapper = propertyListMapper,
             routeFactory = routeFactory
         )
@@ -129,7 +129,7 @@ class PropertyListViewModelTest {
                     Result.failure(exception)
             },
             getAvailableCurrenciesUseCase = getAvailableCurrenciesUseCase,
-            saveSelectedCurrencyUseCase = saveSelectedCurrencyUseCase,
+            switchSelectedCurrencyUseCase = switchSelectedCurrencyUseCase,
             propertyListMapper = propertyListMapper,
             routeFactory = routeFactory
         )
@@ -161,7 +161,7 @@ class PropertyListViewModelTest {
                         Result.failure(exception)
 
                 },
-                saveSelectedCurrencyUseCase = saveSelectedCurrencyUseCase,
+                switchSelectedCurrencyUseCase = switchSelectedCurrencyUseCase,
                 propertyListMapper = propertyListMapper,
                 routeFactory = routeFactory
             )
@@ -186,7 +186,7 @@ class PropertyListViewModelTest {
             loadPropertiesUseCase = loadPropertiesUseCase,
             getSelectedCurrencyUseCase = getSelectedCurrencyUseCase,
             getAvailableCurrenciesUseCase = getAvailableCurrenciesUseCase,
-            saveSelectedCurrencyUseCase = object: SaveSelectedCurrencyUseCase {
+            switchSelectedCurrencyUseCase = object: SwitchSelectedCurrencyUseCase {
                 override fun execute(currency: AppCurrency): Result<Unit> =
                     Result.failure(exception)
             },
@@ -217,10 +217,10 @@ class PropertyListViewModelTest {
             loadPropertiesUseCase = loadPropertiesUseCase,
             getSelectedCurrencyUseCase = getSelectedCurrencyUseCase,
             getAvailableCurrenciesUseCase = getAvailableCurrenciesUseCase,
-            saveSelectedCurrencyUseCase = saveSelectedCurrencyUseCase,
+            switchSelectedCurrencyUseCase = switchSelectedCurrencyUseCase,
             propertyListMapper = propertyListMapper,
             routeFactory = object: RouteFactory {
-                override fun createRoute(screen: AppScreen, parameter: String?): String =
+                override fun createRoute(screen: AppScreen, parameter: List<String>?): String =
                     expectedRoute
             }
         )
@@ -250,10 +250,10 @@ class PropertyListViewModelTest {
             loadPropertiesUseCase = loadPropertiesUseCase,
             getSelectedCurrencyUseCase = getSelectedCurrencyUseCase,
             getAvailableCurrenciesUseCase = getAvailableCurrenciesUseCase,
-            saveSelectedCurrencyUseCase = saveSelectedCurrencyUseCase,
+            switchSelectedCurrencyUseCase = switchSelectedCurrencyUseCase,
             propertyListMapper = propertyListMapper,
             routeFactory = object: RouteFactory {
-                override fun createRoute(screen: AppScreen, parameter: String?): String =
+                override fun createRoute(screen: AppScreen, parameter: List<String>?): String =
                     throw expectedError
             }
         )

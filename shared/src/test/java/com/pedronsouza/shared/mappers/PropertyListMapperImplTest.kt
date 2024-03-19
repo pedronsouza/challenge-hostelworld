@@ -81,7 +81,7 @@ class PropertyListMapperImplTest {
                 override fun addToCache(list: List<Currency>) { TODO("Not yet implemented") }
                 override suspend fun getCurrencies(): List<Currency> { TODO("Not yet implemented") }
                 override fun getSelectedCurrency(): AppCurrency { throw  expectedException }
-                override fun setSelectedCurrency(newCurrency: AppCurrency) { }
+                override fun setSelectedCurrency(newCurrency: AppCurrency, clearCache: Boolean) { }
             }
         )
 

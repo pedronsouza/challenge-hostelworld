@@ -30,7 +30,7 @@ internal class CurrencyRepositoryImpl(
     override fun getSelectedCurrency(): AppCurrency =
         cache.getSelectedCurrency()
 
-    override fun setSelectedCurrency(newCurrency: AppCurrency) {
-        cache.setSelectedCurrency(newCurrency)
+    override fun setSelectedCurrency(newCurrency: AppCurrency, clearCache: Boolean) {
+        cache.setSelectedCurrency(newCurrency, clearCache)
     }
 }

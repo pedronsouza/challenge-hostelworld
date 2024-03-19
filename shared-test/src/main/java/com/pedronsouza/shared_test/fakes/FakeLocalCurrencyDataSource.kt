@@ -10,5 +10,5 @@ val FakeLocalCurrencyDataSource = object: LocalCurrencyDataSource {
     override fun isWarmed() = false
     override suspend fun getCurrencies(): List<Currency> = newCurrencies
     override fun getSelectedCurrency(): AppCurrency = AppCurrency("EUR")
-    override fun setSelectedCurrency(newCurrency: AppCurrency) = Unit
+    override fun setSelectedCurrency(newCurrency: AppCurrency, clearCache: Boolean) = Unit
 }

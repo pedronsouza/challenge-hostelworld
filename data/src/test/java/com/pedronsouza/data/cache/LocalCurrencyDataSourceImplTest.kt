@@ -40,7 +40,7 @@ class LocalCurrencyDataSourceImplTest {
         assertNotEquals(expectedCurrency, subject.getSelectedCurrency())
 
         runTest(testDispatcher) {
-            subject.setSelectedCurrency(expectedCurrency)
+            subject.setSelectedCurrency(expectedCurrency, false)
 
             assertEquals(expectedCurrency, subject.getSelectedCurrency())
         }

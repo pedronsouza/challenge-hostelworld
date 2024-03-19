@@ -18,7 +18,11 @@ internal class LocalCurrencyDataSourceImpl : LocalCurrencyDataSource {
 
     override fun getSelectedCurrency() = selectedCurrency
 
-    override fun setSelectedCurrency(newCurrency: AppCurrency) {
+    override fun setSelectedCurrency(newCurrency: AppCurrency, clearCache: Boolean) {
+        if (clearCache) {
+            currencyCache.clear()
+        }
+
         selectedCurrency = newCurrency
     }
 }

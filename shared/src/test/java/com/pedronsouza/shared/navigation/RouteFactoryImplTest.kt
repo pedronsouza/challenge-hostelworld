@@ -16,14 +16,12 @@ class RouteFactoryImplTest {
         assertEquals(expectedUrl, subject.createRoute(AppScreen.HOME, null))
     }
 
-    @OptIn(ExperimentalEncodingApi::class)
     @Test
     fun `Given a app screen type that have a parameter When creating the route Then should return the expected uri segment with the parameter encoded`() {
         val subject = RouteFactoryImpl()
-        val parameter = "param"
-        val expectedParameter = Base64.encode(parameter.toByteArray())
+        val parameter = listOf("paramId", "paramName")
         val expectedUrl = AppScreen.DETAIL.toString()
-            .replace("{${AppScreen.DETAIL.parameterName.orEmpty()}}", expectedParameter)
+            .replace("{${AppScreen.DETAIL.parameters?.get(0).orEmpty()}}/{${AppScreen.DETAIL.parameters?.get(1).orEmpty()}}", "paramId/paramName")
 
         assertEquals(expectedUrl, subject.createRoute(AppScreen.DETAIL, parameter))
     }

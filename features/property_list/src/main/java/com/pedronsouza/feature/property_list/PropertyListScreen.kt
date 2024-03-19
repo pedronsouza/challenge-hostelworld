@@ -3,21 +3,13 @@ package com.pedronsouza.feature.property_list
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
@@ -27,33 +19,25 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstrainScope
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pedronsouza.domain.mappers.FakeProperty
 import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.useCases.GetAvailableCurrenciesUseCase
 import com.pedronsouza.domain.useCases.GetSelectedCurrencyUseCase
 import com.pedronsouza.domain.useCases.LoadPropertiesUseCase
-import com.pedronsouza.domain.useCases.SaveSelectedCurrencyUseCase
+import com.pedronsouza.domain.useCases.SwitchSelectedCurrencyUseCase
 import com.pedronsouza.domain.values.AppCurrency
 import com.pedronsouza.domain.values.displayName
 import com.pedronsouza.shared.AppScreen
@@ -62,7 +46,6 @@ import com.pedronsouza.shared.components.LoadingView
 import com.pedronsouza.shared.components.LocalColors
 import com.pedronsouza.shared.components.LocalDimensions
 import com.pedronsouza.shared.components.PropertyCard
-import com.pedronsouza.shared.components.brushes.shimmerBrush
 import com.pedronsouza.shared.components.models.PropertyItem
 import com.pedronsouza.shared.fakes.FakePropertyItem
 import com.pedronsouza.shared.mappers.PropertyListMapper
@@ -283,7 +266,7 @@ private fun PreviewKoinApplication(content: @Composable () -> Unit) {
 
                             },
 
-                            saveSelectedCurrencyUseCase = object: SaveSelectedCurrencyUseCase {
+                            switchSelectedCurrencyUseCase = object: SwitchSelectedCurrencyUseCase {
                                 override fun execute(currency: AppCurrency): Result<Unit> {
                                     return Result.success(Unit)
                                 }

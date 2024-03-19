@@ -5,7 +5,7 @@ import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.useCases.GetAvailableCurrenciesUseCase
 import com.pedronsouza.domain.useCases.GetSelectedCurrencyUseCase
 import com.pedronsouza.domain.useCases.LoadPropertiesUseCase
-import com.pedronsouza.domain.useCases.SaveSelectedCurrencyUseCase
+import com.pedronsouza.domain.useCases.SwitchSelectedCurrencyUseCase
 import com.pedronsouza.domain.values.AppCurrency
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.Constants
@@ -49,7 +49,7 @@ internal class PropertyListViewModel(
     private val loadPropertiesUseCase: LoadPropertiesUseCase,
     private val getSelectedCurrencyUseCase: GetSelectedCurrencyUseCase,
     private val getAvailableCurrenciesUseCase: GetAvailableCurrenciesUseCase,
-    private val saveSelectedCurrencyUseCase: SaveSelectedCurrencyUseCase,
+    private val switchSelectedCurrencyUseCase: SwitchSelectedCurrencyUseCase,
     private val propertyListMapper: PropertyListMapper,
     private val routeFactory: RouteFactory
 ) : ComponentViewModel<PropertyListEvent, State, PropertyListEffects>() {
@@ -78,7 +78,7 @@ internal class PropertyListViewModel(
     private fun switchCurrency(newCurrency: AppCurrency) {
         var selectedCurrency = viewState.value.selectedCurrency
 
-        saveSelectedCurrencyUseCase
+        switchSelectedCurrencyUseCase
             .execute(newCurrency)
             .onSuccess {
                 Timber.tag(logTag).d("Currency switched: $newCurrency")

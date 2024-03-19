@@ -8,12 +8,12 @@ import kotlin.test.assertTrue
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
-class SaveSelectedCurrencyUseCaseImplTest {
+class SwitchSelectedCurrencyUseCaseImplTest {
     @Test
     fun `GIVEN that dependencies work as expected WHEN executing the useCase THEN it must return a Result with success`() {
         runTest {
             val currencyRepository = FakeCurrencyRepository
-            val useCase = SaveSelectedCurrencyUseCaseImpl(currencyRepository)
+            val useCase = SwitchSelectedCurrencyUseCaseImpl(currencyRepository)
             val useCaseResult = useCase.execute(currencyRepository.getSelectedCurrency())
 
             assertTrue(useCaseResult.isSuccess)
@@ -31,7 +31,7 @@ class SaveSelectedCurrencyUseCaseImplTest {
 
             }
 
-            val useCase = SaveSelectedCurrencyUseCaseImpl(currencyRepository)
+            val useCase = SwitchSelectedCurrencyUseCaseImpl(currencyRepository)
             val useCaseResult = useCase.execute(FakeCurrencyRepository.getSelectedCurrency())
 
             assertTrue(useCaseResult.isFailure)
