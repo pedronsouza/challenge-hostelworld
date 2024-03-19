@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 fun AppNavHost(
     navController: NavHostController,
     startDestination: String = NavigationItem.Home.route,
-    snackbarHostState: SnackbarHostState,
+    snackBarHostState: SnackbarHostState,
     appBarTitle: MutableState<String>,
     navigationMode: MutableState<NavigationMode>
 ) {
@@ -35,7 +35,7 @@ fun AppNavHost(
 
             PropertyListScreen(
                 onShowSnackBarMessage = { message ->
-                    navHostScope.launch { snackbarHostState.showSnackbar(message) }
+                    navHostScope.launch { snackBarHostState.showSnackbar(message) }
                 },
 
                 onNavigateTo = { route ->

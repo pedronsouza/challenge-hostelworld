@@ -38,7 +38,7 @@ fun HostelWorldChallengeApp(context: Application) {
             ) { _ ->
                 AppNavHost(
                     navController = navHostController,
-                    snackbarHostState = snackbarHostState,
+                    snackBarHostState = snackbarHostState,
                     appBarTitle = appBarTitle,
                     navigationMode = navigationMode
                 )
