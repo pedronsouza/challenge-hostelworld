@@ -28,7 +28,7 @@ MVI + Clean Architecture
 ### How to Run: Unit Tests
 - Open the terminal
 - Navigate to the source code root folder
-- run: `./gradlew testDebugUnitTest`
+- run: `./gradlew test`
 
 OBS: The app does not contains UI/Instrumented Test
 
