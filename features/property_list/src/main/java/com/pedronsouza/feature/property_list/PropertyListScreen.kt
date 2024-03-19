@@ -57,6 +57,7 @@ import com.pedronsouza.domain.useCases.SaveSelectedCurrencyUseCase
 import com.pedronsouza.domain.values.AppCurrency
 import com.pedronsouza.domain.values.displayName
 import com.pedronsouza.shared.AppScreen
+import com.pedronsouza.shared.components.ErrorView
 import com.pedronsouza.shared.components.LoadingView
 import com.pedronsouza.shared.components.LocalColors
 import com.pedronsouza.shared.components.LocalDimensions
@@ -111,7 +112,9 @@ fun PropertyListScreen(
             val error = state.value.error
             checkNotNull(error)
 
-            ErrorView(error, viewModel)
+            ErrorView(error) {
+                viewModel.sendEvent(PropertyListEvent.LoadProperties)
+            }
         }
 
         else -> {
@@ -253,41 +256,6 @@ fun PropertyList(
     }
 }
 
-
-
-@Composable
-internal fun ErrorView(error: Throwable, viewModel: PropertyListViewModel) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(LocalColors.current.white)
-    ) {
-        Icon(
-            painter = rememberVectorPainter(image = Icons.Outlined.Warning),
-            contentDescription = null,
-            modifier = Modifier.size(120.dp),
-            tint = LocalColors.current.mediumGray
-        )
-
-
-        Text(
-            text = stringResource(
-                id = R.string.something_went_wrong
-            ) + error.message?.let { ": $it" }.orEmpty()
-        )
-
-        Button(
-            onClick = {
-                viewModel.sendEvent(PropertyListEvent.LoadProperties)
-            }
-        ) {
-            Text(text = "Retry")
-        }
-    }
-}
-
 @Composable
 private fun PreviewKoinApplication(content: @Composable () -> Unit) {
     KoinApplication(
@@ -356,17 +324,6 @@ fun previewPropertyListScreen() {
             onShowSnackBarMessage = { },
             onNavigateTo = { },
             appScope = CoroutineScope(Dispatchers.IO)
-        )
-    }
-}
-
-@Preview
-@Composable
-fun previewErrorView() {
-    PreviewKoinApplication {
-        ErrorView(
-            error = IllegalArgumentException("Error message here"),
-            viewModel = koinViewModel()
         )
     }
 }

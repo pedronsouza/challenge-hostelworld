@@ -6,17 +6,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pedronsouza.domain.mappers.FakeProperty
 import com.pedronsouza.domain.models.Property
 import com.pedronsouza.domain.useCases.GetPropertyByIdUseCase
 import com.pedronsouza.shared.components.CardMode
+import com.pedronsouza.shared.components.ErrorView
+import com.pedronsouza.shared.components.LoadingView
 import com.pedronsouza.shared.components.LocalDimensions
 import com.pedronsouza.shared.components.PropertyCard
 import com.pedronsouza.shared.components.models.PropertyItem
@@ -40,12 +38,15 @@ fun PropertyDetailScreen(
     val state = viewModel.viewState.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = false) {
-        viewModel.sendEvent(PropertyDetailEvent.PreparePropertyData)
+        viewModel.sendEvent(PropertyDetailEvent.LoadProperty)
     }
 
     when {
-        state.value.isLoading -> Unit
-        !state.value.isLoading && state.value.error != null -> Unit
+        state.value.isLoading -> LoadingView()
+        !state.value.isLoading && state.value.error != null ->
+            ErrorView(error = state.value.error!!) {
+                viewModel.sendEvent(PropertyDetailEvent.LoadProperty)
+            }
         else -> {
             val propertyItem = state.value.propertyItem
             checkNotNull(propertyItem)

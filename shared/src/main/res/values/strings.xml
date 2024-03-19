@@ -3,4 +3,5 @@
     <string name="no_ratings">No ratings</string>
     <string name="expand_button">\u2026 Show more</string>
     <string name="retract_button">Show less</string>
+    <string name="something_went_wrong">Something Went Wrong</string>
 </resources>

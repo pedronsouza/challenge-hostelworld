@@ -19,7 +19,7 @@ data class State(
 ) : ViewState
 
 sealed class PropertyDetailEvent : ViewEvent {
-    data object PreparePropertyData : PropertyDetailEvent()
+    data object LoadProperty : PropertyDetailEvent()
 }
 sealed class PropertyDetailEffect : ViewEffect
 
@@ -35,11 +35,12 @@ class PropertyDetailViewModel(
 
     override fun processViewEvents(event: PropertyDetailEvent) {
         when(event) {
-            is PropertyDetailEvent.PreparePropertyData -> loadProperty()
+            is PropertyDetailEvent.LoadProperty -> loadProperty()
         }
     }
 
     private fun loadProperty() {
+        updateState { initialViewState() }
         viewModelScope.launch {
             Timber.tag(logTag).d("Load Property Details\nPropertyId: $propertyId")
 

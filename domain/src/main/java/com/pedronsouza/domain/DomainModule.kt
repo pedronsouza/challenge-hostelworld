@@ -18,7 +18,7 @@ import org.koin.dsl.module
 
 val DomainModule = module {
     factory<LoadPropertiesUseCase> { LoadPropertiesUseCaseImpl(get(), get()) }
-    factory<GetPropertyByIdUseCase> { GetPropertyByIdUseCaseImpl(get(), get()) }
+    factoryOf(::GetPropertyByIdUseCaseImpl){ bind<GetPropertyByIdUseCase>() }
 
     factoryOf(::GetSelectedCurrencyUseCaseImpl) { bind<GetSelectedCurrencyUseCase>() }
     factoryOf(::GetAvailableCurrenciesUseCaseImpl) { bind<GetAvailableCurrenciesUseCase>() }

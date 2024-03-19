@@ -20,6 +20,7 @@ import com.pedronsouza.shared.navigation.RouteFactory
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import com.pedronsouza.shared.R
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
