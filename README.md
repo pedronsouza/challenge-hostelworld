@@ -31,6 +31,7 @@ MVVM + Clean Architecture
 - run: `./gradlew testDebugUnitTest`
 
 OBS: The app does not contains UI/Instrumented Test
+
 OBS 2: Although i had work with RxJava, its been a while since i've made the jump from it to kotlin.coroutines.
 So i prefer to show what I know with the technology that Im more comfortable with. But i still took 
 advantage of very different aspects of reactive programming in the implementation of the App (eg: communication between View and ViewModel)
