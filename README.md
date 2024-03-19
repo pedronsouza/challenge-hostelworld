@@ -7,7 +7,7 @@ App created as result of the code challenge sent by Hostel World. The App displa
 hostels, display the info in a List and shows the Details of the Property itself
 
 ### Architecture
-MVVM + Clean Architecture
+MVI + Clean Architecture
 
 ### Modules
 
