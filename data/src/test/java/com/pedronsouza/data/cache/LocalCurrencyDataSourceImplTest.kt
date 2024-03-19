@@ -45,4 +45,19 @@ class LocalCurrencyDataSourceImplTest {
             assertEquals(expectedCurrency, subject.getSelectedCurrency())
         }
     }
+
+    @Test
+    fun `Given a new valid currency When saving as selected with clearCache true Then should switch cache instance with the new currency and clear currency cache`() {
+        val subject = LocalCurrencyDataSourceImpl()
+        val expectedCurrency = AppCurrency("TST")
+
+        assertNotEquals(expectedCurrency, subject.getSelectedCurrency())
+
+        runTest(testDispatcher) {
+            subject.setSelectedCurrency(expectedCurrency, true)
+
+            assertEquals(expectedCurrency, subject.getSelectedCurrency())
+            assertEquals(false, subject.isWarmed())
+        }
+    }
 }
