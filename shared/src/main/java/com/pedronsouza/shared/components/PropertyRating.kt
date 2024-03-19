@@ -13,9 +13,11 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
@@ -30,22 +32,32 @@ fun PropertyRating(ratings: Map<RatingCategory, Double>, modifier: Modifier) {
     LazyRow(modifier = modifier) {
         items(ratings.toList()) { (category, rating) ->
             val iconVector = enabledCategoryToIcon(category)
+            val color = if (category == RatingCategory.OVERALL) {
+                LocalColors.current.ratingTextColor
+            } else {
+                Color.Black
+            }
+
             if (iconVector != null) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
                     Icon(
                         painter = rememberVectorPainter(image = iconVector),
                         contentDescription = null,
+                        tint = color
                     )
                     Text(
                         text = category.name
                             .toLowerCase(Locale.current)
                             .capitalize(Locale.current),
+                        color = color,
                         fontWeight = FontWeight.Medium,
                         fontSize = LocalDimensions.current.ratingCardTextSize,
                         lineHeight = 1.sp
                     )
                     Text(
                         text = "${rating}/10",
+                        color = color,
                         fontWeight = FontWeight.Medium,
                         fontSize = LocalDimensions.current.ratingCardTextSize,
                         lineHeight = 1.sp
@@ -67,6 +79,7 @@ private fun enabledCategoryToIcon(category: RatingCategory) =
         RatingCategory.STAFF -> Icons.Outlined.Person
         RatingCategory.CLEAN -> Icons.Outlined.Delete
         RatingCategory.FACILITIES -> Icons.Outlined.Home
+        RatingCategory.OVERALL -> Icons.Outlined.Star
         else -> null
     }
 
