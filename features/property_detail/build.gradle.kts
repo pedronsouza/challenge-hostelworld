@@ -55,4 +55,8 @@ dependencies {
 
     implementation(libs.bundles.android.lifecycle)
     implementation(libs.bundles.compose)
+
+    testImplementation(libs.bundles.unit.test)
+    testImplementation(libs.turbine)
+    testImplementation(project(":shared-test"))
 }
