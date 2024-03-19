@@ -47,7 +47,7 @@ class LoadPropertiesUseCaseImplTest {
         val currencyRepository = object: CurrencyRepository {
             override suspend fun getCurrencies(): List<Currency> { throw Exception() }
             override fun getSelectedCurrency(): AppCurrency { throw Exception() }
-            override fun setSelectedCurrency(newCurrency: AppCurrency) { throw Exception() }
+            override fun setSelectedCurrency(newCurrency: AppCurrency, clearCache: Boolean) { throw Exception() }
             override fun getAvailableCurrencies(): List<AppCurrency> { throw Exception() }
         }
 

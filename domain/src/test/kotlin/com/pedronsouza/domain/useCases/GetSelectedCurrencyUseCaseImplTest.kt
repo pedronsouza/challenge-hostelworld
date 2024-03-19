@@ -28,7 +28,7 @@ class GetSelectedCurrencyUseCaseImplTest {
             val currencyRepository = object: CurrencyRepository {
                 override suspend fun getCurrencies(): List<Currency> { TODO("Not yet implemented") }
                 override fun getSelectedCurrency(): AppCurrency { TODO("Not yet implemented") }
-                override fun setSelectedCurrency(newCurrency: AppCurrency) { TODO("Not yet implemented") }
+                override fun setSelectedCurrency(newCurrency: AppCurrency, clearCache: Boolean) { TODO("Not yet implemented") }
                 override fun getAvailableCurrencies(): List<AppCurrency> { TODO("Not yet implemented") }
 
             }

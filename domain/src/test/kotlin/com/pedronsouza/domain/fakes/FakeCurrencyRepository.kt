@@ -18,7 +18,7 @@ object FakeCurrencyRepository : CurrencyRepository {
     override fun getSelectedCurrency(): AppCurrency =
         selectedCurrency
 
-    override fun setSelectedCurrency(newCurrency: AppCurrency) {
+    override fun setSelectedCurrency(newCurrency: AppCurrency, clearCache: Boolean) {
         selectedCurrency = newCurrency
     }
 
