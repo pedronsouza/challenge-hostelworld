@@ -31,6 +31,7 @@ import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -56,6 +57,7 @@ import com.pedronsouza.domain.useCases.SaveSelectedCurrencyUseCase
 import com.pedronsouza.domain.values.AppCurrency
 import com.pedronsouza.domain.values.displayName
 import com.pedronsouza.shared.AppScreen
+import com.pedronsouza.shared.components.LoadingView
 import com.pedronsouza.shared.components.LocalColors
 import com.pedronsouza.shared.components.LocalDimensions
 import com.pedronsouza.shared.components.PropertyCard
@@ -77,10 +79,10 @@ import org.koin.dsl.module
 fun PropertyListScreen(
     onShowSnackBarMessage: (String) -> Unit,
     onNavigateTo: (String) -> Unit,
-    appScope: CoroutineScope
+    appScope: CoroutineScope,
 ) {
     val viewModel: PropertyListViewModel = koinViewModel<PropertyListViewModel>()
-    val state = viewModel.viewState.collectAsStateWithLifecycle()
+    val state = viewModel.viewState.collectAsState()
     val context = LocalContext.current
     val modalBottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
@@ -251,73 +253,7 @@ fun PropertyList(
     }
 }
 
-@Composable
-fun LoadingView() {
-    DefaultRootLazyColumn(userScrollEnabled = false) {
-        items(10) {
-            ConstraintLayout(
-                modifier = Modifier.padding(LocalDimensions.current.defaultScreenPadding)
-            ) {
-                val (image, content, rating) = createRefs()
 
-                val imageConstraint: ConstrainScope.() -> Unit = {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                }
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(LocalDimensions.current.propertyShowroomImageSize)
-                        .constrainAs(image, imageConstraint)
-                        .background(
-                            shimmerBrush(
-                                targetValue = 1300f,
-                                showShimmer = true
-                            )
-                        )
-                )
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(80.dp)
-                        .padding(LocalDimensions.current.innerTextContentPropertyCardPadding)
-                        .constrainAs(content) {
-                            top.linkTo(image.bottom)
-                            start.linkTo(image.start)
-                        }
-                        .background(
-                            shimmerBrush(
-                                targetValue = 1300f,
-                                showShimmer = true
-                            )
-                        )
-                )
-
-                Box(
-                    modifier = Modifier
-                        .width(260.dp)
-                        .height(64.dp)
-                        .padding(
-                            LocalDimensions.current.innerTextContentPropertyCardPadding
-                        )
-                        .constrainAs(rating) {
-                            top.linkTo(content.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(parent.end)
-                        }
-                        .background(
-                            shimmerBrush(
-                                targetValue = 1300f,
-                                showShimmer = true
-                            )
-                        )
-                )
-            }
-        }
-    }
-}
 
 @Composable
 internal fun ErrorView(error: Throwable, viewModel: PropertyListViewModel) {
@@ -350,14 +286,6 @@ internal fun ErrorView(error: Throwable, viewModel: PropertyListViewModel) {
             Text(text = "Retry")
         }
     }
-}
-
-@Composable
-private fun DefaultRootLazyColumn(
-    userScrollEnabled: Boolean = true,
-    content: LazyListScope.() -> Unit
-) {
-    LazyColumn(content = content, userScrollEnabled = userScrollEnabled)
 }
 
 @Composable
@@ -403,7 +331,7 @@ private fun PreviewKoinApplication(content: @Composable () -> Unit) {
                             routeFactory = object : RouteFactory {
                                 override fun createRoute(
                                     screen: AppScreen,
-                                    parameter: String?
+                                    parameters: List<String>?
                                 ): String {
                                     return "fake_route"
                                 }
@@ -430,12 +358,6 @@ fun previewPropertyListScreen() {
             appScope = CoroutineScope(Dispatchers.IO)
         )
     }
-}
-
-@Preview
-@Composable
-fun previewLoadingView() {
-    LoadingView()
 }
 
 @Preview

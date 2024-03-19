@@ -9,4 +9,9 @@ internal class PropertyRepositoryImpl(
 ) : PropertyRepository {
     override suspend fun fetch(): List<Property> =
         dataSource.fetch()
+
+    override suspend fun getById(id: String): Property =
+        dataSource.fetch().run {
+            first { it.id == id }
+        }
 }

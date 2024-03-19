@@ -1,22 +1,20 @@
 package com.pedronsouza.challenge
 
-import android.os.Build
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.pedronsouza.feature.property_detail.PropertyDetailScreen
-import com.pedronsouza.feature.property_list.PropertyListItemParamType
 import com.pedronsouza.feature.property_list.PropertyListScreen
 import com.pedronsouza.feature.property_list.R
 import com.pedronsouza.shared.AppScreen
 import com.pedronsouza.shared.components.NavigationMode
-import com.pedronsouza.shared.components.models.PropertyItem
 import com.pedronsouza.shared.navigation.NavigationItem
 import kotlinx.coroutines.launch
 
@@ -44,35 +42,39 @@ fun AppNavHost(
                     navController.navigate(route)
                 },
 
-                appScope = navHostScope
+                appScope = navHostScope,
             )
         }
 
         composable(
             route = NavigationItem.Detail.route,
             arguments = listOf(
-                    navArgument(AppScreen.DETAIL.parameterName.orEmpty()) {
-                    type = PropertyListItemParamType()
+                navArgument(AppScreen.DETAIL.parameters?.get(0).orEmpty()) {
+                    type = NavType.StringType
+                },
+
+                navArgument(AppScreen.DETAIL.parameters?.get(1).orEmpty()) {
+                    type = NavType.StringType
                 }
+
             )
-        ) {stackEntry ->
+        ) { stackEntry ->
+            val propertyId = stackEntry.arguments?.getString(
+                AppScreen.DETAIL.parameters?.get(0).orEmpty()
+            )
+
+            val propertyName = stackEntry.arguments?.getString(
+                AppScreen.DETAIL.parameters?.get(1).orEmpty()
+            )
+
+            appBarTitle.value = propertyName.orEmpty()
             navigationMode.value = NavigationMode.BACK
 
-            val propertyItem = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                stackEntry.arguments?.getParcelable(
-                    AppScreen.DETAIL.parameterName.orEmpty(),
-                    PropertyItem::class.java
-                )
-            } else {
-                stackEntry.arguments?.getParcelable(AppScreen.DETAIL.parameterName.orEmpty())
-            }
 
-            checkNotNull(propertyItem)
-
-            appBarTitle.value = propertyItem.name
+            checkNotNull(propertyId)
 
             PropertyDetailScreen(
-                propertyItem = propertyItem
+                propertyId = propertyId
             )
         }
     }

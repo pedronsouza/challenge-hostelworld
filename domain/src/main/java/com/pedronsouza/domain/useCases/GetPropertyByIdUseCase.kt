@@ -8,41 +8,37 @@ import com.pedronsouza.domain.repositories.PropertyRepository
 import com.pedronsouza.domain.values.AppCurrency
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 
-interface LoadPropertiesUseCase {
-    suspend fun execute(): Result<List<Property>>
+interface GetPropertyByIdUseCase {
+    suspend fun execute(propertyId: String): Result<Property>
 }
 
-internal open class LoadPropertiesUseCaseImpl(
+internal class GetPropertyByIdUseCaseImpl(
     private val propertyRepository: PropertyRepository,
     private val currencyRepository: CurrencyRepository,
-    private val instanceScope: CoroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-) : LoadPropertiesUseCase {
+    private val instanceScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
-
-    override suspend fun execute() =
+) : GetPropertyByIdUseCase {
+    override suspend fun execute(propertyId: String): Result<Property> =
         runCatching {
             val deferredResults = listOf(
-                instanceScope.async { propertyRepository.fetch() },
+                instanceScope.async {propertyRepository.getById(propertyId) },
                 instanceScope.async { currencyRepository.getCurrencies() },
                 instanceScope.async { currencyRepository.getSelectedCurrency() }
             )
 
             val results = deferredResults.awaitAll()
 
-            val properties = results[0] as List<Property>
+            val property = results[0] as Property
             val currencies = results[1] as List<Currency>
             val selectedCurrency = results[2] as AppCurrency
 
-            properties.map { property ->
-                PropertyPriceCalculator.prepareValueWithCurrencyRateApplied(
-                    property = property,
-                    currencies = currencies,
-                    selectedCurrency = selectedCurrency
-                )
-            }
+            PropertyPriceCalculator.prepareValueWithCurrencyRateApplied(
+                property = property,
+                currencies = currencies,
+                selectedCurrency = selectedCurrency
+            )
         }
 }

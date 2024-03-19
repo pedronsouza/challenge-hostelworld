@@ -10,14 +10,18 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.pedronsouza.domain.mappers.FakeProperty
+import com.pedronsouza.domain.models.Property
+import com.pedronsouza.domain.useCases.GetPropertyByIdUseCase
 import com.pedronsouza.shared.components.CardMode
 import com.pedronsouza.shared.components.LocalDimensions
-import com.pedronsouza.shared.components.NavigationMode
 import com.pedronsouza.shared.components.PropertyCard
 import com.pedronsouza.shared.components.models.PropertyItem
 import com.pedronsouza.shared.fakes.FakePropertyItem
+import com.pedronsouza.shared.mappers.PropertyListMapper
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.KoinApplication
 import org.koin.core.parameter.parametersOf
@@ -25,11 +29,11 @@ import org.koin.dsl.module
 
 @Composable
 fun PropertyDetailScreen(
-    propertyItem: PropertyItem
+    propertyId: String
 ) {
     val viewModel: PropertyDetailViewModel = koinViewModel(
         parameters = {
-            parametersOf(propertyItem)
+            parametersOf(propertyId)
         }
     )
 
@@ -39,8 +43,13 @@ fun PropertyDetailScreen(
         viewModel.sendEvent(PropertyDetailEvent.PreparePropertyData)
     }
 
-    if (!state.value.isLoading) {
-        state.value.propertyItem?.let { propertyItem ->
+    when {
+        state.value.isLoading -> Unit
+        !state.value.isLoading && state.value.error != null -> Unit
+        else -> {
+            val propertyItem = state.value.propertyItem
+            checkNotNull(propertyItem)
+
             Card(
                 modifier = Modifier
                     .padding(LocalDimensions.current.defaultScreenPadding)
@@ -63,14 +72,24 @@ fun previewPropertyDetailScreen() {
             listOf(
                 module {
                     factory {
-                        PropertyDetailViewModel(FakePropertyItem)
+                        PropertyDetailViewModel(
+                            "test-id",
+                            object: GetPropertyByIdUseCase {
+                                override suspend fun execute(propertyId: String): Result<Property> =
+                                    Result.success(FakeProperty)
+                            },
+                            object: PropertyListMapper {
+                                override fun transform(inputData: List<Property>): List<PropertyItem> =
+                                    listOf(FakePropertyItem)
+                            }
+                        )
                     }
                 }
             )
         }
     ) {
         PropertyDetailScreen(
-            propertyItem = FakePropertyItem
+            propertyId = "test-id"
         )
     }
 }

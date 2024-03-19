@@ -14,17 +14,15 @@ import com.pedronsouza.shared.components.ViewEffect
 import com.pedronsouza.shared.components.ViewEvent
 import com.pedronsouza.shared.components.ViewState
 import com.pedronsouza.shared.components.models.PropertyItem
+import com.pedronsouza.shared.extensions.getRootCause
 import com.pedronsouza.shared.mappers.PropertyListMapper
 import com.pedronsouza.shared.navigation.RouteFactory
-import kotlin.io.encoding.ExperimentalEncodingApi
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import timber.log.Timber
 
 data class State(
@@ -110,10 +108,9 @@ internal class PropertyListViewModel(
         }
     }
 
-    @OptIn(ExperimentalEncodingApi::class)
     private fun preparePropertyDetailNavigationParameter(item: PropertyItem) {
         runCatching {
-            routeFactory.createRoute(AppScreen.DETAIL, Json.encodeToString(item))
+            routeFactory.createRoute(AppScreen.DETAIL, listOf(item.id, item.name))
         }.onSuccess { url ->
             triggerEffect { PropertyListEffects.NavigateTo(url) }
         }.onFailure {
@@ -131,7 +128,7 @@ internal class PropertyListViewModel(
                 updateState {
                     copy(
                         isLoading = false,
-                        error = error
+                        error = error.getRootCause()
                     )
                 }
             }
@@ -164,7 +161,7 @@ internal class PropertyListViewModel(
                 Timber.tag(logTag).e(error)
                 Timber.tag(logTag).e(error)
 
-                newError = error
+                newError = error.getRootCause()
             }
 
             selectedCurrencyResult.onSuccess { currency ->
@@ -174,7 +171,7 @@ internal class PropertyListViewModel(
                 Timber.tag(logTag).e("Error retrieving the selected currency")
                 Timber.tag(logTag).e(error)
 
-                newError = error
+                newError = error.getRootCause()
             }
 
             loadPropertiesResult.onSuccess { properties ->
@@ -189,7 +186,7 @@ internal class PropertyListViewModel(
                 Timber.tag(logTag).e("loadProperties error")
                 Timber.tag(logTag).e(error)
 
-                newError = error
+                newError = error.getRootCause()
 
                 triggerEffect {
                     PropertyListEffects.ShowErrorToast(R.string.something_went_wrong)
